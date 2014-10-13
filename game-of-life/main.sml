@@ -39,114 +39,92 @@ fun setAttribute elem attr value =
              } (elem, attr, value)
     end
 
-val DOM : foreignptr = fromId "game-of-life"
-val WIDTH = 100
-val HEIGHT = 100
-
 datatype status = LIVE | DEAD
 type cell = { pos : int * int
             , status : status ref
-            , dom : foreignptr }
+            , livingNeighborsCount : int ref
+            , dom : foreignptr
+            }
 type cells = cell array array
-fun isLive {status=ref(LIVE),pos,dom} = true
-  | isLive {status=ref(DEAD),pos,dom} = false
-fun isDead cell = not (isLive cell)
-fun regenerate (cell : cell) = (
-    (#status cell) := LIVE;
-    setAttribute (#dom cell) "fill" "#0F0";
-    setAttribute (#dom cell) "stroke" "#0F0")
-fun kill (cell : cell) = (
-    (#status cell) := DEAD;
-    setAttribute (#dom cell) "fill" "#000";
-    setAttribute (#dom cell) "stroke" "#000")
 fun app (f,a) = Array.app (fn b => Array.app f b) a
 fun appi (f,a) = Array.appi (fn (i,b) => Array.appi(fn (j,x) => f(i,j,x)) b) a
 fun tabulate (width, height, f) = Array.tabulate(width, fn x => Array.tabulate(height, fn y => f(x, y)))
 fun sub (cells, x, y) = Array.sub(Array.sub(cells, x), y)
 
-datatype instr = REGENERATE of cell | KILL of cell
-val execInstrs = List.app (fn REGENERATE cell => regenerate cell
-                          | KILL cell => kill cell)
-fun isLiveAt (cells : cells, x, y) =
-    if x < 0 orelse x >= WIDTH orelse y < 0 orelse y >= HEIGHT then
-        false
-    else
-        isLive(sub(cells, x, y))
-fun isDeadAt (cells : cells, x, y) = not (isLiveAt(cells, x, y))
+val WIDTH = 100
+val HEIGHT = 100
+val CELLS = tabulate(WIDTH, HEIGHT, fn (x, y) => { pos = (x, y), status = ref DEAD, livingNeighborsCount = ref 0, dom = fromId ("game-of-life-" ^ Int.toString x ^ "-" ^ Int.toString y)})
+
 fun ++ i = i := !i + 1
-fun makeInstr (cells : cells, x, y) =
-    if x < 0 orelse x >= WIDTH orelse y < 0 orelse y >= HEIGHT then
-        NONE
+fun -- i = i := !i - 1
+fun append l x = l := x :: !l
+fun up (x,y) = if y-1 < 0 then (x,HEIGHT-1) else (x,y-1)
+fun down (x,y) = if y+1 < HEIGHT then (x,y+1) else (x,0)
+fun right (x,y) = if x+1 < WIDTH then (x+1,y) else (0,y)
+fun left (x,y) = if x-1 < 0 then (WIDTH-1,y) else (x-1,y)
+val up_right = up o right
+val up_left = up o left
+val down_right = down o right
+val down_left = down o left
+fun moore xy = [ up xy, down xy, right xy, left xy,
+                 up_right xy, up_left xy, down_right xy, down_left xy ]
+
+datatype instr = REGENERATE of cell | KILL of cell
+fun regenerate (cell : cell) = (
+    List.app
+        (fn (x,y) =>
+            ++(#livingNeighborsCount (sub(CELLS, x, y))))
+        (moore (#pos cell));
+    (#status cell) := LIVE;
+    setAttribute (#dom cell) "fill" "#0F0";
+    setAttribute (#dom cell) "stroke" "#0F0")
+fun kill (cell : cell) = (
+    List.app
+        (fn (x,y) =>
+            --(#livingNeighborsCount (sub(CELLS, x, y))))
+        (moore (#pos cell));
+    (#status cell) := DEAD;
+    setAttribute (#dom cell) "fill" "#000";
+    setAttribute (#dom cell) "stroke" "#000")
+val NEXT_INSTRS = ref [ REGENERATE (sub(CELLS,49,50))
+                      , REGENERATE (sub(CELLS,50,49))
+                      , REGENERATE (sub(CELLS,50,50))
+                      , REGENERATE (sub(CELLS,50,51))
+                      , REGENERATE (sub(CELLS,51,49)) ]
+fun makeInstr (x, y) =
+    if x < 0 orelse x >= WIDTH orelse y < 0 orelse y >= HEIGHT
+       orelse List.exists (fn REGENERATE {pos,...} => pos = (x,y)
+                          | KILL {pos,...} => pos = (x,y)) (!NEXT_INSTRS)then
+        ()
     else
-        let val cell = sub(cells, x, y)
-            val countLivingNeghbors = ref 0
+        let val cell = sub(CELLS, x, y)
+            val countLivingNeighbors = !(#livingNeighborsCount cell)
         in
-            if isLiveAt(cells,x,y+1) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x,y-1) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x+1,y+1) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x+1,y) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x+1,y-1) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x-1,y+1) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x-1,y) then ++countLivingNeghbors else ();
-            if isLiveAt(cells,x-1,y-1) then ++countLivingNeghbors else ();
-            case (!(#status cell), !countLivingNeghbors) of
-                (DEAD, 3) => SOME (REGENERATE cell)
-              | (DEAD, _) => NONE
-              | (LIVE, 0) => SOME (KILL cell)
-              | (LIVE, 1) => SOME (KILL cell)
-              | (LIVE, 2) => NONE
-              | (LIVE, 3) => NONE
-              | (LIVE, _) => SOME (KILL cell)
+            case (!(#status cell), countLivingNeighbors) of
+                (DEAD, 3) => append NEXT_INSTRS (REGENERATE cell)
+              | (DEAD, _) => ()
+              | (LIVE, 0) => append NEXT_INSTRS (KILL cell)
+              | (LIVE, 1) => append NEXT_INSTRS (KILL cell)
+              | (LIVE, 2) => ()
+              | (LIVE, 3) => ()
+              | (LIVE, _) => append NEXT_INSTRS (KILL cell)
         end
-fun update (cells : cells) =
-    let val instrs = ref []
+
+fun execInstrs () =
+    let val modified_poses = ref []
+        val instrs = !NEXT_INSTRS
+        val cells = List.map (fn REGENERATE cell => cell
+                            | KILL cell => cell) instrs;
+
     in
-        appi(fn (i,j,cell) =>
-                case makeInstr(cells,i,j) of
-                    SOME instr => instrs := instr :: !instrs
-                  | NONE => (),
-             cells);
-        execInstrs (!instrs)
-    end
-fun make () =
-    let val i = ref 0
-        val cells = tabulate(WIDTH, HEIGHT, fn (x,y) => { pos = (x, y), status = ref DEAD, dom = ref NONE })
-    in
-      while !i < WIDTH do
-        let val x = !i
-            val j = ref 0
-        in
-          while !j < HEIGHT do
-            let val y = !j
-                val rect = createRect ()
-                val cell = sub(cells, x, y)
-            in
-              setAttribute rect "x" (Int.toString (x*5));
-              setAttribute rect "y" (Int.toString (y*5));
-              setAttribute rect "fill" "#000";
-              setAttribute rect "stroke" "#000";
-              setAttribute rect "width" "5";
-              setAttribute rect "height" "5";
-              appendChild {elem=DOM, child=rect};
-              (#dom cell) := SOME rect;
-              ++j
-            end;
-          ++i
-        end;
-      tabulate(WIDTH, HEIGHT, fn (x, y) =>
-              let val {pos, status, dom=ref(SOME dom)} = sub(cells, x, y)
-              in
-                  {pos=pos, status=status, dom=dom}
-              end)
+        NEXT_INSTRS := [];
+        List.app (fn REGENERATE cell => regenerate cell
+                 | KILL cell => kill cell) instrs;
+        List.app (fn cell => modified_poses := (moore (#pos cell))
+                                               :: !modified_poses) cells;
+        List.app(makeInstr)(List.concat(!modified_poses))
     end
 
-val cells = make()
+fun update () = execInstrs()
 
-val () = ( regenerate (sub(cells,49,50))
-         ; regenerate (sub(cells,50,49))
-         ; regenerate (sub(cells,50,50))
-         ; regenerate (sub(cells,50,51))
-         ; regenerate (sub(cells,51,49))
-         )
-
-val intervalId = Js.setInterval 100 (fn () => update cells)
+val id = Js.setInterval 100 update
