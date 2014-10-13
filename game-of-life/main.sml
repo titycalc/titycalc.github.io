@@ -1,43 +1,22 @@
-fun fromId s =
-    let open JsCore
-    in exec1 { stmt = "return document.getElementById(s);"
-             , arg1 = ("s", string)
-             , res = fptr
-             } s
-    end
+fun fromId (s:string) : foreignptr =
+    prim("execStmtJS",
+         ("return document.getElementById(s);",
+         "s",s))
 
-fun appendChild {elem, child} =
-    let open JsCore
-    in exec2 { stmt = "elem.appendChild(child)"
-             , arg1 = ("elem", fptr)
-             , arg2 = ("child", fptr)
-             , res = unit } (elem, child)
-    end
+fun appendChild {elem : foreignptr, child : foreignptr} : unit =
+    prim("execStmtJS",
+         ("elem.appendChild(child)",
+         "elem,child",elem,child))
 
-fun createRect () =
-    let open JsCore
-    in exec0 { stmt = "return document.createElementNS('http://www.w3.org/2000/svg', 'rect')"
-             , res = fptr } ()
-    end
+fun getAttribute (elem:foreignptr) (attr:string) : string =
+    prim("execStmtJS",
+         ("return elem.getAttribute(attr);",
+         "elem,attr",elem,attr))
 
-fun getAttribute elem attr =
-    let open JsCore
-    in exec2 { stmt = "return elem.getAttribute(attr);"
-             , arg1 = ("elem", fptr)
-             , arg2 = ("attr", string)
-             , res = string
-             } (elem, attr)
-    end
-
-fun setAttribute elem attr value =
-    let open JsCore
-    in exec3 { stmt = "return elem.setAttribute(attr, value);"
-             , arg1 = ("elem", fptr)
-             , arg2 = ("attr", string)
-             , arg3 = ("value", string)
-             , res = unit
-             } (elem, attr, value)
-    end
+fun setAttribute (elem:foreignptr) (attr:string) (value:string) : unit =
+    prim("execStmtJS",
+         ("return elem.setAttribute(attr, value);",
+         "elem,attr,value",elem,attr,value))
 
 datatype status = LIVE | DEAD
 type cell = { pos : int * int
