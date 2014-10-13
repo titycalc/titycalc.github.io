@@ -29,6 +29,29 @@ fun app (f,a) = Array.app (fn b => Array.app f b) a
 fun appi (f,a) = Array.appi (fn (i,b) => Array.appi(fn (j,x) => f(i,j,x)) b) a
 fun tabulate (width, height, f) = Array.tabulate(width, fn x => Array.tabulate(height, fn y => f(x, y)))
 fun sub (cells, x, y) = Array.sub(Array.sub(cells, x), y)
+fun uniq xs =
+    (*let fun dropItem (x, [], a) = a
+          | dropItem (x, (y::xs), a) =  if x = y then dropItem(x,xs,a) else dropItem(x, xs, y::a)
+        fun loop [] = []
+          | loop (x::xs) = loop(List.rev(dropItem(x,xs,[])))
+    in
+        loop l
+    end*)
+    let
+        fun compare ((x0,y0),(x1,y1)) =
+            if x0 = x1 then Int.compare(y0,y1) else Int.compare(x0,x1)
+        val rest = ref (Listsort.sort compare xs)
+        val ret = ref []
+    in
+      while not(null(!rest)) do (
+        let val elem = List.hd(!rest)
+        in
+          ret := elem :: !ret;
+          while not(null(!rest)) andalso elem = List.hd(!rest) do (
+            rest := List.tl(!rest))
+        end);
+      List.rev(!ret)
+    end
 
 val WIDTH = 100
 val HEIGHT = 100
@@ -71,11 +94,6 @@ val NEXT_INSTRS = ref [ REGENERATE (sub(CELLS,49,50))
                       , REGENERATE (sub(CELLS,50,51))
                       , REGENERATE (sub(CELLS,51,49)) ]
 fun makeInstr (x, y) =
-    if x < 0 orelse x >= WIDTH orelse y < 0 orelse y >= HEIGHT
-       orelse List.exists (fn REGENERATE {pos,...} => pos = (x,y)
-                          | KILL {pos,...} => pos = (x,y)) (!NEXT_INSTRS)then
-        ()
-    else
         let val cell = sub(CELLS, x, y)
             val countLivingNeighbors = !(#livingNeighborsCount cell)
         in
@@ -101,7 +119,7 @@ fun execInstrs () =
                  | KILL cell => kill cell) instrs;
         List.app (fn cell => modified_poses := (moore (#pos cell))
                                                :: !modified_poses) cells;
-        List.app(makeInstr)(List.concat(!modified_poses))
+        List.app(makeInstr)(uniq(List.concat(!modified_poses)))
     end
 
 fun update () = execInstrs()
