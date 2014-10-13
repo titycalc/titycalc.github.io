@@ -30,13 +30,6 @@ fun appi (f,a) = Array.appi (fn (i,b) => Array.appi(fn (j,x) => f(i,j,x)) b) a
 fun tabulate (width, height, f) = Array.tabulate(width, fn x => Array.tabulate(height, fn y => f(x, y)))
 fun sub (cells, x, y) = Array.sub(Array.sub(cells, x), y)
 fun uniq xs =
-    (*let fun dropItem (x, [], a) = a
-          | dropItem (x, (y::xs), a) =  if x = y then dropItem(x,xs,a) else dropItem(x, xs, y::a)
-        fun loop [] = []
-          | loop (x::xs) = loop(List.rev(dropItem(x,xs,[])))
-    in
-        loop l
-    end*)
     let
         fun compare ((x0,y0),(x1,y1)) =
             if x0 = x1 then Int.compare(y0,y1) else Int.compare(x0,x1)
