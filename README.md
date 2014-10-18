@@ -1,3 +1,3 @@
 ## Tity's web site
 
-![profile image](icons/BhFB9I_CUAE6aEW.jpg)
+![profile image](icons/tity1.png)
