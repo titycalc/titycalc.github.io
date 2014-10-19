@@ -140,6 +140,29 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem add_anything : forall a b c : N, a = b <-> add a c = add b c.
+Proof.
+  intros a b c.
+  unfold iff.
+  split.
+  (* a = n -> add a c = add b c *)
+    intro H.
+    rewrite H.
+    reflexivity.
+  (* add a c = add b c -> a = b *)
+    intro H.
+    induction c.
+    (* c = 0 *)
+      rewrite add_n_0_eq_n in H.
+      rewrite add_n_0_eq_n in H.
+      apply H.
+    (* c = k + 1 *)
+      apply IHc.
+      apply axiom4.
+      simpl in H.
+      apply H.
+Qed.
+
 (* Ref: https://proofwiki.org/wiki/Definition:Multiplication *)
 Fixpoint mult (n : N) (m : N) : N :=
   match m with
@@ -251,3 +274,94 @@ Proof.
     rewrite <- mult_dist.
     reflexivity.
 Qed.
+
+(* https://proofwiki.org/wiki/Definition:Integer *)
+
+(*Inductive Z :=
+| zzero : Z
+| pos : forall n : N, n <> zero -> Z
+| neg : forall n : N, n <> zero -> Z.*)
+
+Definition Z : Set := (N * N)%type.
+(*Inductive Z :=
+| mkZ : N -> N -> Z.*)
+
+Require Import Setoid.
+Require Import Relation_Definitions.
+(*Require Import Arith.*)
+
+Definition Zeq (z1 z2 : Z) : Prop :=
+  let (x1, y1) := z1 in
+  let (x2, y2) := z2 in
+  add x1 y2 = add x2 y1.
+
+Theorem Zeq_refl : reflexive Z Zeq.
+Proof.
+  unfold reflexive.
+  intro z.
+  unfold Zeq.
+  destruct z as [x y].
+  reflexivity.
+Qed.
+
+Theorem Zeq_sym : symmetric Z Zeq.
+Proof.
+  unfold symmetric.
+  intros z1 z2.
+  unfold Zeq.
+  intro H.
+  destruct z1 as [x1 y1].
+  destruct z2 as [x2 y2].
+  rewrite H.
+  reflexivity.
+Qed.
+
+Theorem Zeq_trans : transitive Z Zeq.
+Proof.
+  unfold transitive.
+  unfold Zeq.
+  intros z1 z2 z3 H H0.
+  destruct z1 as [x1 y1].
+  destruct z2 as [x2 y2].
+  destruct z3 as [x3 y3].
+  destruct (add_anything (add x1 y2) (add x2 y1) y3) as [Thm1 Thm2].
+  apply Thm1 in H.
+  destruct (add_anything (add x2 y3) (add x3 y2) y1) as [Thm3 Thm4].
+  apply Thm3 in H0.
+  rewrite add_assoc in H0.
+  rewrite (add_com y3) in H0.
+  rewrite <- add_assoc in H0.
+  assert (add (add x1 y2) y3 = add (add x3 y2) y1).
+  rewrite H.
+  rewrite H0.
+  reflexivity.
+  rewrite add_assoc in H1.
+  rewrite (add_com y2) in H1.
+  rewrite <- add_assoc in H1.
+  rewrite (add_assoc x3) in H1.
+  rewrite (add_com y2) in H1.
+  rewrite <- add_assoc in H1.
+  destruct (add_anything (add x1 y3) (add x3 y1) y2) as [Thm5 Thm6].
+  apply Thm6 in H1.
+  apply H1.
+Qed.
+
+Add Parametric Relation : Z Zeq
+  reflexivity proved by Zeq_refl
+  symmetry proved by Zeq_sym
+  transitivity proved by Zeq_trans
+  as Z_rel.
+
+Definition z_add (z1 z2 : Z) : Z :=
+  let (x1, y1) := z1 in
+  let (x2, y2) := z2 in
+  (add x1 x2, add y1 y2).
+
+Add Parametric Morphism : z_add with
+  signature Zeq ==> Zeq ==> Zeq as Z_add_mor.
+Proof.
+Admitted.
+
+(* References:
+ *   http://www.slideshare.net/tmiya/coq-setoid-20110129
+ *)
