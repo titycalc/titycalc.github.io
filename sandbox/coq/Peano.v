@@ -1,3 +1,6 @@
+Require Import Setoid.
+Require Import Relation_Definitions.
+
 (* Ref: https://proofwiki.org/wiki/Definition:Natural_Numbers *)
 
 (* 1. 0 is a natural number. *)
@@ -277,18 +280,7 @@ Qed.
 
 (* https://proofwiki.org/wiki/Definition:Integer *)
 
-(*Inductive Z :=
-| zzero : Z
-| pos : forall n : N, n <> zero -> Z
-| neg : forall n : N, n <> zero -> Z.*)
-
 Definition Z : Set := (N * N)%type.
-(*Inductive Z :=
-| mkZ : N -> N -> Z.*)
-
-Require Import Setoid.
-Require Import Relation_Definitions.
-(*Require Import Arith.*)
 
 Definition Zeq (z1 z2 : Z) : Prop :=
   let (x1, y1) := z1 in
