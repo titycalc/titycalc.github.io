@@ -211,3 +211,43 @@ Proof.
     rewrite <- mult_Sn_m.
     reflexivity.
 Qed.
+
+(* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_Distributes_over_Addition *)
+Theorem mult_dist : forall a b c : N, mult c (add a b) = add (mult c a) (mult c b).
+Proof.
+  intros a b c.
+  induction c.
+  (* n = 0 *)
+    rewrite mult_0_n_eq_0.
+    rewrite mult_0_n_eq_0.
+    rewrite mult_0_n_eq_0.
+    rewrite add_0_n_eq_n.
+    reflexivity.
+  (* n = k + 1 *)
+    rewrite mult_Sn_m.
+    rewrite IHc.
+    rewrite (add_com a b).
+    rewrite (add_assoc b a (add (mult c a) (mult c b))).
+    rewrite <- (add_assoc a (mult c a) (mult c b)).
+    rewrite (add_com (add a (mult c a)) (mult c b)).
+    rewrite <- (add_assoc b (mult c b) (add a (mult c a))).
+    rewrite add_com.
+    rewrite <- mult_Sn_m.
+    rewrite <- mult_Sn_m.
+    reflexivity.
+Qed.
+
+(* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_is_Associative *)
+Theorem mult_assoc : forall a b c : N, mult (mult a b) c = mult a (mult b c).
+Proof.
+  intros a b c.
+  induction c.
+  (* n = 0 *)
+    simpl.
+    reflexivity.
+  (* n = k + 1 *)
+    simpl.
+    rewrite IHc.
+    rewrite <- mult_dist.
+    reflexivity.
+Qed.
