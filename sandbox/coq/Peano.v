@@ -72,6 +72,12 @@ Proof.
   reflexivity.
 Qed.
 
+Lemma add_n_Sm : forall n m : N, add n (succ m) = succ (add n m).
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
 (* Ref: https://proofwiki.org/wiki/Natural_Nuhttps://proofwiki.org/wiki/Natural_Number_Addition_is_Commutativember_Addition_Commutativity_with_Successor *)
 Lemma add_Sn_m : forall n m : N, add (succ n) m = succ (add n m).
 Proof.
@@ -87,6 +93,13 @@ Proof.
     reflexivity.
 Qed.
 
+(* Ref: https://proofwiki.org/wiki/Definition_by_Induction_of_Natural_Number_Addition/Corollary *)
+Lemma add_corollary : forall a b : N, add (add a b) one = add a (add b one).
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Addition_is_Commutative *)
 Theorem add_com : forall a b : N, add a b = add b a.
 Proof.
@@ -100,5 +113,22 @@ Proof.
     simpl.
     rewrite add_Sn_m.
     rewrite IHb.
+    reflexivity.
+Qed.
+
+(* Ref: https://proofwiki.org/wiki/Natural_Number_Addition_is_Associative *)
+Theorem add_assoc : forall a b c : N, add (add a b) c = add a (add b c).
+Proof.
+  intros a b c.
+  induction c.
+  (* n = 0 *)
+    rewrite add_n_0_eq_n.
+    rewrite add_n_0_eq_n.
+    reflexivity.
+  (* n = k + 1 *)
+    rewrite add_n_Sm.
+    rewrite add_n_Sm.
+    rewrite add_n_Sm.
+    rewrite IHc.
     reflexivity.
 Qed.
