@@ -132,3 +132,10 @@ Proof.
     rewrite IHc.
     reflexivity.
 Qed.
+
+(* Ref: https://proofwiki.org/wiki/Definition:Multiplication *)
+Fixpoint mult (n : N) (m : N) : N :=
+  match m with
+    | zero => zero
+    | succ k => add n (mult n k)
+  end.
