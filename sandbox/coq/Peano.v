@@ -93,6 +93,13 @@ Proof.
     reflexivity.
 Qed.
 
+Lemma add_one_r : forall n : N, succ n = add n one.
+Proof.
+  intro n.
+  simpl.
+  reflexivity.
+Qed.
+
 (* Ref: https://proofwiki.org/wiki/Definition_by_Induction_of_Natural_Number_Addition/Corollary *)
 Lemma add_corollary : forall a b : N, add (add a b) one = add a (add b one).
 Proof.
@@ -139,3 +146,68 @@ Fixpoint mult (n : N) (m : N) : N :=
     | zero => zero
     | succ k => add n (mult n k)
   end.
+
+Lemma mult_n_0_eq_0 : forall n : N, mult n zero = zero.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+Lemma mult_0_n_eq_0 : forall n : N, mult zero n = zero.
+Proof.
+  intro n.
+  induction n.
+  (* n = 0 *)
+    rewrite mult_n_0_eq_0.
+    reflexivity.
+  (* n = k + 1 *)
+    simpl.
+    rewrite IHn.
+    simpl.
+    reflexivity.
+Qed.
+
+Lemma mult_n_0_eq_mult_0_n : forall n : N, mult n zero = mult zero n.
+Proof.
+  intro n.
+  rewrite mult_n_0_eq_0.
+  rewrite mult_0_n_eq_0.
+  reflexivity.
+Qed.
+
+(* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_Commutativity_with_Successor *)
+Theorem mult_Sn_m : forall a b : N, mult (succ a) b = add b (mult a b).
+Proof.
+  intros a b.
+  induction b.
+  (* n = 0 *)
+    simpl.
+    reflexivity.
+  (* n = k + 1 *)
+    simpl.
+    rewrite IHb.
+    rewrite add_Sn_m.
+    rewrite add_one_r.
+    rewrite <- (add_assoc a b (mult a b)).
+    rewrite (add_com a b).
+    rewrite (add_assoc b a (mult a b)).
+    rewrite (add_com b (add a (mult a b))).
+    rewrite (add_assoc (add a (mult a b)) b one).
+    rewrite <- add_one_r.
+    rewrite add_com.
+    reflexivity.
+Qed.
+
+(* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_is_Commutative *)
+Theorem mult_com : forall a b : N, mult a b = mult b a.
+Proof.
+  intros a b.
+  induction b.
+  (* n = 0 *)
+    apply mult_n_0_eq_mult_0_n.
+  (* n = k + 1 *)
+    simpl.
+    rewrite IHb.
+    rewrite <- mult_Sn_m.
+    reflexivity.
+Qed.
