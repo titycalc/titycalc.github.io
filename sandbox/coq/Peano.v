@@ -1,3 +1,5 @@
+Close Scope nat_scope.
+
 Require Import Setoid.
 Require Import Relation_Definitions.
 
@@ -8,6 +10,9 @@ Require Import Relation_Definitions.
 Inductive N :=
 | zero : N
 | succ : N -> N.
+
+Delimit Scope N_scope with N.
+Bind Scope N_scope with N.
 
 (* 3. 0 is not succ n. *)
 Theorem axiom3 : forall n : N, succ n <> zero.
@@ -36,6 +41,8 @@ Proof.
     apply IHn.
 Qed.
 
+Open Scope N_scope.
+
 (* Ref: https://proofwiki.org/wiki/Definition_by_Induction_of_Natural_Number_Addition *)
 Fixpoint add (n : N) (m : N) : N :=
   match m with
@@ -43,18 +50,20 @@ Fixpoint add (n : N) (m : N) : N :=
     | succ k => succ (add n k)
   end.
 
+Infix "+" := add : N_scope.
+
 Definition one := succ zero.
 Definition two := succ one.
 Definition three := succ two.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Addition_Commutes_with_Zero *)
-Lemma add_n_0_eq_n : forall n : N, add n zero = n.
+Lemma add_n_0_eq_n : forall n : N, n + zero = n.
 Proof.
   simpl.
   congruence.
 Qed.
 
-Lemma add_0_n_eq_n : forall n : N, add zero n = n.
+Lemma add_0_n_eq_n : forall n : N, zero + n = n.
 Proof.
   intro n.
   induction n.
@@ -67,7 +76,7 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma add_n_0_eq_add_0_n : forall n : N, add n zero = add zero n.
+Lemma add_n_0_eq_add_0_n : forall n : N, n + zero = zero + n.
 Proof.
   intro n.
   rewrite add_n_0_eq_n.
@@ -75,14 +84,14 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma add_n_Sm : forall n m : N, add n (succ m) = succ (add n m).
+Lemma add_n_Sm : forall n m : N, n + succ m = succ (n + m).
 Proof.
   simpl.
   reflexivity.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Nuhttps://proofwiki.org/wiki/Natural_Number_Addition_is_Commutativember_Addition_Commutativity_with_Successor *)
-Lemma add_Sn_m : forall n m : N, add (succ n) m = succ (add n m).
+Lemma add_Sn_m : forall n m : N, succ n + m = succ (n + m).
 Proof.
   intros n m.
   induction m.
@@ -96,7 +105,7 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma add_one_r : forall n : N, succ n = add n one.
+Lemma add_one_r : forall n : N, succ n = n + one.
 Proof.
   intro n.
   simpl.
@@ -104,14 +113,14 @@ Proof.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Definition_by_Induction_of_Natural_Number_Addition/Corollary *)
-Lemma add_corollary : forall a b : N, add (add a b) one = add a (add b one).
+Lemma add_corollary : forall a b : N, (a + b) + one = a + (b + one).
 Proof.
   simpl.
   reflexivity.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Addition_is_Commutative *)
-Theorem add_com : forall a b : N, add a b = add b a.
+Theorem add_com : forall a b : N, a + b = b + a.
 Proof.
   intros a b.
   induction b.
@@ -127,7 +136,7 @@ Proof.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Addition_is_Associative *)
-Theorem add_assoc : forall a b c : N, add (add a b) c = add a (add b c).
+Theorem add_assoc : forall a b c : N, (a + b) + c = a + (b + c).
 Proof.
   intros a b c.
   induction c.
@@ -143,14 +152,14 @@ Proof.
     reflexivity.
 Qed.
 
-Theorem add_anything_insert : forall a b c : N, a = b -> add a c = add b c.
+Theorem add_anything_insert : forall a b c : N, a = b -> a + c = b + c.
 Proof.
   intros a b c H.
   rewrite H.
   reflexivity.
 Qed.
 
-Theorem add_anything_delete : forall a b c : N, add a c = add b c -> a = b.
+Theorem add_anything_delete : forall a b c : N, a + c = b + c -> a = b.
 Proof.
   intros a b c H.
   induction c.
@@ -165,7 +174,7 @@ Proof.
     apply H.
 Qed.
 
-Theorem add_anything : forall a b c : N, a = b <-> add a c = add b c.
+Theorem add_anything : forall a b c : N, a = b <-> a + c = b + c.
 Proof.
   intros a b c.
   unfold iff.
@@ -176,7 +185,7 @@ Proof.
     apply add_anything_delete.
 Qed.
 
-Theorem add_a_b_c_eq_add_a_c_b : forall a b c : N, add (add a b) c = add (add a c) b.
+Theorem add_a_b_c_eq_add_a_c_b : forall a b c : N, a + b + c = a + c + b.
 Proof.
   intros a b c.
   rewrite add_assoc.
@@ -185,20 +194,25 @@ Proof.
   reflexivity.
 Qed.
 
+Close Scope N_scope.
+Open Scope N_scope.
+
 (* Ref: https://proofwiki.org/wiki/Definition:Multiplication *)
 Fixpoint mult (n : N) (m : N) : N :=
   match m with
     | zero => zero
-    | succ k => add n (mult n k)
+    | succ k => n + (mult n k)
   end.
 
-Lemma mult_n_0_eq_0 : forall n : N, mult n zero = zero.
+Infix "*" := mult : N_scope.
+
+Lemma mult_n_0_eq_0 : forall n : N, n * zero = zero.
 Proof.
   simpl.
   reflexivity.
 Qed.
 
-Lemma mult_0_n_eq_0 : forall n : N, mult zero n = zero.
+Lemma mult_0_n_eq_0 : forall n : N, zero * n = zero.
 Proof.
   intro n.
   induction n.
@@ -212,7 +226,7 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma mult_n_0_eq_mult_0_n : forall n : N, mult n zero = mult zero n.
+Lemma mult_n_0_eq_mult_0_n : forall n : N, n * zero = zero * n.
 Proof.
   intro n.
   rewrite mult_n_0_eq_0.
@@ -221,7 +235,7 @@ Proof.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_Commutativity_with_Successor *)
-Theorem mult_Sn_m : forall a b : N, mult (succ a) b = add b (mult a b).
+Theorem mult_Sn_m : forall a b : N, succ a * b = b + a * b.
 Proof.
   intros a b.
   induction b.
@@ -233,18 +247,18 @@ Proof.
     rewrite IHb.
     rewrite add_Sn_m.
     rewrite add_one_r.
-    rewrite <- (add_assoc a b (mult a b)).
+    rewrite <- (add_assoc a b (a * b)).
     rewrite (add_com a b).
-    rewrite (add_assoc b a (mult a b)).
-    rewrite (add_com b (add a (mult a b))).
-    rewrite (add_assoc (add a (mult a b)) b one).
+    rewrite (add_assoc b a (a * b)).
+    rewrite (add_com b (a + a * b)).
+    rewrite (add_assoc (a + a * b) b one).
     rewrite <- add_one_r.
     rewrite add_com.
     reflexivity.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_is_Commutative *)
-Theorem mult_com : forall a b : N, mult a b = mult b a.
+Theorem mult_com : forall a b : N, a * b = b * a.
 Proof.
   intros a b.
   induction b.
@@ -258,7 +272,7 @@ Proof.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_Distributes_over_Addition *)
-Theorem mult_dist : forall a b c : N, mult c (add a b) = add (mult c a) (mult c b).
+Theorem mult_dist : forall a b c : N, c * (a + b) = c * a + c * b.
 Proof.
   intros a b c.
   induction c.
@@ -272,10 +286,10 @@ Proof.
     rewrite mult_Sn_m.
     rewrite IHc.
     rewrite (add_com a b).
-    rewrite (add_assoc b a (add (mult c a) (mult c b))).
-    rewrite <- (add_assoc a (mult c a) (mult c b)).
-    rewrite (add_com (add a (mult c a)) (mult c b)).
-    rewrite <- (add_assoc b (mult c b) (add a (mult c a))).
+    rewrite (add_assoc b a (c * a + c * b)).
+    rewrite <- (add_assoc a (c * a) (c * b)).
+    rewrite (add_com (a + c * a) (c * b)).
+    rewrite <- (add_assoc b (c * b) (a + c * a)).
     rewrite add_com.
     rewrite <- mult_Sn_m.
     rewrite <- mult_Sn_m.
@@ -283,7 +297,7 @@ Proof.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Natural_Number_Multiplication_is_Associative *)
-Theorem mult_assoc : forall a b c : N, mult (mult a b) c = mult a (mult b c).
+Theorem mult_assoc : forall a b c : N, (a * b) * c = a * (b * c).
 Proof.
   intros a b c.
   induction c.
@@ -297,14 +311,21 @@ Proof.
     reflexivity.
 Qed.
 
+Close Scope N_scope.
+
 (* https://proofwiki.org/wiki/Definition:Integer *)
 
 Definition Z : Set := (N * N)%type.
+
+Delimit Scope Z_scope with Z.
+Bind Scope Z_scope with Z.
 
 Definition Zeq (z1 z2 : Z) : Prop :=
   let (x1, y1) := z1 in
   let (x2, y2) := z2 in
   add x1 y2 = add x2 y1.
+
+Infix "=" := Zeq : Z_scope.
 
 Theorem Zeq_refl : reflexive Z Zeq.
 Proof.
@@ -359,6 +380,8 @@ Add Parametric Morphism : z_add with
   signature Zeq ==> Zeq ==> Zeq as Z_add_mor.
 Proof.
 Admitted.
+
+Close Scope Z_scope.
 
 (* References:
  *   http://www.slideshare.net/tmiya/coq-setoid-20110129
