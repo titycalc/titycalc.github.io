@@ -1,0 +1,20 @@
+%%
+%eop EOL EOF
+%pos int
+%left PLUS MINUS
+%left STAR SLASH
+%term NUM of real | PLUS | MINUS | STAR | SLASH | LPAREN | RPAREN | EOL | EOF
+%nonterm EXP of real | START of real option
+%name Calc
+%noshift EOL EOF
+%%
+
+START : EXP (SOME EXP)
+      | (NONE)
+
+EXP : NUM (NUM)
+    | EXP PLUS EXP (EXP1 + EXP2)
+    | EXP MINUS EXP (EXP1 - EXP2)
+    | EXP STAR EXP (EXP1 * EXP2)
+    | EXP SLASH EXP (EXP1 / EXP2)
+    | LPAREN EXP RPAREN (EXP)
