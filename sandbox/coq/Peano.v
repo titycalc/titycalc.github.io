@@ -143,27 +143,46 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem add_anything_insert : forall a b c : N, a = b -> add a c = add b c.
+Proof.
+  intros a b c H.
+  rewrite H.
+  reflexivity.
+Qed.
+
+Theorem add_anything_delete : forall a b c : N, add a c = add b c -> a = b.
+Proof.
+  intros a b c H.
+  induction c.
+  (* c = 0 *)
+    rewrite add_n_0_eq_n in H.
+    rewrite add_n_0_eq_n in H.
+    apply H.
+  (* c = k + 1 *)
+    apply IHc.
+    apply axiom4.
+    simpl in H.
+    apply H.
+Qed.
+
 Theorem add_anything : forall a b c : N, a = b <-> add a c = add b c.
 Proof.
   intros a b c.
   unfold iff.
   split.
   (* a = n -> add a c = add b c *)
-    intro H.
-    rewrite H.
-    reflexivity.
+    apply add_anything_insert.
   (* add a c = add b c -> a = b *)
-    intro H.
-    induction c.
-    (* c = 0 *)
-      rewrite add_n_0_eq_n in H.
-      rewrite add_n_0_eq_n in H.
-      apply H.
-    (* c = k + 1 *)
-      apply IHc.
-      apply axiom4.
-      simpl in H.
-      apply H.
+    apply add_anything_delete.
+Qed.
+
+Theorem add_a_b_c_eq_add_a_c_b : forall a b c : N, add (add a b) c = add (add a c) b.
+Proof.
+  intros a b c.
+  rewrite add_assoc.
+  rewrite (add_com b).
+  rewrite <- add_assoc.
+  reflexivity.
 Qed.
 
 (* Ref: https://proofwiki.org/wiki/Definition:Multiplication *)
@@ -316,26 +335,13 @@ Proof.
   destruct z1 as [x1 y1].
   destruct z2 as [x2 y2].
   destruct z3 as [x3 y3].
-  destruct (add_anything (add x1 y2) (add x2 y1) y3) as [Thm1 Thm2].
-  apply Thm1 in H.
-  destruct (add_anything (add x2 y3) (add x3 y2) y1) as [Thm3 Thm4].
-  apply Thm3 in H0.
-  rewrite add_assoc in H0.
-  rewrite (add_com y3) in H0.
-  rewrite <- add_assoc in H0.
-  assert (add (add x1 y2) y3 = add (add x3 y2) y1).
+  apply add_anything_delete with (c := y2).
+  rewrite add_a_b_c_eq_add_a_c_b.
   rewrite H.
+  rewrite add_a_b_c_eq_add_a_c_b.
   rewrite H0.
+  rewrite add_a_b_c_eq_add_a_c_b.
   reflexivity.
-  rewrite add_assoc in H1.
-  rewrite (add_com y2) in H1.
-  rewrite <- add_assoc in H1.
-  rewrite (add_assoc x3) in H1.
-  rewrite (add_com y2) in H1.
-  rewrite <- add_assoc in H1.
-  destruct (add_anything (add x1 y3) (add x3 y1) y2) as [Thm5 Thm6].
-  apply Thm6 in H1.
-  apply H1.
 Qed.
 
 Add Parametric Relation : Z Zeq
