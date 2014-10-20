@@ -26,4 +26,4 @@ space=[\ \t];
 "/" => (Tokens.SLASH(!pos, !pos));
 "(" => (Tokens.LPAREN(!pos, !pos));
 ")" => (Tokens.RPAREN(!pos, !pos));
-_   => (lex());
+. => (lex());
