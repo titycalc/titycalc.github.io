@@ -1,0 +1,3 @@
+(define a::bool)
+(assert (or a (not a)))
+(check)
