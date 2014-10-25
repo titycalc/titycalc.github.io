@@ -205,20 +205,25 @@ function optStmt(ast) {
       var setParams = [];
       for (var i = 0; i < ast.params.length; ++i) {
         var param = ast.params[i];
-        var setParam = { type: 'VariableDeclaration'
-                       , kind: 'var'
-                       , declarations: [{ type: 'VariableDeclarator'
-                                       , id: param
-                                       , init: { type: 'MemberExpression'
-                                               , computed: true
-                                               , object: { type: 'Identifier'
-                                                         , name: '__args'
-                                                         }
-                                               , property: { type: 'Literal'
-                                                           , value: i
-                                                           }
-                                               }
-                                      }]
+        var setParam = { type: 'ExpressionStatement'
+                       , expression: { type: 'AssignmentExpression'
+                                     , operator: '='
+                                     , left: { type: 'MemberExpression'
+                                             , object: { type: 'Identifier'
+                                                       , name: '__env'
+                                                       }
+                                             , property: param
+                                             }
+                                     , right: { type: 'MemberExpression'
+                                              , computed: true
+                                              , object: { type: 'Identifier'
+                                                        , name: '__args'
+                                                        }
+                                              , property: { type: 'Literal'
+                                                          , value: i
+                                                          }
+                                              }
+                                     }
                        }
         setParams.push(setParam);
       }
