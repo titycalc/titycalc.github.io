@@ -2,7 +2,7 @@ var escodegen = require('escodegen');
 var esprima = require('esprima');
 
 var LOOP =
-  "function call(__label) { " +
+  "function __call(__label) { " +
   "  var __args = [].slice.call(arguments, 1);" +
   "  __jmp:" +
   "  while(true) {" +
@@ -20,6 +20,10 @@ var code = "function f(x,y,z) { return f(x,y,z); }";
 
 function appendCase(a_case) {
   OUTPUT.body[0].body.body[1].body.body.body[0].cases.unshift(a_case);
+}
+
+function appendStmt(a_stmt) {
+  OUTPUT.body.unshift(a_stmt);
 }
 
 function optExpr(ast) {
@@ -127,6 +131,23 @@ function optStmt(ast) {
                          , value: ast.id.name
                          }
                  , consequent: setParams.concat([body])
+                 });
+      appendStmt({ type: 'FunctionDeclaration'
+                 , params: ast.params
+                 , body: { type: 'BlockStatement'
+                         , body: [ { type: 'ReturnStatement'
+                                   , argument: { type: 'CallExpression'
+                                               , callee: { type: 'Identifier', name: '__call' }
+                                               , arguments: [{ type: 'Literal', value: ast.id.name }].concat(ast.params)
+                                               }
+                                   }
+                                 ]
+                         }
+                 , id: ast.id
+                 , defaults: []
+                 , rest: null
+                 , generator: false
+                 , expression: false
                  });
       break;
   default:
