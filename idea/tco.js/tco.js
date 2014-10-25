@@ -161,8 +161,6 @@ function optStmt(ast) {
     var argument = optExpr(ast.argument);
     switch (argument.type) {
     case 'CallExpression':
-      switch (argument.callee.type) {
-      case 'Identifier':
 	  return { type: 'BlockStatement'
                  , body: [ { type: 'ExpressionStatement'
                            , expression: { type: 'AssignmentExpression'
@@ -189,12 +187,6 @@ function optStmt(ast) {
                            }
                          ]
                  };
-
-      default:
-        return { type: 'ReturnStatement'
-               , argument: argument
-               };
-      }
     default:
       return { type: 'ReturnStatement'
              , argument: argument
