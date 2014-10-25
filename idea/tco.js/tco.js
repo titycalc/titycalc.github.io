@@ -28,7 +28,10 @@ function appendStmt(a_stmt) {
 function optExpr(ast) {
   switch (ast.type) {
   case 'Identifier':
-    return ast;
+    return { type: 'MemberExpression'
+           , object: { type: 'Identifier', name: '__env' }
+           , property: ast
+           };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
     var args = [];
