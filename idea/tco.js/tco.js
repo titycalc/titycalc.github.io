@@ -66,15 +66,12 @@ function optStmt(ast) {
                            , label: { type: 'Identifier', name: '__jmp' }
                            }
                          ]
-                 }
-      return { type: 'ReturnStatement'
-             , argument: argument
-             }
+                 };
 
       default:
         return { type: 'ReturnStatement'
                , argument: argument
-               }
+               };
       }
     default:
       return { type: 'ReturnStatement'
