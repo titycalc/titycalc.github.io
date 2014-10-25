@@ -1,19 +1,6 @@
 var escodegen = require('escodegen');
 var esprima = require('esprima');
 
-/*
-
-{ type: 'SwitchCase',
-  test: 
-   { type: 'Literal',
-     value: 'f',
-     raw: '\'f\'' },
-  consequent: 
-   [ { type: 'ExpressionStatement',
-       expression: [Object] } ] }
-
-*/
-
 var LOOP =
   "function call(__label) { " +
   "  __jmp:" +
@@ -27,7 +14,6 @@ var LOOP =
   "}";
 
 var OUTPUT = esprima.parse(LOOP);
-//OUTPUT.cases = [];
 
 var code = "function f() { return f(); }";
 
@@ -45,10 +31,6 @@ function optExpr(ast) {
     for (var i = 0; i < ast.arguments.length; ++i) {
       args.push(optExpr(ast.arguments[i]));
     }
-//    {"type":"ExpressionStatement","expression":{"type":"AssignmentExpression","operator":"=","left":{"type":"Identifier","name":"x"},"right":{"type":"Literal","value":"a","raw":"'a'"}}}
-    // callee is a identifier
-  //  callee.id.name;
-//    console.log(ast);
     return { type: 'CallExpression'
            , callee: callee
            , arguments: args
@@ -56,7 +38,6 @@ function optExpr(ast) {
   default:
     console.warn('unrecognized ast: ' + ast.type);
   }
-  //return ast;
 }
 
 function optStmt(ast) {
@@ -69,7 +50,6 @@ function optStmt(ast) {
     case 'CallExpression':
       switch (argument.callee.type) {
       case 'Identifier':
-//        console.log(argument.callee);
 	  return { type: 'BlockStatement'
                  , body: [ { type: 'ExpressionStatement'
                            , expression: { type: 'AssignmentExpression'
@@ -112,7 +92,6 @@ function optStmt(ast) {
            , body: body
            };
   case 'FunctionDeclaration':
-      //console.log(ast);
       var body = optStmt(ast.body);
       appendCase({ type: 'SwitchCase'
                  , test: { type: 'Literal'
@@ -120,19 +99,6 @@ function optStmt(ast) {
                          }
                  , consequent: [body]
                  });
-/*
-{ type: 'FunctionDeclaration',
-  id: { type: 'Identifier', name: 'f' },
-  params: [],
-  defaults: [],
-  body: { type: 'BlockStatement', body: [ [Object] ] },
-  rest: null,
-  generator: false,
-  expression: false }
-*/
-//    console.log(ast);
-//      console.log(ast);
-     // appendCase("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       break;
   default:
     console.warn('unrecognized ast: ' + ast.type);
@@ -142,11 +108,9 @@ function optStmt(ast) {
 function optProgram(ast) {
   switch (ast.type) {
   case 'Program':
-//      console.log(JSON.stringify(ast.body[0].body.body[0].body.cases,null));
     var body = [];
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
-	//console.log(stmt);
       stmt = optStmt(stmt);
       body.push(stmt);
     }
@@ -158,8 +122,5 @@ function optProgram(ast) {
   }
 }
 
-//console.log(JSON.stringify(OUTPUT.body[0].body.body[0].body.body.body[0].cases,null));
-//console.log(JSON.stringify(OUTPUT,null));
 optProgram(esprima.parse(code));
 console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
-//console.log(JSON.stringify(OUTPUT.body[0].body.body[0].body.body.body[0].cases,null));
