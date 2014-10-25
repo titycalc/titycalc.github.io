@@ -3,7 +3,7 @@ var esprima = require('esprima');
 
 var LOOP =
   "function call(__label) { " +
-  "  __args = [].slice.call(arguments, 1);" +
+  "  var __args = [].slice.call(arguments, 1);" +
   "  __jmp:" +
   "  while(true) {" +
   "    switch(__label) {" +
