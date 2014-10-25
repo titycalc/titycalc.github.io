@@ -47,8 +47,114 @@ function optExpr(ast) {
 
 function optStmt(ast) {
   switch (ast.type) {
+  case 'EmptyStatement':
+    return ast;
+  case 'BlockStatement':
+    var body = [];
+    for (var i = 0; i < ast.body.length; ++i) {
+      var stmt = ast.body[i];
+      stmt = optStmt(stmt);
+      body.push(stmt);
+    }
+    return { type: 'BlockStatement'
+           , body: body
+           };
   case 'ExpressionStatement':
-    console.log(JSON.stringify(ast,null));
+    var expr = optExpr(ast.expression);
+    return { type: 'ExpressionStatement', expression: expr };
+  case 'IfStatement':
+    var test = optExpr(ast.test);
+    var consequent = optStmt(ast.consequent);
+    var alternative = ast.alternative ? optStmt(ast.alternative) : null;
+    return { type: 'IfStatement'
+           , test: test
+           , consequent: consequent
+           , alternative: alternative
+           };
+  case 'LabeledStatement':
+    var body = optStmt(ast.body);
+    return { type: 'LabeledStatement'
+           , label: ast.label
+           , body: body
+           };
+  case 'BreakStatement':
+    return ast;
+  case 'ContinueStatement':
+    return ast;
+  case 'WithStatement':
+    var obj = optExpr(ast.object);
+    var body = optStmt(ast.body);
+    return { type: 'WithStatement'
+           , object: obj
+           , body: body
+           }
+  case 'SwitchStatement':
+    var discriminant = optExpr(ast.discriminant);
+    var cases = [];
+    for (var i = 0; i < ast.cases; ++i) {
+      var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
+      var body = [];
+      for (var j = 0; j < ast.cases[i].body; ++i) {
+        body.push(optStmt(ast.cases[i].body[j]));
+      }
+      cases.push({ type: 'SwitchCase'
+                 , test: test
+                 , body: body
+                 });
+    }
+    return { type: 'SwitchStatement'
+           , discriminant: discriminant
+           , cases: cases
+           , lexical: ast.lexical
+           }
+  case 'ThrowStatement':
+    var arg = optExpr(ast.argument);
+    return { type: 'ThrowStatement'
+           , argument: arg
+           }
+  case 'TryStatement':
+    // TODO
+  case 'WhileStatement':
+    var test = optExpr(ast.test);
+    var body = optExpr(ast.body);
+    return { type: 'WhileStatement'
+           , test: test
+           , body: body
+           }
+  case 'DoWhileStatement':
+    var test = optExpr(ast.test);
+    var body = optExpr(ast.body);
+    return { type: 'DoWhileStatement'
+           , test: test
+           , body: body
+           }
+  case 'ForStatement':
+    // TODO
+  case 'ForInStatement':
+    // TODO
+  case 'ForOfStatement':
+    // TODO
+  case 'LetStatement':
+    // TODO
+  case 'DebuggerStatement':
+    return ast;
+  case 'VariableDeclaration':
+    var declarations = [];
+    for (var i = 0; i < ast.declarations.length; ++i) {
+      var declaration = ast.declarations[i];
+      if (declaration.init) {
+        declarations.push({ type: 'VariableDeclarator'
+                          , id: declaration.id
+                          , init: optExpr(declaration.init)
+                          })
+      } else {
+        declarations.push(declaration);
+      }
+    }
+    return { type: 'VariableDeclaration'
+           , declarations: declarations
+           , kind: ast.kind
+           };
   case 'ReturnStatement':
     var argument = optExpr(ast.argument);
     switch (argument.type) {
@@ -94,16 +200,6 @@ function optStmt(ast) {
              , argument: argument
              }
     }
-  case 'BlockStatement':
-    var body = [];
-    for (var i = 0; i < ast.body.length; ++i) {
-      var stmt = ast.body[i];
-      stmt = optStmt(stmt);
-      body.push(stmt);
-    }
-    return { type: 'BlockStatement'
-           , body: body
-           };
   case 'FunctionDeclaration':
       var body = optStmt(ast.body);
       var setParams = [];
