@@ -3,6 +3,7 @@ var esprima = require('esprima');
 
 var LOOP =
   "function call(__label) { " +
+  "  __args = [].slice.call(arguments, 1);" +
   "  __jmp:" +
   "  while(true) {" +
   "    switch(__label) {" +
@@ -15,10 +16,10 @@ var LOOP =
 
 var OUTPUT = esprima.parse(LOOP);
 
-var code = "function f() { return f(); }";
+var code = "function f(x,y,z) { return f(x,y,z); }";
 
 function appendCase(a_case) {
-  OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[0].body.body[1].body.body.body[0].cases.unshift(a_case);
 }
 
 function optExpr(ast) {
@@ -50,8 +51,24 @@ function optStmt(ast) {
     case 'CallExpression':
       switch (argument.callee.type) {
       case 'Identifier':
+          //var args = [];
+          //for (var i = 0; i < argument.arguments.length; ++i) {
+          //  var arg = argument.arguments[i];
+          //  args.push();
+          //}
 	  return { type: 'BlockStatement'
                  , body: [ { type: 'ExpressionStatement'
+                           , expression: { type: 'AssignmentExpression'
+                                         , operator: '='
+                                         , left: { type: 'Identifier'
+                                                 , name: '__args'
+                                                 }
+                                         , right: { type: 'ArrayExpression'
+                                                  , elements: argument.arguments
+                                                  }
+                                         }
+                           }
+                         , { type: 'ExpressionStatement'
                            , expression: { type: 'AssignmentExpression'
                                          , operator: '='
                                          , left: { type: 'Identifier'
@@ -90,11 +107,31 @@ function optStmt(ast) {
            };
   case 'FunctionDeclaration':
       var body = optStmt(ast.body);
+      var setParams = [];
+      for (var i = 0; i < ast.params.length; ++i) {
+        var param = ast.params[i];
+        var setParam = { type: 'ExpressionStatement'
+                       , expression: { type: 'AssignmentExpression'
+                                     , operator: '='
+                                     , left: param
+                                     , right: { type: 'MemberExpression'
+                                              , computed: true
+                                              , object: { type: 'Identifier'
+                                                        , name: '__args'
+                                                        }
+                                              , property: { type: 'Literal'
+                                                          , value: i
+                                                          }
+                                              }
+                                     }
+                       }
+        setParams.push(setParam);
+      }
       appendCase({ type: 'SwitchCase'
                  , test: { type: 'Literal'
                          , value: ast.id.name
                          }
-                 , consequent: [body]
+                 , consequent: setParams.concat([body])
                  });
       break;
   default:
