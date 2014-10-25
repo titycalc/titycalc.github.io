@@ -51,11 +51,6 @@ function optStmt(ast) {
     case 'CallExpression':
       switch (argument.callee.type) {
       case 'Identifier':
-          //var args = [];
-          //for (var i = 0; i < argument.arguments.length; ++i) {
-          //  var arg = argument.arguments[i];
-          //  args.push();
-          //}
 	  return { type: 'BlockStatement'
                  , body: [ { type: 'ExpressionStatement'
                            , expression: { type: 'AssignmentExpression'
