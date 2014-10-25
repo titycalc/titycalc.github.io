@@ -179,9 +179,7 @@ function optStmt(ast) {
                                          , left: { type: 'Identifier'
                                                  , name: '__label'
                                                  }
-                                         , right: { type: 'Literal'
-                                                  , value: argument.callee.name
-                                                  }
+                                         , right: { type: 'MemberExpression', object: argument.callee, property: { type: 'Identifier', name: 'name' } }
                                          }
                            }
                          , { type: 'ContinueStatement'
