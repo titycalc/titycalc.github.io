@@ -2,8 +2,7 @@ var escodegen = require('escodegen');
 var esprima = require('esprima');
 
 var LOOP =
-  "function __call(__label) { " +
-  "  var __args = [].slice.call(arguments, 1);" +
+  "function __call(__label, __env, __args) { " +
   "  __jmp:" +
   "  while(true) {" +
   "    switch(__label) {" +
@@ -16,10 +15,10 @@ var LOOP =
 
 var OUTPUT = esprima.parse(LOOP);
 
-var code = "function f(x,y,z) { return f(x,y,z); }";
+var code = "function ret(x, s, cont) { return cont(x, s); }";
 
 function appendCase(a_case) {
-  OUTPUT.body[0].body.body[1].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 
 function appendStmt(a_stmt) {
@@ -203,20 +202,20 @@ function optStmt(ast) {
       var setParams = [];
       for (var i = 0; i < ast.params.length; ++i) {
         var param = ast.params[i];
-        var setParam = { type: 'ExpressionStatement'
-                       , expression: { type: 'AssignmentExpression'
-                                     , operator: '='
-                                     , left: param
-                                     , right: { type: 'MemberExpression'
-                                              , computed: true
-                                              , object: { type: 'Identifier'
-                                                        , name: '__args'
-                                                        }
-                                              , property: { type: 'Literal'
-                                                          , value: i
-                                                          }
-                                              }
-                                     }
+        var setParam = { type: 'VariableDeclaration'
+                       , kind: 'var'
+                       , declarations: [{ type: 'VariableDeclarator'
+                                       , id: param
+                                       , init: { type: 'MemberExpression'
+                                               , computed: true
+                                               , object: { type: 'Identifier'
+                                                         , name: '__args'
+                                                         }
+                                               , property: { type: 'Literal'
+                                                           , value: i
+                                                           }
+                                               }
+                                      }]
                        }
         setParams.push(setParam);
       }
@@ -232,7 +231,7 @@ function optStmt(ast) {
                          , body: [ { type: 'ReturnStatement'
                                    , argument: { type: 'CallExpression'
                                                , callee: { type: 'Identifier', name: '__call' }
-                                               , arguments: [{ type: 'Literal', value: ast.id.name }].concat(ast.params)
+                                               , arguments: [{ type: 'Literal', value: ast.id.name }, { type: 'ObjectExpression', properties: [] }, { type: 'ArrayExpression', elements: ast.params }]
                                                }
                                    }
                                  ]
