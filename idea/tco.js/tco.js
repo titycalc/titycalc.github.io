@@ -1,7 +1,7 @@
 var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].env = __global; }' + 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
+var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].__env = __global; }' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
@@ -11,7 +11,6 @@ var COPYENV = {
   type: 'ObjectExpression',
   properties: []
 };
-
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
@@ -29,20 +28,18 @@ function appendVar(ident) {
       type: 'ArrayExpression',
       elements: [{
           type: 'ObjectExpression',
-          properties: [
-            {
+          properties: [{
               type: 'Property',
               key: {
                 type: 'Identifier',
-                name: 'label'
+                name: '__label'
               },
               value: {
                 type: 'Literal',
                 value: ident.name
               },
               kind: 'init'
-            }
-          ]
+            }]
         }]
     },
     kind: 'init'
@@ -63,10 +60,42 @@ function appendVar(ident) {
   appendProp(prop);
   OUTPUT.body[0].declarations[0].init.properties.push(prop1);
 }
+var i = 0;
+function gensym() {
+  i += 1;
+  return '__lambda_' + i;
+}
+function isTailCallExpr(ast) {
+  switch (ast.type) {
+  case 'CallExpression':
+    return true;
+  default:
+    return false;
+  }
+}
+function isTailCallStmt(ast) {
+  switch (ast.type) {
+  case 'ExpressionStatement':
+    return isTailCallExpr(ast.expression);
+  case 'BlockStatement':
+    return isTailCallStmt(ast.body[ast.body.length - 1]);
+  case 'ReturnStatement':
+    return isTailCallExpr(ast.argument);
+  case 'IfStatement':
+    return isTailCallStmt(ast.consequent) || isTailCallStmt(ast.alternate);
+  default:
+    return false;
+  }
+}
 function optExpr(ast) {
   switch (ast.type) {
   case 'Literal':
     return ast;
+  case 'ThisExpression':
+    return {
+      type: 'Identifier',
+      name: '__this'
+    };
   case 'Identifier':
     return {
       type: 'MemberExpression',
@@ -84,11 +113,115 @@ function optExpr(ast) {
       },
       computed: true
     };
+  case 'AssignmentExpression':
+    var lhs = optExpr(ast.left);
+    var rhs = optExpr(ast.right);
+    return {
+      type: 'AssignmentExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
+  case 'BinaryExpression':
+    var lhs = optExpr(ast.left);
+    var rhs = optExpr(ast.right);
+    return {
+      type: 'BinaryExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
   case 'MemberExpression':
-    return ast;
-    //var obj = optExpr(ast.object);
-    //var prop = optExpr(ast.property);
-    //return { type: 'MemberExpression', object: obj, property: prop };
+    var obj = optExpr(ast.object);
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: ast.property
+    };
+  case 'FunctionExpression':
+    var id = {
+      type: 'Identifier',
+      name: gensym()
+    };
+    var body = optStmt(ast.body);
+    var body1 = [];
+    appendVar(id);
+    for (var i = 0; i < ast.params.length; ++i) {
+      var param = ast.params[i];
+      appendVar(param);
+      var setParam = {
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: param
+          },
+          right: {
+            type: 'ArrayExpression',
+            elements: [{
+                type: 'MemberExpression',
+                computed: true,
+                object: {
+                  type: 'Identifier',
+                  name: '__args'
+                },
+                property: {
+                  type: 'Literal',
+                  value: i
+                }
+              }]
+          }
+        }
+      };
+      body1.push(setParam);
+    }
+    switch (body.type) {
+    case 'BlockStatement':
+      body1 = body1.concat(body.body);
+      break;
+    default:
+      body1.push(body);
+    }
+    appendCase({
+      type: 'SwitchCase',
+      test: {
+        type: 'Literal',
+        value: id.name
+      },
+      consequent: body1
+    });
+    return {
+      type: 'ObjectExpression',
+      properties: [
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: '__env'
+          },
+          value: COPYENV,
+          kind: 'init'
+        },
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: '__label'
+          },
+          value: {
+            type: 'Literal',
+            value: id.name
+          },
+          kind: 'init'
+        }
+      ]
+    };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
     var args = [];
@@ -101,7 +234,7 @@ function optExpr(ast) {
       arguments: args
     };
   default:
-    console.warn('unrecognized ast: ' + ast.type);
+    console.error('unrecognized ast: ' + ast.type);
   }
 }
 function optStmt(ast) {
@@ -113,7 +246,13 @@ function optStmt(ast) {
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
       stmt = optStmt(stmt);
-      body.push(stmt);
+      switch (stmt.type) {
+      case 'BlockStatement':
+        body = body.concat(stmt.body);
+        break;
+      default:
+        body.push(stmt);
+      }
     }
     return {
       type: 'BlockStatement',
@@ -128,12 +267,12 @@ function optStmt(ast) {
   case 'IfStatement':
     var test = optExpr(ast.test);
     var consequent = optStmt(ast.consequent);
-    var alternative = ast.alternative ? optStmt(ast.alternative) : null;
+    var alternate = ast.alternate ? optStmt(ast.alternate) : null;
     return {
       type: 'IfStatement',
       test: test,
       consequent: consequent,
-      alternative: alternative
+      alternate: alternate
     };
   case 'LabeledStatement':
     var body = optStmt(ast.body);
@@ -259,7 +398,7 @@ function optStmt(ast) {
                 object: argument.callee,
                 property: {
                   type: 'Identifier',
-                  name: 'label'
+                  name: '__label'
                 }
               }
             }
@@ -278,7 +417,7 @@ function optStmt(ast) {
                 object: argument.callee,
                 property: {
                   type: 'Identifier',
-                  name: 'env'
+                  name: '__env'
                 }
               }
             }
@@ -352,42 +491,47 @@ function optStmt(ast) {
       },
       consequent: body1
     });
-    appendStmt({
-      type: 'FunctionDeclaration',
-      params: ast.params,
-      body: {
-        type: 'BlockStatement',
-        body: [{
-            type: 'ReturnStatement',
-            argument: {
-              type: 'CallExpression',
-              callee: {
-                type: 'Identifier',
-                name: '__call'
-              },
-              arguments: [
-                {
-                  type: 'Literal',
-                  value: ast.id.name
-                },
-                {
+    if (isTailCallStmt(ast.body)) {
+      appendStmt({
+        type: 'FunctionDeclaration',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
                   type: 'Identifier',
-                  name: '__global'
+                  name: '__call1'
                 },
-                {
-                  type: 'ArrayExpression',
-                  elements: ast.params
-                }
-              ]
-            }
-          }]
-      },
-      id: ast.id,
-      defaults: [],
-      rest: null,
-      generator: false,
-      expression: false
-    });
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: ast.id.name
+                  },
+                  { type: 'ThisExpression' },
+                  {
+                    type: 'Identifier',
+                    name: '__global'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: ast.id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      });
+    } else {
+      appendStmt(ast);
+    }
     return {
       type: 'ExpressionStatement',
       expression: {
@@ -410,7 +554,7 @@ function optStmt(ast) {
                   type: 'Property',
                   key: {
                     type: 'Identifier',
-                    name: 'env'
+                    name: '__env'
                   },
                   value: COPYENV,
                   kind: 'init'
@@ -419,7 +563,7 @@ function optStmt(ast) {
                   type: 'Property',
                   key: {
                     type: 'Identifier',
-                    name: 'label'
+                    name: '__label'
                   },
                   value: {
                     type: 'Literal',
@@ -433,7 +577,7 @@ function optStmt(ast) {
       }
     };
   default:
-    console.warn('unrecognized ast: ' + ast.type);
+    console.error('unrecognized ast: ' + ast.type);
   }
 }
 function optProgram(ast) {
@@ -450,12 +594,14 @@ function optProgram(ast) {
       body: body
     };
   default:
-    console.warn('unrecognized ast: ' + ast.type);
+    console.error('unrecognized ast: ' + ast.type);
   }
 }
-
-fs.readFile(process.argv[2], 'utf-8', function (err,code) {
-  if (err) { console.warn(err); return; }
+fs.readFile(process.argv[2], 'utf-8', function (err, code) {
+  if (err) {
+    console.error(err);
+    return;
+  }
   optProgram(esprima.parse(code));
   console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
 });
