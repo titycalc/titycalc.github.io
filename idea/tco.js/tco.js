@@ -14,6 +14,9 @@ var LOOP =
   "}";
 
 var OUTPUT = esprima.parse(LOOP);
+var COPYENV = { type: 'ObjectExpression'
+              , properties: []
+              };
 
 var code = "function f(x) { function g(y) { return x; } return g }";
 
@@ -23,6 +26,22 @@ function appendCase(a_case) {
 
 function appendStmt(a_stmt) {
   OUTPUT.body.push(a_stmt);
+}
+
+function appendProp(a_prop) {
+  COPYENV.properties.push(a_prop);
+}
+
+function appendVar(ident) {
+  var prop = { type: 'Property'
+             , key: ident
+             , value: { type: 'MemberExpression'
+                      , object: { type: 'Identifier', name: '__env' }
+                      , property: ident
+                      }
+             , kind: 'init'
+             };
+  appendProp(prop);
 }
 
 function optExpr(ast) {
@@ -197,6 +216,7 @@ function optStmt(ast) {
       var setParams = [];
       for (var i = 0; i < ast.params.length; ++i) {
         var param = ast.params[i];
+        appendVar(param);
         var setParam = { type: 'ExpressionStatement'
                        , expression: { type: 'AssignmentExpression'
                                      , operator: '='
@@ -255,7 +275,7 @@ function optStmt(ast) {
                                     , properties: [
                                         { type: 'Property'
                                         , key: { type: 'Identifier', name: 'env' }
-                                        , value: { type: 'CallExpression', callee: { type: 'MemberExpression', object: { type: 'Identifier', name: 'Object' }, property: { type: 'Identifier', name: 'create' }}, arguments: [{ type: 'Identifier', name: '__env' }] }
+                                        , value: COPYENV
                                         , kind: 'init'
                                         }
                                       , { type: 'Property'
