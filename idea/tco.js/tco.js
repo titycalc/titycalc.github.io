@@ -1,6 +1,6 @@
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'var __global = {};' + 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
+var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].env = __global; }' + 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
@@ -12,7 +12,7 @@ var COPYENV = {
 };
 var code = 'function f(x) { return 1; } function g(y) { return f(y); }';
 function appendCase(a_case) {
-  OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 function appendStmt(a_stmt) {
   OUTPUT.body.push(a_stmt);
@@ -38,18 +38,6 @@ function appendVar(ident) {
               value: {
                 type: 'Literal',
                 value: ident.name
-              },
-              kind: 'init'
-            },
-            {
-              type: 'Property',
-              key: {
-                type: 'Identifier',
-                name: 'env'
-              },
-              value: {
-                type: 'Identifier',
-                name: '__global'
               },
               kind: 'init'
             }
@@ -307,6 +295,7 @@ function optStmt(ast) {
   case 'FunctionDeclaration':
     var body = optStmt(ast.body);
     var body1 = [];
+    appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
