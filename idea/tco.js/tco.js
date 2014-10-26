@@ -2,6 +2,10 @@ var escodegen = require('escodegen');
 var esprima = require('esprima');
 var LOOP = 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
 var OUTPUT = esprima.parse(LOOP);
+var INITENV = {
+  type: 'ObjectExpression',
+  properties: []
+};
 var COPYENV = {
   type: 'ObjectExpression',
   properties: []
@@ -17,6 +21,40 @@ function appendProp(a_prop) {
   COPYENV.properties.push(a_prop);
 }
 function appendVar(ident) {
+  var prop1 = {
+    type: 'Property',
+    key: ident,
+    value: {
+      type: 'ObjectExpression',
+      properties: [
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: 'label'
+          },
+          value: {
+            type: 'Literal',
+            value: ident.name
+          },
+          kind: 'init'
+        },
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: 'env'
+          },
+          value: {
+            type: 'ObjectExpression',
+            properties: []
+          },
+          kind: 'init'
+        }
+      ]
+    },
+    kind: 'init'
+  };
   var prop = {
     type: 'Property',
     key: ident,
@@ -31,6 +69,7 @@ function appendVar(ident) {
     kind: 'init'
   };
   appendProp(prop);
+  INITENV.properties.push(prop1);
 }
 function optExpr(ast) {
   switch (ast.type) {
@@ -333,10 +372,7 @@ function optStmt(ast) {
                   type: 'Literal',
                   value: ast.id.name
                 },
-                {
-                  type: 'ObjectExpression',
-                  properties: []
-                },
+                INITENV,
                 {
                   type: 'ArrayExpression',
                   elements: ast.params
