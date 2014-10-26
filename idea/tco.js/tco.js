@@ -1,8 +1,8 @@
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
+var LOOP = 'var __global = {};' + 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
 var OUTPUT = esprima.parse(LOOP);
-var INITENV = {
+var GLOBAL = {
   type: 'ObjectExpression',
   properties: []
 };
@@ -12,7 +12,7 @@ var COPYENV = {
 };
 var code = 'function f(x) { return 1; } function g(y) { return f(y); }';
 function appendCase(a_case) {
-  OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 function appendStmt(a_stmt) {
   OUTPUT.body.push(a_stmt);
@@ -24,7 +24,7 @@ function appendVar(ident) {
   var prop1 = {
     type: 'Property',
     key: ident,
-    value: {
+    value: {type: 'ArrayExpression', elements: [{
       type: 'ObjectExpression',
       properties: [
         {
@@ -45,14 +45,11 @@ function appendVar(ident) {
             type: 'Identifier',
             name: 'env'
           },
-          value: {
-            type: 'ObjectExpression',
-            properties: []
-          },
+          value: { type: 'Identifier', name: '__global' },
           kind: 'init'
         }
       ]
-    },
+    }]},
     kind: 'init'
   };
   var prop = {
@@ -69,7 +66,7 @@ function appendVar(ident) {
     kind: 'init'
   };
   appendProp(prop);
-  INITENV.properties.push({type: 'ArrayExpression', elements: [prop1]});
+  OUTPUT.body[0].declarations[0].init.properties.push(prop1);
 }
 function optExpr(ast) {
   switch (ast.type) {
@@ -372,7 +369,7 @@ function optStmt(ast) {
                   type: 'Literal',
                   value: ast.id.name
                 },
-                INITENV,
+                { type: 'Identifier', name: '__global' },
                 {
                   type: 'ArrayExpression',
                   elements: ast.params
