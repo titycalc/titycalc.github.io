@@ -114,7 +114,7 @@ function optStmt(ast) {
     for (var i = 0; i < ast.cases; ++i) {
       var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
       var body = [];
-      for (var j = 0; j < ast.cases[i].body; ++i) {
+      for (var j = 0; j < ast.cases[i].body.length; ++i) {
         body.push(optStmt(ast.cases[i].body[j]));
       }
       cases.push({
