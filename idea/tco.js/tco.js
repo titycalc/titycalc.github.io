@@ -69,7 +69,7 @@ function appendVar(ident) {
     kind: 'init'
   };
   appendProp(prop);
-  INITENV.properties.push(prop1);
+  INITENV.properties.push({type: 'ArrayExpression', elements: [prop1]});
 }
 function optExpr(ast) {
   switch (ast.type) {
