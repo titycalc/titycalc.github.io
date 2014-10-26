@@ -242,7 +242,28 @@ function optStmt(ast) {
                  , generator: false
                  , expression: false
                  });
-      return {type: 'EmptyStatement'}; /* FIXME */
+      return { type: 'ExpressionStatement'
+             , expression: { type: 'AssignmentExpression'
+                           , operator: '='
+                           , left: { type: 'MemberExpression'
+                                   , object: { type: 'Identifier'
+                                             , name: '__env'
+                                             }
+                                   , property: ast.id
+                                   }
+                           , right: { type: 'ObjectExpression'
+                                    , properties: [
+                                        { type: 'Property'
+                                        , key: { type: 'Identifier', name: 'env' }
+                                        , value: { type: 'Identifier', name: '__env' }
+                                        , kind: 'init'
+                                        }
+                                      , { type: 'Property'
+                                      , key: { type: 'Identifier', name: 'label' }
+                                      , value: { type: 'Literal', value: ast.id.name }
+                                      , kind: 'init'
+                                      }
+                           ]}}};
   default:
     console.warn('unrecognized ast: ' + ast.type);
   }
