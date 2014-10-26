@@ -226,7 +226,8 @@ function optStmt(ast) {
                                                        }
                                              , property: param
                                              }
-                                     , right: { type: 'MemberExpression'
+                                     , right: { type: 'ArrayExpression'
+                                              , elements: [{ type: 'MemberExpression'
                                               , computed: true
                                               , object: { type: 'Identifier'
                                                         , name: '__args'
@@ -234,7 +235,7 @@ function optStmt(ast) {
                                               , property: { type: 'Literal'
                                                           , value: i
                                                           }
-                                              }
+                                              }]}
                                      }
                        }
         setParams.push(setParam);
@@ -271,7 +272,8 @@ function optStmt(ast) {
                                              }
                                    , property: ast.id
                                    }
-                           , right: { type: 'ObjectExpression'
+                           , right: { type: 'ArrayExpression'
+                                    , elements: [{ type: 'ObjectExpression'
                                     , properties: [
                                         { type: 'Property'
                                         , key: { type: 'Identifier', name: 'env' }
@@ -282,7 +284,7 @@ function optStmt(ast) {
                                       , key: { type: 'Identifier', name: 'label' }
                                       , value: { type: 'Literal', value: ast.id.name }
                                       , kind: 'init'
-                                      }
+                                      }]}
                            ]}}};
   default:
     console.warn('unrecognized ast: ' + ast.type);
