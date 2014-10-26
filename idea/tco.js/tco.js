@@ -38,10 +38,18 @@ function optExpr(ast) {
     return {
       type: 'MemberExpression',
       object: {
-        type: 'Identifier',
-        name: '__env'
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ast
       },
-      property: ast
+      property: {
+        type: 'Literal',
+        value: 0
+      },
+      computed: true
     };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
@@ -271,7 +279,6 @@ function optStmt(ast) {
       };
       body1.push(setParam);
     }
-    
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
