@@ -6,7 +6,7 @@ var COPYENV = {
   type: 'ObjectExpression',
   properties: []
 };
-var code = 'function f(x) { function g(y) { return x; } return g }';
+var code = 'function f(x) { return 1; } function g(y) { return f(y); }';
 function appendCase(a_case) {
   OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
@@ -34,6 +34,8 @@ function appendVar(ident) {
 }
 function optExpr(ast) {
   switch (ast.type) {
+  case 'Literal':
+    return ast;
   case 'Identifier':
     return {
       type: 'MemberExpression',
@@ -221,7 +223,26 @@ function optStmt(ast) {
                 object: argument.callee,
                 property: {
                   type: 'Identifier',
-                  name: 'name'
+                  name: 'label'
+                }
+              }
+            }
+          },
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'AssignmentExpression',
+              operator: '=',
+              left: {
+                type: 'Identifier',
+                name: '__env'
+              },
+              right: {
+                type: 'MemberExpression',
+                object: argument.callee,
+                property: {
+                  type: 'Identifier',
+                  name: 'env'
                 }
               }
             }
