@@ -24,32 +24,38 @@ function appendVar(ident) {
   var prop1 = {
     type: 'Property',
     key: ident,
-    value: {type: 'ArrayExpression', elements: [{
-      type: 'ObjectExpression',
-      properties: [
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: 'label'
-          },
-          value: {
-            type: 'Literal',
-            value: ident.name
-          },
-          kind: 'init'
-        },
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: 'env'
-          },
-          value: { type: 'Identifier', name: '__global' },
-          kind: 'init'
-        }
-      ]
-    }]},
+    value: {
+      type: 'ArrayExpression',
+      elements: [{
+          type: 'ObjectExpression',
+          properties: [
+            {
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: 'label'
+              },
+              value: {
+                type: 'Literal',
+                value: ident.name
+              },
+              kind: 'init'
+            },
+            {
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: 'env'
+              },
+              value: {
+                type: 'Identifier',
+                name: '__global'
+              },
+              kind: 'init'
+            }
+          ]
+        }]
+    },
     kind: 'init'
   };
   var prop = {
@@ -369,7 +375,10 @@ function optStmt(ast) {
                   type: 'Literal',
                   value: ast.id.name
                 },
-                { type: 'Identifier', name: '__global' },
+                {
+                  type: 'Identifier',
+                  name: '__global'
+                },
                 {
                   type: 'ArrayExpression',
                   elements: ast.params
