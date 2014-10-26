@@ -235,7 +235,7 @@ function optStmt(ast) {
     }
   case 'FunctionDeclaration':
     var body = optStmt(ast.body);
-    var setParams = [];
+    var body1 = [];
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -269,7 +269,15 @@ function optStmt(ast) {
           }
         }
       };
-      setParams.push(setParam);
+      body1.push(setParam);
+    }
+    
+    switch (body.type) {
+    case 'BlockStatement':
+      body1 = body1.concat(body.body);
+      break;
+    default:
+      body1.push(body);
     }
     appendCase({
       type: 'SwitchCase',
@@ -277,7 +285,7 @@ function optStmt(ast) {
         type: 'Literal',
         value: ast.id.name
       },
-      consequent: setParams.concat([body])
+      consequent: body1
     });
     appendStmt({
       type: 'FunctionDeclaration',
