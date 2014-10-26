@@ -1,3 +1,4 @@
+var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
 var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].env = __global; }' + 'function __call(__label, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.warn(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}';
@@ -10,7 +11,7 @@ var COPYENV = {
   type: 'ObjectExpression',
   properties: []
 };
-var code = 'function f(x) { return 1; } function g(y) { return f(y); }';
+
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
@@ -83,6 +84,11 @@ function optExpr(ast) {
       },
       computed: true
     };
+  case 'MemberExpression':
+    return ast;
+    //var obj = optExpr(ast.object);
+    //var prop = optExpr(ast.property);
+    //return { type: 'MemberExpression', object: obj, property: prop };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
     var args = [];
@@ -447,5 +453,9 @@ function optProgram(ast) {
     console.warn('unrecognized ast: ' + ast.type);
   }
 }
-optProgram(esprima.parse(code));
-console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
+
+fs.readFile(process.argv[2], 'utf-8', function (err,code) {
+  if (err) { console.warn(err); return; }
+  optProgram(esprima.parse(code));
+  console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
+});
