@@ -255,7 +255,7 @@ function optStmt(ast) {
                                     , properties: [
                                         { type: 'Property'
                                         , key: { type: 'Identifier', name: 'env' }
-                                        , value: { type: 'Identifier', name: '__env' }
+                                        , value: { type: 'CallExpression', callee: { type: 'MemberExpression', object: { type: 'Identifier', name: 'Object' }, property: { type: 'Identifier', name: 'create' }}, arguments: [{ type: 'Identifier', name: '__env' }] }
                                         , kind: 'init'
                                         }
                                       , { type: 'Property'
