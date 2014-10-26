@@ -15,14 +15,14 @@ var LOOP =
 
 var OUTPUT = esprima.parse(LOOP);
 
-var code = "function ret(x, s, cont) { return cont(x, s); }";
+var code = "function f(x) { function g(y) { return x; } return g }";
 
 function appendCase(a_case) {
   OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 
 function appendStmt(a_stmt) {
-  OUTPUT.body.unshift(a_stmt);
+  OUTPUT.body.push(a_stmt);
 }
 
 function optExpr(ast) {
@@ -242,7 +242,7 @@ function optStmt(ast) {
                  , generator: false
                  , expression: false
                  });
-      break;
+      return {type: 'EmptyStatement'}; /* FIXME */
   default:
     console.warn('unrecognized ast: ' + ast.type);
   }
