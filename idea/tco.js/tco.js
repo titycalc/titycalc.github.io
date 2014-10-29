@@ -14,9 +14,6 @@ var COPYENV = {
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
-function appendStmt(a_stmt) {
-  //OUTPUT.body.push(a_stmt);
-}
 function appendProp(a_prop) {
   COPYENV.properties.push(a_prop);
 }
@@ -501,47 +498,6 @@ function optStmt(ast) {
       },
       consequent: body1
     });
-    if (isTailCallStmt(ast.body)) {
-      appendStmt({
-        type: 'FunctionDeclaration',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call1'
-                },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: ast.id.name
-                  },
-                  { type: 'ThisExpression' },
-                  {
-                    type: 'Identifier',
-                    name: '__global'
-                  },
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
-        },
-        id: ast.id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      });
-    } else {
-      appendStmt(ast);
-    }
     return {
       type: 'ExpressionStatement',
       expression: {
