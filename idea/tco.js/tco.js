@@ -141,12 +141,17 @@ function optExpr(ast) {
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
       var prop = ast.properties[i];
-      props.push({ type: 'Property',
-                   key: prop.key,
-                   value: optExpr(prop.value),
-                   kind: prop.kind });
+      props.push({
+        type: 'Property',
+        key: prop.key,
+        value: optExpr(prop.value),
+        kind: prop.kind
+      });
     }
-    return { type: 'ObjectExpression', properties: props };
+    return {
+      type: 'ObjectExpression',
+      properties: props
+    };
   case 'FunctionExpression':
     var id = {
       type: 'Identifier',
@@ -585,12 +590,17 @@ function optToplevelExpr(ast) {
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
       var prop = ast.properties[i];
-      props.push({ type: 'Property',
-                   key: prop.key,
-                   value: optToplevelExpr(prop.value),
-                   kind: prop.kind });
+      props.push({
+        type: 'Property',
+        key: prop.key,
+        value: optToplevelExpr(prop.value),
+        kind: prop.kind
+      });
     }
-    return { type: 'ObjectExpression', properties: props };
+    return {
+      type: 'ObjectExpression',
+      properties: props
+    };
   case 'FunctionExpression':
     var id = {
       type: 'Identifier',
@@ -650,7 +660,7 @@ function optToplevelExpr(ast) {
       consequent: body1
     });
     if (isTailCallStmt(ast.body)) {
-      return({
+      return {
         type: 'FunctionExpression',
         params: ast.params,
         body: {
@@ -686,36 +696,11 @@ function optToplevelExpr(ast) {
         rest: null,
         generator: false,
         expression: false
-      });
+      };
     } else {
-      return(ast);
-    };
-    /*return {
-      type: 'ObjectExpression',
-      properties: [
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: '__env'
-          },
-          value: COPYENV,
-          kind: 'init'
-        },
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: '__label'
-          },
-          value: {
-            type: 'Literal',
-            value: id.name
-          },
-          kind: 'init'
-        }
-      ]
-    };*/
+      return ast;
+    }
+    ;
   case 'CallExpression':
     var callee = optToplevelExpr(ast.callee);
     var args = [];
@@ -916,7 +901,7 @@ function optToplevelStmt(ast) {
       consequent: body1
     });
     if (isTailCallStmt(ast.body)) {
-      return({
+      return {
         type: 'FunctionDeclaration',
         params: ast.params,
         body: {
@@ -952,10 +937,11 @@ function optToplevelStmt(ast) {
         rest: null,
         generator: false,
         expression: false
-      });
+      };
     } else {
-      return(ast);
-    };
+      return ast;
+    }
+    ;
   default:
     console.error('unrecognized ast: ' + ast.type);
   }
