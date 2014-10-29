@@ -87,13 +87,13 @@ function __mk(__label, __env, fn) {
   infLoop.__label = 'infLoop';
   infLoop.__env = this;
 }
-var infLoop1 = function __lambda_1() {
+var infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
   return __call1('__lambda_1', this, __global, []);
-};
+});
 var obj = {};
-obj.infLoop2 = function __lambda_2() {
+obj.infLoop2 = __mk('__lambda_2', this, function __lambda_2() {
   return __call1('__lambda_2', this, __global, []);
-};
+});
 {
   function mutualLoop1() {
     return __call1('mutualLoop1', this, __global, []);

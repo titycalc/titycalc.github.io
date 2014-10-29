@@ -662,7 +662,7 @@ function optToplevelExpr(ast) {
       consequent: body1
     });
     if (isTailCallStmt(ast.body)) {
-      return {
+      var fn = {
         type: 'FunctionExpression',
         params: ast.params,
         body: {
@@ -699,6 +699,7 @@ function optToplevelExpr(ast) {
         generator: false,
         expression: false
       };
+      return { type: 'CallExpression', callee: {type:'Identifier',name:'__mk'}, arguments:[{type:'Literal',value:id.name},{type:'ThisExpression'},fn] }
     } else {
       return ast;
     }
