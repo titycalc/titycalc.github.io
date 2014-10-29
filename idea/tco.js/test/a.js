@@ -6,6 +6,11 @@ var infLoop1 = function () {
   return infLoop1();
 };
 
+var obj = {};
+obj.infLoop2 = function () {
+  return this.infLoop2();
+};
+
 function mutualLoop1() {
   return mutualLoop2();
 }

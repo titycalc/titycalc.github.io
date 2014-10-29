@@ -1,6 +1,7 @@
 var __global = {
   infLoop: [{ __label: 'infLoop' }],
   __lambda_1: [{ __label: '__lambda_1' }],
+  __lambda_2: [{ __label: '__lambda_2' }],
   mutualLoop1: [{ __label: 'mutualLoop1' }],
   mutualLoop2: [{ __label: 'mutualLoop2' }],
   identity: [{ __label: 'identity' }],
@@ -26,6 +27,7 @@ function __call(__label, __this, __env, __args) {
             __env: {
               infLoop: __env.infLoop,
               __lambda_1: __env.__lambda_1,
+              __lambda_2: __env.__lambda_2,
               mutualLoop1: __env.mutualLoop1,
               mutualLoop2: __env.mutualLoop2,
               identity: __env.identity,
@@ -54,6 +56,11 @@ function __call(__label, __this, __env, __args) {
         __args = [];
         __label = __env.mutualLoop2[0].__label;
         __env = __env.mutualLoop2[0].__env;
+        continue __jmp;
+      case '__lambda_2':
+        __args = [];
+        __label = __this.infLoop2.__label;
+        __env = __this.infLoop2.__env;
         continue __jmp;
       case '__lambda_1':
         __args = [];
@@ -86,6 +93,10 @@ function infLoop() {
 }
 var infLoop1 = function __lambda_1() {
   return __call1('__lambda_1', this, __global, []);
+};
+var obj = {};
+obj.infLoop2 = function __lambda_2() {
+  return __call1('__lambda_2', this, __global, []);
 };
 function mutualLoop1() {
   return __call1('mutualLoop1', this, __global, []);

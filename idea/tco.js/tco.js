@@ -138,6 +138,16 @@ function optExpr(ast) {
       object: obj,
       property: ast.property
     };
+  case 'ObjectExpression':
+    var props = [];
+    for (var i = 0; i < ast.properties.length; ++i) {
+      var prop = ast.properties[i];
+      props.push({ type: 'Property',
+                   key: prop.key,
+                   value: optExpr(prop.value),
+                   kind: prop.kind });
+    }
+    return { type: 'ObjectExpression', properties: props };
   case 'FunctionExpression':
     var id = {
       type: 'Identifier',
@@ -613,6 +623,16 @@ function optToplevelExpr(ast) {
       object: obj,
       property: ast.property
     };
+  case 'ObjectExpression':
+    var props = [];
+    for (var i = 0; i < ast.properties.length; ++i) {
+      var prop = ast.properties[i];
+      props.push({ type: 'Property',
+                   key: prop.key,
+                   value: optToplevelExpr(prop.value),
+                   kind: prop.kind });
+    }
+    return { type: 'ObjectExpression', properties: props };
   case 'FunctionExpression':
     var id = {
       type: 'Identifier',
