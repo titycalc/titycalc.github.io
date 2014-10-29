@@ -671,7 +671,48 @@ function optToplevelExpr(ast) {
       },
       consequent: body1
     });
-    return {
+    if (isTailCallStmt(ast.body)) {
+      return({
+        type: 'FunctionExpression',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: id.name
+                  },
+                  { type: 'ThisExpression' },
+                  {
+                    type: 'Identifier',
+                    name: '__global'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      });
+    } else {
+      return(ast);
+    };
+    /*return {
       type: 'ObjectExpression',
       properties: [
         {
@@ -696,7 +737,7 @@ function optToplevelExpr(ast) {
           kind: 'init'
         }
       ]
-    };
+    };*/
   case 'CallExpression':
     var callee = optToplevelExpr(ast.callee);
     var args = [];

@@ -84,21 +84,8 @@ function __call1(__label, __this, __env, __args) {
 function infLoop() {
   return __call1('infLoop', this, __global, []);
 }
-var infLoop1 = {
-  __env: {
-    infLoop: __env.infLoop,
-    __lambda_1: __env.__lambda_1,
-    mutualLoop1: __env.mutualLoop1,
-    mutualLoop2: __env.mutualLoop2,
-    identity: __env.identity,
-    x: __env.x,
-    discard: __env.discard,
-    y: __env.y,
-    constantly: __env.constantly,
-    x: __env.x,
-    incr: __env.incr
-  },
-  __label: '__lambda_1'
+var infLoop1 = function __lambda_1() {
+  return __call1('__lambda_1', this, __global, []);
 };
 function mutualLoop1() {
   return __call1('mutualLoop1', this, __global, []);
