@@ -18,6 +18,22 @@ function appendProp(a_prop) {
   COPYENV.properties.push(a_prop);
 }
 function appendVar(ident) {
+  var prop = {
+    type: 'Property',
+    key: ident,
+    value: {
+      type: 'MemberExpression',
+      object: {
+        type: 'Identifier',
+        name: '__env'
+      },
+      property: ident
+    },
+    kind: 'init'
+  };
+  appendProp(prop);
+}
+function appendGlobalVar(ident) {
   var prop1 = {
     type: 'Property',
     key: ident,
@@ -41,20 +57,6 @@ function appendVar(ident) {
     },
     kind: 'init'
   };
-  var prop = {
-    type: 'Property',
-    key: ident,
-    value: {
-      type: 'MemberExpression',
-      object: {
-        type: 'Identifier',
-        name: '__env'
-      },
-      property: ident
-    },
-    kind: 'init'
-  };
-  appendProp(prop);
   OUTPUT.body[0].declarations[0].init.properties.push(prop1);
 }
 var i = 0;
@@ -839,6 +841,7 @@ function optToplevelStmt(ast) {
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
+      appendGlobalVar(declaration.id);
       if (declaration.init) {
         declarations.push({
           type: 'VariableDeclarator',
@@ -861,6 +864,7 @@ function optToplevelStmt(ast) {
     var body = optStmt(ast.body);
     var body1 = [];
     appendVar(ast.id);
+    appendGlobalVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);

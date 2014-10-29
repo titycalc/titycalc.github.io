@@ -1,15 +1,11 @@
 var __global = {
   infLoop: [{ __label: 'infLoop' }],
-  __lambda_1: [{ __label: '__lambda_1' }],
-  __lambda_2: [{ __label: '__lambda_2' }],
+  infLoop1: [{ __label: 'infLoop1' }],
+  obj: [{ __label: 'obj' }],
   mutualLoop1: [{ __label: 'mutualLoop1' }],
   mutualLoop2: [{ __label: 'mutualLoop2' }],
   identity: [{ __label: 'identity' }],
-  x: [{ __label: 'x' }],
-  discard: [{ __label: 'discard' }],
-  y: [{ __label: 'y' }],
   constantly: [{ __label: 'constantly' }],
-  x: [{ __label: 'x' }],
   incr: [{ __label: 'incr' }]
 };
 for (var k in __global) {

@@ -1,8 +1,6 @@
 var __global = {
   isEven: [{ __label: 'isEven' }],
-  x: [{ __label: 'x' }],
-  isOdd: [{ __label: 'isOdd' }],
-  x: [{ __label: 'x' }]
+  isOdd: [{ __label: 'isOdd' }]
 };
 for (var k in __global) {
   __global[k][0].__env = __global;

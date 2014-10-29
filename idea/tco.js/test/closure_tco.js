@@ -1,10 +1,7 @@
 var __global = {
-  add: [{ __label: 'add' }],
   mkCounter: [{ __label: 'mkCounter' }],
-  i: [{ __label: 'i' }],
-  __lambda_1: [{ __label: '__lambda_1' }],
   mkCounter1: [{ __label: 'mkCounter1' }],
-  i: [{ __label: 'i' }]
+  c: [{ __label: 'c' }]
 };
 for (var k in __global) {
   __global[k][0].__env = __global;
