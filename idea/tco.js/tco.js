@@ -323,7 +323,7 @@ function optStmt(ast) {
   case 'TryStatement':
   case 'WhileStatement':
     var test = optExpr(ast.test);
-    var body = optExpr(ast.body);
+    var body = optStmt(ast.body);
     return {
       type: 'WhileStatement',
       test: test,
@@ -331,7 +331,7 @@ function optStmt(ast) {
     };
   case 'DoWhileStatement':
     var test = optExpr(ast.test);
-    var body = optExpr(ast.body);
+    var body = optStmt(ast.body);
     return {
       type: 'DoWhileStatement',
       test: test,
@@ -580,6 +580,138 @@ function optStmt(ast) {
     console.error('unrecognized ast: ' + ast.type);
   }
 }
+function optToplevelExpr(ast) {
+  switch (ast.type) {
+  case 'Literal':
+    return ast;
+  case 'ThisExpression':
+    return ast;
+  case 'Identifier':
+    return ast;
+  case 'AssignmentExpression':
+    var lhs = optToplevelExpr(ast.left);
+    var rhs = optToplevelExpr(ast.right);
+    return {
+      type: 'AssignmentExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
+  case 'BinaryExpression':
+    var lhs = optToplevelExpr(ast.left);
+    var rhs = optToplevelExpr(ast.right);
+    return {
+      type: 'BinaryExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
+  case 'MemberExpression':
+    var obj = optToplevelExpr(ast.object);
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: ast.property
+    };
+  case 'FunctionExpression':
+    var id = {
+      type: 'Identifier',
+      name: gensym()
+    };
+    var body = optStmt(ast.body);
+    var body1 = [];
+    appendVar(id);
+    for (var i = 0; i < ast.params.length; ++i) {
+      var param = ast.params[i];
+      appendVar(param);
+      var setParam = {
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: param
+          },
+          right: {
+            type: 'ArrayExpression',
+            elements: [{
+                type: 'MemberExpression',
+                computed: true,
+                object: {
+                  type: 'Identifier',
+                  name: '__args'
+                },
+                property: {
+                  type: 'Literal',
+                  value: i
+                }
+              }]
+          }
+        }
+      };
+      body1.push(setParam);
+    }
+    switch (body.type) {
+    case 'BlockStatement':
+      body1 = body1.concat(body.body);
+      break;
+    default:
+      body1.push(body);
+    }
+    appendCase({
+      type: 'SwitchCase',
+      test: {
+        type: 'Literal',
+        value: id.name
+      },
+      consequent: body1
+    });
+    return {
+      type: 'ObjectExpression',
+      properties: [
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: '__env'
+          },
+          value: COPYENV,
+          kind: 'init'
+        },
+        {
+          type: 'Property',
+          key: {
+            type: 'Identifier',
+            name: '__label'
+          },
+          value: {
+            type: 'Literal',
+            value: id.name
+          },
+          kind: 'init'
+        }
+      ]
+    };
+  case 'CallExpression':
+    var callee = optToplevelExpr(ast.callee);
+    var args = [];
+    for (var i = 0; i < ast.arguments.length; ++i) {
+      args.push(optToplevelExpr(ast.arguments[i]));
+    }
+    return {
+      type: 'CallExpression',
+      callee: callee,
+      arguments: args
+    };
+  default:
+    console.error('unrecognized ast: ' + ast.type);
+  }
+}
 function optToplevelStmt(ast) {
   switch (ast.type) {
   case 'EmptyStatement':
@@ -602,13 +734,13 @@ function optToplevelStmt(ast) {
       body: body
     };
   case 'ExpressionStatement':
-    var expr = optExpr(ast.expression);
+    var expr = optToplevelExpr(ast.expression);
     return {
       type: 'ExpressionStatement',
       expression: expr
     };
   case 'IfStatement':
-    var test = optExpr(ast.test);
+    var test = optToplvelExpr(ast.test);
     var consequent = optToplevelStmt(ast.consequent);
     var alternate = ast.alternate ? optToplevelStmt(ast.alternate) : null;
     return {
@@ -629,7 +761,7 @@ function optToplevelStmt(ast) {
   case 'ContinueStatement':
     return ast;
   case 'WithStatement':
-    var obj = optExpr(ast.object);
+    var obj = optToplevelExpr(ast.object);
     var body = optToplevelStmt(ast.body);
     return {
       type: 'WithStatement',
@@ -637,10 +769,10 @@ function optToplevelStmt(ast) {
       body: body
     };
   case 'SwitchStatement':
-    var discriminant = optExpr(ast.discriminant);
+    var discriminant = optToplevelExpr(ast.discriminant);
     var cases = [];
     for (var i = 0; i < ast.cases; ++i) {
-      var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
+      var test = ast.cases[i].test ? opTopleveltExpr(ast.cases[i].test) : null;
       var body = [];
       for (var j = 0; j < ast.cases[i].body.length; ++i) {
         body.push(optToplevelStmt(ast.cases[i].body[j]));
@@ -658,23 +790,23 @@ function optToplevelStmt(ast) {
       lexical: ast.lexical
     };
   case 'ThrowStatement':
-    var arg = optExpr(ast.argument);
+    var arg = optToplevelExpr(ast.argument);
     return {
       type: 'ThrowStatement',
       argument: arg
     };
   case 'TryStatement':
   case 'WhileStatement':
-    var test = optExpr(ast.test);
-    var body = optExpr(ast.body);
+    var test = optToplevelExpr(ast.test);
+    var body = optToplevelStmt(ast.body);
     return {
       type: 'WhileStatement',
       test: test,
       body: body
     };
   case 'DoWhileStatement':
-    var test = optExpr(ast.test);
-    var body = optExpr(ast.body);
+    var test = optToplevelExpr(ast.test);
+    var body = optToplevelStmt(ast.body);
     return {
       type: 'DoWhileStatement',
       test: test,
@@ -694,7 +826,7 @@ function optToplevelStmt(ast) {
         declarations.push({
           type: 'VariableDeclarator',
           id: declaration.id,
-          init: optExpr(declaration.init)
+          init: optToplevelExpr(declaration.init)
         });
       } else {
         declarations.push(declaration);

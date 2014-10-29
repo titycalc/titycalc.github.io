@@ -2,6 +2,10 @@ function infLoop() {
   return infLoop();
 }
 
+var infLoop1 = function () {
+  return infLoop1();
+};
+
 function mutualLoop1() {
   return mutualLoop2();
 }

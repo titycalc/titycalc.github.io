@@ -60,9 +60,6 @@ function __call1(__label, __this, __env, __args) {
     return ret;
   }
 }
-function add() {
-  return i += 1;
-}
 function mkCounter(i) {
   function add() {
     return i += 1;
@@ -73,4 +70,8 @@ function mkCounter1(i) {
   return function () {
     return i += 1;
   };
+}
+var c = mkCounter1(0);
+for (var i = 0; i < 1000000; ++i) {
+  c();
 }
