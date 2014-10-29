@@ -86,9 +86,6 @@ function mutualLoop2() {
 function identity(x) {
   return x;
 }
-function discard(y) {
-  return x;
-}
 function constantly(x) {
   function discard(y) {
     return x;

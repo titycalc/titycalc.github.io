@@ -15,7 +15,7 @@ function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 function appendStmt(a_stmt) {
-  OUTPUT.body.push(a_stmt);
+  //OUTPUT.body.push(a_stmt);
 }
 function appendProp(a_prop) {
   COPYENV.properties.push(a_prop);
@@ -580,13 +580,240 @@ function optStmt(ast) {
     console.error('unrecognized ast: ' + ast.type);
   }
 }
+function optToplevelStmt(ast) {
+  switch (ast.type) {
+  case 'EmptyStatement':
+    return ast;
+  case 'BlockStatement':
+    var body = [];
+    for (var i = 0; i < ast.body.length; ++i) {
+      var stmt = ast.body[i];
+      stmt = optToplevelStmt(stmt);
+      switch (stmt.type) {
+      case 'BlockStatement':
+        body = body.concat(stmt.body);
+        break;
+      default:
+        body.push(stmt);
+      }
+    }
+    return {
+      type: 'BlockStatement',
+      body: body
+    };
+  case 'ExpressionStatement':
+    var expr = optExpr(ast.expression);
+    return {
+      type: 'ExpressionStatement',
+      expression: expr
+    };
+  case 'IfStatement':
+    var test = optExpr(ast.test);
+    var consequent = optToplevelStmt(ast.consequent);
+    var alternate = ast.alternate ? optToplevelStmt(ast.alternate) : null;
+    return {
+      type: 'IfStatement',
+      test: test,
+      consequent: consequent,
+      alternate: alternate
+    };
+  case 'LabeledStatement':
+    var body = optToplevelStmt(ast.body);
+    return {
+      type: 'LabeledStatement',
+      label: ast.label,
+      body: body
+    };
+  case 'BreakStatement':
+    return ast;
+  case 'ContinueStatement':
+    return ast;
+  case 'WithStatement':
+    var obj = optExpr(ast.object);
+    var body = optToplevelStmt(ast.body);
+    return {
+      type: 'WithStatement',
+      object: obj,
+      body: body
+    };
+  case 'SwitchStatement':
+    var discriminant = optExpr(ast.discriminant);
+    var cases = [];
+    for (var i = 0; i < ast.cases; ++i) {
+      var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
+      var body = [];
+      for (var j = 0; j < ast.cases[i].body.length; ++i) {
+        body.push(optToplevelStmt(ast.cases[i].body[j]));
+      }
+      cases.push({
+        type: 'SwitchCase',
+        test: test,
+        body: body
+      });
+    }
+    return {
+      type: 'SwitchStatement',
+      discriminant: discriminant,
+      cases: cases,
+      lexical: ast.lexical
+    };
+  case 'ThrowStatement':
+    var arg = optExpr(ast.argument);
+    return {
+      type: 'ThrowStatement',
+      argument: arg
+    };
+  case 'TryStatement':
+  case 'WhileStatement':
+    var test = optExpr(ast.test);
+    var body = optExpr(ast.body);
+    return {
+      type: 'WhileStatement',
+      test: test,
+      body: body
+    };
+  case 'DoWhileStatement':
+    var test = optExpr(ast.test);
+    var body = optExpr(ast.body);
+    return {
+      type: 'DoWhileStatement',
+      test: test,
+      body: body
+    };
+  case 'ForStatement':
+  case 'ForInStatement':
+  case 'ForOfStatement':
+  case 'LetStatement':
+  case 'DebuggerStatement':
+    return ast;
+  case 'VariableDeclaration':
+    var declarations = [];
+    for (var i = 0; i < ast.declarations.length; ++i) {
+      var declaration = ast.declarations[i];
+      if (declaration.init) {
+        declarations.push({
+          type: 'VariableDeclarator',
+          id: declaration.id,
+          init: optExpr(declaration.init)
+        });
+      } else {
+        declarations.push(declaration);
+      }
+    }
+    return {
+      type: 'VariableDeclaration',
+      declarations: declarations,
+      kind: ast.kind
+    };
+  case 'ReturnStatement':
+    console.error('unexpected ast: ReturnStatement');
+    break;
+  case 'FunctionDeclaration':
+    var body = optStmt(ast.body);
+    var body1 = [];
+    appendVar(ast.id);
+    for (var i = 0; i < ast.params.length; ++i) {
+      var param = ast.params[i];
+      appendVar(param);
+      var setParam = {
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: param
+          },
+          right: {
+            type: 'ArrayExpression',
+            elements: [{
+                type: 'MemberExpression',
+                computed: true,
+                object: {
+                  type: 'Identifier',
+                  name: '__args'
+                },
+                property: {
+                  type: 'Literal',
+                  value: i
+                }
+              }]
+          }
+        }
+      };
+      body1.push(setParam);
+    }
+    switch (body.type) {
+    case 'BlockStatement':
+      body1 = body1.concat(body.body);
+      break;
+    default:
+      body1.push(body);
+    }
+    appendCase({
+      type: 'SwitchCase',
+      test: {
+        type: 'Literal',
+        value: ast.id.name
+      },
+      consequent: body1
+    });
+    if (isTailCallStmt(ast.body)) {
+      return({
+        type: 'FunctionDeclaration',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: ast.id.name
+                  },
+                  { type: 'ThisExpression' },
+                  {
+                    type: 'Identifier',
+                    name: '__global'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: ast.id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      });
+    } else {
+      return(ast);
+    };
+  default:
+    console.error('unrecognized ast: ' + ast.type);
+  }
+}
 function optProgram(ast) {
   switch (ast.type) {
   case 'Program':
     var body = [];
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
-      stmt = optStmt(stmt);
+      stmt = optToplevelStmt(stmt);
       body.push(stmt);
     }
     return {
@@ -602,6 +829,7 @@ fs.readFile(process.argv[2], 'utf-8', function (err, code) {
     console.error(err);
     return;
   }
-  optProgram(esprima.parse(code));
+  var program = optProgram(esprima.parse(code));
+  OUTPUT.body = OUTPUT.body.concat(program.body);
   console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
 });
