@@ -53,3 +53,6 @@ function isEven(x) {
 function isOdd(x) {
   return __call1('isOdd', this, __global, [x]);
 }
+exports.isEven = isEven;
+exports.isOdd = isOdd;
+console.log(isEven(12345));

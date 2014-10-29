@@ -31,3 +31,4 @@ function __call1(__label, __this, __env, __args) {
 function yes() {
   return __call1('yes', this, __global, []);
 }
+yes();
