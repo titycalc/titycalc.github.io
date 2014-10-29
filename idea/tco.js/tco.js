@@ -1,7 +1,8 @@
 var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].__env = __global; }' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }';
+var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].__env = __global; }' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' +
+'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
@@ -34,6 +35,7 @@ function appendVar(ident) {
   appendProp(prop);
 }
 function appendGlobalVar(ident) {
+  return;
   var prop1 = {
     type: 'Property',
     key: ident,
@@ -849,7 +851,7 @@ function optToplevelStmt(ast) {
     var body = optStmt(ast.body);
     var body1 = [];
     appendVar(ast.id);
-    appendGlobalVar(ast.id);
+    //appendGlobalVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -901,7 +903,7 @@ function optToplevelStmt(ast) {
       consequent: body1
     });
     if (isTailCallStmt(ast.body)) {
-      return {
+      var decl = {
         type: 'FunctionDeclaration',
         params: ast.params,
         body: {
@@ -938,6 +940,15 @@ function optToplevelStmt(ast) {
         generator: false,
         expression: false
       };
+      return { type: 'BlockStatement', body: [decl,
+          {type: 'ExpressionStatement',
+expression: {type: 'AssignmentExpression', operator: '=',
+left: {type: 'MemberExpression',object: decl.id,property:{type:'Identifier',
+name: '__label'}}, right: {type: 'Literal',value:decl.id.name}}},
+          {type: 'ExpressionStatement',
+expression: {type: 'AssignmentExpression', operator: '=',
+left: {type: 'MemberExpression',object: decl.id,property:{type:'Identifier',
+name: '__env'}}, right: {type: 'ThisExpression'}}}] };
     } else {
       return ast;
     }

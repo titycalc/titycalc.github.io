@@ -1,13 +1,4 @@
-var __global = {
-  infLoop: [{ __label: 'infLoop' }],
-  infLoop1: [{ __label: 'infLoop1' }],
-  obj: [{ __label: 'obj' }],
-  mutualLoop1: [{ __label: 'mutualLoop1' }],
-  mutualLoop2: [{ __label: 'mutualLoop2' }],
-  identity: [{ __label: 'identity' }],
-  constantly: [{ __label: 'constantly' }],
-  incr: [{ __label: 'incr' }]
-};
+var __global = {};
 for (var k in __global) {
   __global[k][0].__env = __global;
 }
@@ -84,8 +75,17 @@ function __call1(__label, __this, __env, __args) {
     return ret;
   }
 }
-function infLoop() {
-  return __call1('infLoop', this, __global, []);
+function __mk(__label, __env, fn) {
+  fn.__label = __label;
+  fn.__env = __env;
+  return fn;
+}
+{
+  function infLoop() {
+    return __call1('infLoop', this, __global, []);
+  }
+  infLoop.__label = 'infLoop';
+  infLoop.__env = this;
 }
 var infLoop1 = function __lambda_1() {
   return __call1('__lambda_1', this, __global, []);
@@ -94,11 +94,19 @@ var obj = {};
 obj.infLoop2 = function __lambda_2() {
   return __call1('__lambda_2', this, __global, []);
 };
-function mutualLoop1() {
-  return __call1('mutualLoop1', this, __global, []);
+{
+  function mutualLoop1() {
+    return __call1('mutualLoop1', this, __global, []);
+  }
+  mutualLoop1.__label = 'mutualLoop1';
+  mutualLoop1.__env = this;
 }
-function mutualLoop2() {
-  return __call1('mutualLoop2', this, __global, []);
+{
+  function mutualLoop2() {
+    return __call1('mutualLoop2', this, __global, []);
+  }
+  mutualLoop2.__label = 'mutualLoop2';
+  mutualLoop2.__env = this;
 }
 function identity(x) {
   return x;
