@@ -48,6 +48,7 @@ function __call(__label, __this, __env, __args) {
         __args = [];
         __label = __this.infLoop2.__label;
         __env = __this.infLoop2.__env;
+        __this = __this;
         continue __jmp;
       case '__lambda_1':
         __args = [];

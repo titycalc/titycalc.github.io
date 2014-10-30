@@ -381,6 +381,87 @@ function optStmt(ast) {
     var argument = optExpr(ast.argument);
     switch (argument.type) {
     case 'CallExpression':
+//console.log(ast.argument.callee.type);
+      switch (ast.argument.callee.type) {
+      case 'MemberExpression':
+      return {
+        type: 'BlockStatement',
+        body: [
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'AssignmentExpression',
+              operator: '=',
+              left: {
+                type: 'Identifier',
+                name: '__args'
+              },
+              right: {
+                type: 'ArrayExpression',
+                elements: argument.arguments
+              }
+            }
+          },
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'AssignmentExpression',
+              operator: '=',
+              left: {
+                type: 'Identifier',
+                name: '__label'
+              },
+              right: {
+                type: 'MemberExpression',
+                object: argument.callee,
+                property: {
+                  type: 'Identifier',
+                  name: '__label'
+                }
+              }
+            }
+          },
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'AssignmentExpression',
+              operator: '=',
+              left: {
+                type: 'Identifier',
+                name: '__env'
+              },
+              right: {
+                type: 'MemberExpression',
+                object: argument.callee,
+                property: {
+                  type: 'Identifier',
+                  name: '__env'
+                }
+              }
+            }
+          },
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'AssignmentExpression',
+              operator: '=',
+              left: {
+                type: 'Identifier',
+                name: '__this'
+              },
+              right: argument.callee.object
+            }
+          },
+          {
+            type: 'ContinueStatement',
+            label: {
+              type: 'Identifier',
+              name: '__jmp'
+            }
+          }
+        ]
+      };
+      default:
       return {
         type: 'BlockStatement',
         body: [
@@ -445,7 +526,7 @@ function optStmt(ast) {
             }
           }
         ]
-      };
+      };}
     default:
       return {
         type: 'ReturnStatement',
