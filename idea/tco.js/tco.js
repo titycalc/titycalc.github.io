@@ -94,7 +94,8 @@ function optLhs1(ast) {
     return {
       type: 'MemberExpression',
       object: obj,
-      property: ast.property
+      property: ast.property,
+      computed: ast.computed
     };
   case 'Identifier':
     return { type: 'MemberExpression', object: {
@@ -182,7 +183,8 @@ alternate: {
     return {
       type: 'MemberExpression',
       object: obj,
-      property: ast.property
+      property: ast.property,
+      computed: ast.computed
     };
   case 'ObjectExpression':
     var props = [];
@@ -723,7 +725,8 @@ function optToplevelExpr(ast) {
     return {
       type: 'MemberExpression',
       object: obj,
-      property: ast.property
+      property: ast.property,
+      computed: ast.computed
     };
   case 'ObjectExpression':
     var props = [];
