@@ -699,6 +699,7 @@ function optToplevelExpr(ast) {
         generator: false,
         expression: false
       };
+      //return fn;
       return { type: 'CallExpression', callee: {type:'Identifier',name:'__mk'}, arguments:[{type:'Literal',value:id.name},{type:'ThisExpression'},fn] }
     } else {
       return ast;
@@ -826,10 +827,61 @@ function optToplevelStmt(ast) {
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-    var declarations = [];
+//    var declarations = [];
+    var decls = [];
+    var body = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
+      decls.push({
+type: 'VariableDeclaration', kind: ast.kind, declarations: [
+  { type: 'VariableDeclarator', id: ast.declarations[i].id }
+]
+       });
+    }
+//console.log(ast.declarations.length);
+    for (var i = 0; i < ast.declarations.length; ++i) {
+//console.log(i);
+//console.log(ast.declarations[i]);
+      body.push({ type: 'ExpressionStatement',
+expression: { type: 'AssignmentExpression',
+operator: '=', left: ast.declarations[i].id, right: optToplevelExpr(ast.declarations[i].init) } });
+      body.push(
+          {type: 'ExpressionStatement',
+expression: {type: 'AssignmentExpression', operator: '=',
+left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},property:ast.declarations[i].id}, right: {
+      type: 'ArrayExpression',
+      elements: [ast.declarations[i].id/*{
+          type: 'ObjectExpression',
+          properties: [{
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: '__label'
+              },
+              value: {
+                type: 'MemberExpression',
+                object: ast.declarations[i].id,
+                property: {type:'Identifier',name:'__label'}
+              },
+              kind: 'init'
+            },{
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: '__env'
+              },
+              value: {
+                type: 'MemberExpression',
+                object: ast.declarations[i].id,
+                property: {type:'Identifier',name:'__env'}
+              },
+              kind: 'init'
+            }]
+        }*/]
+    }}})
+    }
+    /*for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
-      appendGlobalVar(declaration.id);
+      //appendGlobalVar(declaration.id);
       if (declaration.init) {
         declarations.push({
           type: 'VariableDeclarator',
@@ -839,12 +891,13 @@ function optToplevelStmt(ast) {
       } else {
         declarations.push(declaration);
       }
-    }
-    return {
+    }*/
+    /*return {
       type: 'VariableDeclaration',
       declarations: declarations,
       kind: ast.kind
-    };
+    };*/
+    return { type: 'BlockStatement', body: decls.concat(body) };
   case 'ReturnStatement':
     console.error('unexpected ast: ReturnStatement');
     break;
@@ -941,18 +994,46 @@ function optToplevelStmt(ast) {
         generator: false,
         expression: false
       };
-      return { type: 'BlockStatement', body: [decl,
-          {type: 'ExpressionStatement',
-expression: {type: 'AssignmentExpression', operator: '=',
-left: {type: 'MemberExpression',object: decl.id,property:{type:'Identifier',
-name: '__label'}}, right: {type: 'Literal',value:decl.id.name}}},
-          {type: 'ExpressionStatement',
-expression: {type: 'AssignmentExpression', operator: '=',
-left: {type: 'MemberExpression',object: decl.id,property:{type:'Identifier',
-name: '__env'}}, right: {type: 'ThisExpression'}}}] };
+      //return decl;
     } else {
-      return ast;
+      var decl = ast;
     }
+      return { type: 'BlockStatement', body: [decl,
+					      {type: 'ExpressionStatement',
+expression: { type: 'AssignmentExpression',operator:'=',left: {type: 'MemberExpression',object:decl.id,property:{type:'Identifier',name:'__label'}},right: {type: 'Literal',value:decl.id.name} }},
+					      {type: 'ExpressionStatement',
+expression: { type: 'AssignmentExpression',operator:'=',left: {type: 'MemberExpression',object:decl.id,property:{type:'Identifier',name:'__env'}},right: {type: 'Identifier',name:'__global'} }},
+          {type: 'ExpressionStatement',
+expression: {type: 'AssignmentExpression', operator: '=',
+left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},property:decl.id}, right: {
+      type: 'ArrayExpression',
+      elements: [decl.id/*{
+          type: 'ObjectExpression',
+          properties: [{
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: '__label'
+              },
+              value: {
+                type: 'Literal',
+                value: decl.id.name
+              },
+              kind: 'init'
+            },{
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: '__env'
+              },
+              value: {
+                type: 'Identifier',
+                name: '__global'
+              },
+              kind: 'init'
+            }]
+        }*/]
+    }}}] };
     ;
   default:
     console.error('unrecognized ast: ' + ast.type);

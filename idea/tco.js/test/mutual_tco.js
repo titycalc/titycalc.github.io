@@ -1,7 +1,4 @@
-var __global = {
-  isEven: [{ __label: 'isEven' }],
-  isOdd: [{ __label: 'isOdd' }]
-};
+var __global = {};
 for (var k in __global) {
   __global[k][0].__env = __global;
 }
@@ -45,11 +42,26 @@ function __call1(__label, __this, __env, __args) {
     return ret;
   }
 }
-function isEven(x) {
-  return __call1('isEven', this, __global, [x]);
+function __mk(__label, __env, fn) {
+  fn.__label = __label;
+  fn.__env = __env;
+  return fn;
 }
-function isOdd(x) {
-  return __call1('isOdd', this, __global, [x]);
+{
+  function isEven(x) {
+    return __call1('isEven', this, __global, [x]);
+  }
+  isEven.__label = 'isEven';
+  isEven.__env = __global;
+  __global.isEven = [isEven];
+}
+{
+  function isOdd(x) {
+    return __call1('isOdd', this, __global, [x]);
+  }
+  isOdd.__label = 'isOdd';
+  isOdd.__env = __global;
+  __global.isOdd = [isOdd];
 }
 exports.isEven = isEven;
 exports.isOdd = isOdd;

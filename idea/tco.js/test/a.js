@@ -31,3 +31,14 @@ function constantly(x) {
 function incr() {
   return this.x + 1;
 }
+
+module.exports = {
+  infLoop: infLoop,
+  infLoop1: infLoop1,
+  obj: obj,
+  mutualLoop1: mutualLoop1,
+  mutualLoop2: mutualLoop2,
+  identity: identity,
+  constantly: constantly,
+  incr: incr
+}

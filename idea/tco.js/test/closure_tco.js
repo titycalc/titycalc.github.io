@@ -1,8 +1,4 @@
-var __global = {
-  mkCounter: [{ __label: 'mkCounter' }],
-  mkCounter1: [{ __label: 'mkCounter1' }],
-  c: [{ __label: 'c' }]
-};
+var __global = {};
 for (var k in __global) {
   __global[k][0].__env = __global;
 }
@@ -57,18 +53,37 @@ function __call1(__label, __this, __env, __args) {
     return ret;
   }
 }
-function mkCounter(i) {
-  function add() {
-    return i += 1;
+function __mk(__label, __env, fn) {
+  fn.__label = __label;
+  fn.__env = __env;
+  return fn;
+}
+{
+  function mkCounter(i) {
+    function add() {
+      return i += 1;
+    }
+    return add;
   }
-  return add;
+  mkCounter.__label = 'mkCounter';
+  mkCounter.__env = __global;
+  __global.mkCounter = [mkCounter];
 }
-function mkCounter1(i) {
-  return function () {
-    return i += 1;
-  };
+{
+  function mkCounter1(i) {
+    return function () {
+      return i += 1;
+    };
+  }
+  mkCounter1.__label = 'mkCounter1';
+  mkCounter1.__env = __global;
+  __global.mkCounter1 = [mkCounter1];
 }
-var c = mkCounter1(0);
+{
+  var c;
+  c = mkCounter1(0);
+  __global.c = [c];
+}
 for (var i = 0; i < 1000000; ++i) {
   c();
 }

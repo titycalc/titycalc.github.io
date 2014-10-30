@@ -85,12 +85,21 @@ function __mk(__label, __env, fn) {
     return __call1('infLoop', this, __global, []);
   }
   infLoop.__label = 'infLoop';
-  infLoop.__env = this;
+  infLoop.__env = __global;
+  __global.infLoop = [infLoop];
 }
-var infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
-  return __call1('__lambda_1', this, __global, []);
-});
-var obj = {};
+{
+  var infLoop1;
+  infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
+    return __call1('__lambda_1', this, __global, []);
+  });
+  __global.infLoop1 = [infLoop1];
+}
+{
+  var obj;
+  obj = {};
+  __global.obj = [obj];
+}
 obj.infLoop2 = __mk('__lambda_2', this, function __lambda_2() {
   return __call1('__lambda_2', this, __global, []);
 });
@@ -99,24 +108,51 @@ obj.infLoop2 = __mk('__lambda_2', this, function __lambda_2() {
     return __call1('mutualLoop1', this, __global, []);
   }
   mutualLoop1.__label = 'mutualLoop1';
-  mutualLoop1.__env = this;
+  mutualLoop1.__env = __global;
+  __global.mutualLoop1 = [mutualLoop1];
 }
 {
   function mutualLoop2() {
     return __call1('mutualLoop2', this, __global, []);
   }
   mutualLoop2.__label = 'mutualLoop2';
-  mutualLoop2.__env = this;
+  mutualLoop2.__env = __global;
+  __global.mutualLoop2 = [mutualLoop2];
 }
-function identity(x) {
-  return x;
-}
-function constantly(x) {
-  function discard(y) {
+{
+  function identity(x) {
     return x;
   }
-  return discard;
+  identity.__label = 'identity';
+  identity.__env = __global;
+  __global.identity = [identity];
 }
-function incr() {
-  return this.x + 1;
+{
+  function constantly(x) {
+    function discard(y) {
+      return x;
+    }
+    return discard;
+  }
+  constantly.__label = 'constantly';
+  constantly.__env = __global;
+  __global.constantly = [constantly];
 }
+{
+  function incr() {
+    return this.x + 1;
+  }
+  incr.__label = 'incr';
+  incr.__env = __global;
+  __global.incr = [incr];
+}
+module.exports = {
+  infLoop: infLoop,
+  infLoop1: infLoop1,
+  obj: obj,
+  mutualLoop1: mutualLoop1,
+  mutualLoop2: mutualLoop2,
+  identity: identity,
+  constantly: constantly,
+  incr: incr
+};
