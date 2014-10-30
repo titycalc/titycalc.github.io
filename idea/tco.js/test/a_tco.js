@@ -1,3 +1,8 @@
+{ type: 'TryStatement',
+  block: { type: 'BlockStatement', body: [ [Object] ] },
+  guardedHandlers: [],
+  handlers: [ { type: 'CatchClause', param: [Object], body: [Object] } ],
+  finalizer: { type: 'BlockStatement', body: [ [Object] ] } }
 var __global = {};
 for (var k in __global) {
   __global[k][0].__env = __global;
@@ -6,6 +11,17 @@ function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
+      case 'try_catch_finally':
+        __env.try_clause = [__args[0]];
+        __env.catch_clause = [__args[1]];
+        __env.finally_clause = [__args[2]];
+        try {
+          (__env.try_clause ? __env.try_clause[0] : try_clause)();
+        } catch (e) {
+          (__env.catch_clause ? __env.catch_clause[0] : catch_clause)(__env.e ? __env.e[0] : e);
+        } finally {
+          (__env.finally_clause ? __env.finally_clause[0] : finally_clause)();
+        }
       case 'incr':
         return __this.x + 1;
       case 'constantly':
@@ -23,7 +39,11 @@ function __call(__label, __this, __env, __args) {
               y: __env.y,
               constantly: __env.constantly,
               x: __env.x,
-              incr: __env.incr
+              incr: __env.incr,
+              try_catch_finally: __env.try_catch_finally,
+              try_clause: __env.try_clause,
+              catch_clause: __env.catch_clause,
+              finally_clause: __env.finally_clause
             },
             __label: 'discard'
           }];
@@ -128,6 +148,16 @@ function incr() {
 incr.__label = 'incr';
 incr.__env = __global;
 __global.incr = [incr];
+function try_catch_finally(try_clause, catch_clause, finally_clause) {
+  return __call1('try_catch_finally', this, __global, [
+    try_clause,
+    catch_clause,
+    finally_clause
+  ]);
+}
+try_catch_finally.__label = 'try_catch_finally';
+try_catch_finally.__env = __global;
+__global.try_catch_finally = [try_catch_finally];
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,

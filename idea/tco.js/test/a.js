@@ -32,6 +32,12 @@ function incr() {
   return this.x + 1;
 }
 
+function try_catch_finally(try_clause, catch_clause, finally_clause) {
+  try { try_clause(); }
+  catch(e) { catch_clause(e); }
+  finally { finally_clause(); }
+}
+
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,

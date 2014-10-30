@@ -334,6 +334,11 @@ alternate: alternate, consequent: consequent };
     console.error('unrecognized ast: ' + ast.type);
   }
 }
+function optCatchClause(ast) {
+  return { type: 'CatchClause', param: ast.param,
+guard: ast.guard ? optExpr(ast.guard) : null,
+body: optStmt(ast.body) }
+}
 function optStmt(ast) {
   switch (ast.type) {
   case 'EmptyStatement':
@@ -418,6 +423,20 @@ function optStmt(ast) {
       argument: arg
     };
   case 'TryStatement':
+    console.log(ast);
+    var block = optStmt(ast.block);
+    var handlers = [];
+    for (var i = 0; i < ast.handlers.length; ++i) {
+      handlers.push(optCatchClause(ast.handlers[i]));
+    }
+    var guardedHandlers = [];
+    for (var i = 0; i < ast.guardedHandlers.length; ++i) {
+      guardedHandlers.push(optCatchClause(ast.guardedHandlers[i]));
+    }
+    var finalizer = ast.finalizer ? optStmt(ast.finalizer) : null;
+    return { type: 'TryStatement',
+block: block, handlers: handlers, guardedHandlers: guardedHandlers,
+finalizer: finalizer };
   case 'WhileStatement':
     var test = optExpr(ast.test);
     var body = optStmt(ast.body);
@@ -931,6 +950,11 @@ alternate: alternate, consequent: consequent };
     console.error('unrecognized ast: ' + ast.type);
   }
 }
+function optToplevelCatchClause(ast) {
+  return { type: 'CatchClause', param: ast.param,
+guard: ast.guard ? optToplevelExpr(ast.guard) : null,
+body: optToplevelStmt(ast.body) }
+}
 function optToplevelStmt(ast) {
   switch (ast.type) {
   case 'EmptyStatement':
@@ -1015,6 +1039,19 @@ function optToplevelStmt(ast) {
       argument: arg
     };
   case 'TryStatement':
+    var block = optToplevelStmt(ast.block);
+    var handlers = [];
+    for (var i = 0; i < ast.handlers.length; ++i) {
+      handlers.push(optToplevelCatchClause(ast.handlers[i]));
+    }
+    var guardedHandlers = [];
+    for (var i = 0; i < ast.guardedHandlers.length; ++i) {
+      guardedHandlers.push(optToplevelCatchClause(ast.guardedHandlers[i]));
+    }
+    var finalizer = ast.finalizer ? optToplevelStmt(ast.finalizer) : null;
+    return { type: 'TryStatement',
+block: block, handlers: handlers, guardedHandlers: guardedHandlers,
+finalizer: finalizer };
   case 'WhileStatement':
     var test = optToplevelExpr(ast.test);
     var body = optToplevelStmt(ast.body);
