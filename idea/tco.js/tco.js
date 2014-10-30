@@ -1,8 +1,7 @@
 var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].__env = __global; }' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' +
-'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
+var LOOP = 'var __global = {}; for (var k in __global) { __global[k][0].__env = __global; }' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
@@ -699,8 +698,21 @@ function optToplevelExpr(ast) {
         generator: false,
         expression: false
       };
-      //return fn;
-      return { type: 'CallExpression', callee: {type:'Identifier',name:'__mk'}, arguments:[{type:'Literal',value:id.name},{type:'ThisExpression'},fn] }
+      return {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: '__mk'
+        },
+        arguments: [
+          {
+            type: 'Literal',
+            value: id.name
+          },
+          { type: 'ThisExpression' },
+          fn
+        ]
+      };
     } else {
       return ast;
     }
@@ -827,77 +839,52 @@ function optToplevelStmt(ast) {
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-//    var declarations = [];
     var decls = [];
     var body = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       decls.push({
-type: 'VariableDeclaration', kind: ast.kind, declarations: [
-  { type: 'VariableDeclarator', id: ast.declarations[i].id }
-]
-       });
+        type: 'VariableDeclaration',
+        kind: ast.kind,
+        declarations: [{
+            type: 'VariableDeclarator',
+            id: ast.declarations[i].id
+          }]
+      });
     }
-//console.log(ast.declarations.length);
     for (var i = 0; i < ast.declarations.length; ++i) {
-//console.log(i);
-//console.log(ast.declarations[i]);
-      body.push({ type: 'ExpressionStatement',
-expression: { type: 'AssignmentExpression',
-operator: '=', left: ast.declarations[i].id, right: optToplevelExpr(ast.declarations[i].init) } });
-      body.push(
-          {type: 'ExpressionStatement',
-expression: {type: 'AssignmentExpression', operator: '=',
-left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},property:ast.declarations[i].id}, right: {
-      type: 'ArrayExpression',
-      elements: [ast.declarations[i].id/*{
-          type: 'ObjectExpression',
-          properties: [{
-              type: 'Property',
-              key: {
-                type: 'Identifier',
-                name: '__label'
-              },
-              value: {
-                type: 'MemberExpression',
-                object: ast.declarations[i].id,
-                property: {type:'Identifier',name:'__label'}
-              },
-              kind: 'init'
-            },{
-              type: 'Property',
-              key: {
-                type: 'Identifier',
-                name: '__env'
-              },
-              value: {
-                type: 'MemberExpression',
-                object: ast.declarations[i].id,
-                property: {type:'Identifier',name:'__env'}
-              },
-              kind: 'init'
-            }]
-        }*/]
-    }}})
+      body.push({
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: ast.declarations[i].id,
+          right: optToplevelExpr(ast.declarations[i].init)
+        }
+      });
+      body.push({
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__global'
+            },
+            property: ast.declarations[i].id
+          },
+          right: {
+            type: 'ArrayExpression',
+            elements: [ast.declarations[i].id]
+          }
+        }
+      });
     }
-    /*for (var i = 0; i < ast.declarations.length; ++i) {
-      var declaration = ast.declarations[i];
-      //appendGlobalVar(declaration.id);
-      if (declaration.init) {
-        declarations.push({
-          type: 'VariableDeclarator',
-          id: declaration.id,
-          init: optToplevelExpr(declaration.init)
-        });
-      } else {
-        declarations.push(declaration);
-      }
-    }*/
-    /*return {
-      type: 'VariableDeclaration',
-      declarations: declarations,
-      kind: ast.kind
-    };*/
-    return { type: 'BlockStatement', body: decls.concat(body) };
+    return {
+      type: 'BlockStatement',
+      body: decls.concat(body)
+    };
   case 'ReturnStatement':
     console.error('unexpected ast: ReturnStatement');
     break;
@@ -905,7 +892,6 @@ left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},prop
     var body = optStmt(ast.body);
     var body1 = [];
     appendVar(ast.id);
-    //appendGlobalVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -994,46 +980,72 @@ left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},prop
         generator: false,
         expression: false
       };
-      //return decl;
     } else {
       var decl = ast;
     }
-      return { type: 'BlockStatement', body: [decl,
-					      {type: 'ExpressionStatement',
-expression: { type: 'AssignmentExpression',operator:'=',left: {type: 'MemberExpression',object:decl.id,property:{type:'Identifier',name:'__label'}},right: {type: 'Literal',value:decl.id.name} }},
-					      {type: 'ExpressionStatement',
-expression: { type: 'AssignmentExpression',operator:'=',left: {type: 'MemberExpression',object:decl.id,property:{type:'Identifier',name:'__env'}},right: {type: 'Identifier',name:'__global'} }},
-          {type: 'ExpressionStatement',
-expression: {type: 'AssignmentExpression', operator: '=',
-left: {type: 'MemberExpression',object: {type:'Identifier',name:'__global'},property:decl.id}, right: {
-      type: 'ArrayExpression',
-      elements: [decl.id/*{
-          type: 'ObjectExpression',
-          properties: [{
-              type: 'Property',
-              key: {
+    return {
+      type: 'BlockStatement',
+      body: [
+        decl,
+        {
+          type: 'ExpressionStatement',
+          expression: {
+            type: 'AssignmentExpression',
+            operator: '=',
+            left: {
+              type: 'MemberExpression',
+              object: decl.id,
+              property: {
                 type: 'Identifier',
                 name: '__label'
-              },
-              value: {
-                type: 'Literal',
-                value: decl.id.name
-              },
-              kind: 'init'
-            },{
-              type: 'Property',
-              key: {
+              }
+            },
+            right: {
+              type: 'Literal',
+              value: decl.id.name
+            }
+          }
+        },
+        {
+          type: 'ExpressionStatement',
+          expression: {
+            type: 'AssignmentExpression',
+            operator: '=',
+            left: {
+              type: 'MemberExpression',
+              object: decl.id,
+              property: {
                 type: 'Identifier',
                 name: '__env'
-              },
-              value: {
+              }
+            },
+            right: {
+              type: 'Identifier',
+              name: '__global'
+            }
+          }
+        },
+        {
+          type: 'ExpressionStatement',
+          expression: {
+            type: 'AssignmentExpression',
+            operator: '=',
+            left: {
+              type: 'MemberExpression',
+              object: {
                 type: 'Identifier',
                 name: '__global'
               },
-              kind: 'init'
-            }]
-        }*/]
-    }}}] };
+              property: decl.id
+            },
+            right: {
+              type: 'ArrayExpression',
+              elements: [decl.id]
+            }
+          }
+        }
+      ]
+    };
     ;
   default:
     console.error('unrecognized ast: ' + ast.type);
