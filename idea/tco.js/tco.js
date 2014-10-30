@@ -434,6 +434,7 @@ function optStmt(ast) {
       kind: ast.kind
     };
   case 'ReturnStatement':
+    if (ast.argument == null){ return { type: 'ReturnStatement' }}
     var argument = optExpr(ast.argument);
     switch (argument.type) {
     case 'CallExpression':
