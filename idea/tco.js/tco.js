@@ -170,6 +170,7 @@ alternate: {
       right: rhs
     }};
   case 'BinaryExpression':
+  case 'LogicalExpression':
     var lhs = optExpr(ast.left);
     var rhs = optExpr(ast.right);
     return {
@@ -712,6 +713,7 @@ function optToplevelExpr(ast) {
       right: rhs
     };
   case 'BinaryExpression':
+  case 'LogicalExpression':
     var lhs = optToplevelExpr(ast.left);
     var rhs = optToplevelExpr(ast.right);
     return {
