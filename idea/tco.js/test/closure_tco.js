@@ -59,18 +59,13 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function mkCounter(i) {
-  function add() {
-    return i += 1;
-  }
-  return add;
+  return __call1('mkCounter', this, __global, [i]);
 }
 mkCounter.__label = 'mkCounter';
 mkCounter.__env = __global;
 __global.mkCounter = [mkCounter];
 function mkCounter1(i) {
-  return function () {
-    return i += 1;
-  };
+  return __call1('mkCounter1', this, __global, [i]);
 }
 mkCounter1.__label = 'mkCounter1';
 mkCounter1.__env = __global;

@@ -741,7 +741,7 @@ function optToplevelExpr(ast) {
       },
       consequent: body1
     });
-    if (isTailCallStmt(ast.body)) {
+    /*if (isTailCallStmt(ast.body)) {*/
       var fn = {
         type: 'FunctionExpression',
         params: ast.params,
@@ -794,9 +794,9 @@ function optToplevelExpr(ast) {
           fn
         ]
       };
-    } else {
+    /*} else {
       return ast;
-    }
+    }*/
     ;
   case 'CallExpression':
     var callee = optToplevelExpr(ast.callee);
@@ -1023,7 +1023,7 @@ function optToplevelStmt(ast) {
       },
       consequent: body1
     });
-    if (isTailCallStmt(ast.body)) {
+    /*if (isTailCallStmt(ast.body)) {*/
       var decl = {
         type: 'FunctionDeclaration',
         params: ast.params,
@@ -1061,9 +1061,9 @@ function optToplevelStmt(ast) {
         generator: false,
         expression: false
       };
-    } else {
+    /*} else {
       var decl = ast;
-    }
+    }*/
     return {
       type: 'BlockStatement',
       body: [

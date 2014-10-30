@@ -111,22 +111,19 @@ mutualLoop2.__label = 'mutualLoop2';
 mutualLoop2.__env = __global;
 __global.mutualLoop2 = [mutualLoop2];
 function identity(x) {
-  return x;
+  return __call1('identity', this, __global, [x]);
 }
 identity.__label = 'identity';
 identity.__env = __global;
 __global.identity = [identity];
 function constantly(x) {
-  function discard(y) {
-    return x;
-  }
-  return discard;
+  return __call1('constantly', this, __global, [x]);
 }
 constantly.__label = 'constantly';
 constantly.__env = __global;
 __global.constantly = [constantly];
 function incr() {
-  return this.x + 1;
+  return __call1('incr', this, __global, []);
 }
 incr.__label = 'incr';
 incr.__env = __global;
