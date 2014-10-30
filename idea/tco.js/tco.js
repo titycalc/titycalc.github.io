@@ -151,6 +151,23 @@ consequent: {
 alternate: /*{ type: 'MemberExpression', object: {type:'ThisExpression'},
 property: */ast/* }*/
 };
+  case 'SequenceExpression':
+    var exprs = [];
+    for (var i = 0; i < ast.expressions.length; ++i) {
+      exprs.push(optExpr(ast.expressions[i]));
+    }
+    return { type: 'SequenceExpression', expressions: exprs };
+  case 'UnaryExpression':
+    return { type: 'UnaryExpression', prefix: ast.prefix,
+argument: optExpr(ast.argument), operator: ast.operator };
+  case 'NewExpression':
+    var callee = optExpr(ast.callee);
+    var args = [];
+    for (var i = 0; i < ast.arguments.length; ++i)  {
+      args.push(optExpr(ast.arguments[i]));
+    }
+    return { type: 'NewExpression', callee: callee,
+arguments: args };
   case 'AssignmentExpression':
     var lhs1 = optLhs1(ast.left);
     var lhs2 = optLhs2(ast.left);
@@ -718,6 +735,23 @@ function optToplevelExpr(ast) {
       left: lhs,
       right: rhs
     };
+  case 'SequenceExpression':
+    var exprs = [];
+    for (var i = 0; i < ast.expressions.length; ++i) {
+      exprs.push(optToplevelExpr(ast.expressions[i]));
+    }
+    return { type: 'SequenceExpression', expressions: exprs };
+  case 'UnaryExpression':
+    return { type: 'UnaryExpression', prefix: ast.prefix,
+argument: optToplevelExpr(ast.argument), operator: ast.operator };
+  case 'NewExpression':
+    var callee = optToplevelExpr(ast.callee);
+    var args = [];
+    for (var i = 0; i < ast.arguments.length; ++i)  {
+      args.push(optToplevelExpr(ast.arguments[i]));
+    }
+    return { type: 'NewExpression', callee: callee,
+arguments: args };
   case 'ConditionalExpression':
     var test = optExpr(ast.test);
     var alternate = optExpr(ast.alternate);
