@@ -199,6 +199,16 @@ alternate: {
       type: 'ObjectExpression',
       properties: props
     };
+  case 'ArrayExpression':
+    var elts = [];
+    for (var i = 0; i < ast.elements.length; ++i) {
+      var elt = ast.elements[i];
+      elts.push(optExpr(elt));
+    }
+    return {
+      type: 'ArrayExpression',
+      elements: elts
+    };
   case 'FunctionExpression':
     var id = {
       type: 'Identifier',
@@ -728,6 +738,16 @@ function optToplevelExpr(ast) {
     return {
       type: 'ObjectExpression',
       properties: props
+    };
+  case 'ArrayExpression':
+    var elts = [];
+    for (var i = 0; i < ast.elements.length; ++i) {
+      var elt = ast.elements[i];
+      elts.push(optExpr(elt));
+    }
+    return {
+      type: 'ArrayExpression',
+      elements: elts
     };
   case 'FunctionExpression':
     var id = {
