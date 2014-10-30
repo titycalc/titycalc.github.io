@@ -1,8 +1,3 @@
-{ type: 'TryStatement',
-  block: { type: 'BlockStatement', body: [ [Object] ] },
-  guardedHandlers: [],
-  handlers: [ { type: 'CatchClause', param: [Object], body: [Object] } ],
-  finalizer: { type: 'BlockStatement', body: [ [Object] ] } }
 var __global = {};
 for (var k in __global) {
   __global[k][0].__env = __global;
