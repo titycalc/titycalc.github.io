@@ -423,7 +423,6 @@ function optStmt(ast) {
       argument: arg
     };
   case 'TryStatement':
-    console.log(ast);
     var block = optStmt(ast.block);
     var handlers = [];
     for (var i = 0; i < ast.handlers.length; ++i) {
