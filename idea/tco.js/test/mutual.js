@@ -15,4 +15,4 @@ function isOdd(x) {
 exports.isEven = isEven;
 exports.isOdd = isOdd;
 
-console.log(isEven(12345));
+console.log(isEven(1234567));
