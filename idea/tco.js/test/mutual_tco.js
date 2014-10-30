@@ -8,22 +8,22 @@ function __call(__label, __this, __env, __args) {
       switch (__label) {
       case 'isOdd':
         __env.x = [__args[0]];
-        if (__env.x[0] === 0) {
+        if ((__env.x ? __env.x[0] : x) === 0) {
           return false;
         } else {
-          __args = [__env.x[0] - 1];
-          __label = __env.isEven[0].__label;
-          __env = __env.isEven[0].__env;
+          __args = [(__env.x ? __env.x[0] : x) - 1];
+          __label = (__env.isEven ? __env.isEven[0] : isEven).__label;
+          __env = (__env.isEven ? __env.isEven[0] : isEven).__env;
           continue __jmp;
         }
       case 'isEven':
         __env.x = [__args[0]];
-        if (__env.x[0] === 0) {
+        if ((__env.x ? __env.x[0] : x) === 0) {
           return true;
         } else {
-          __args = [__env.x[0] - 1];
-          __label = __env.isOdd[0].__label;
-          __env = __env.isOdd[0].__env;
+          __args = [(__env.x ? __env.x[0] : x) - 1];
+          __label = (__env.isOdd ? __env.isOdd[0] : isOdd).__label;
+          __env = (__env.isOdd ? __env.isOdd[0] : isOdd).__env;
           continue __jmp;
         }
       default:

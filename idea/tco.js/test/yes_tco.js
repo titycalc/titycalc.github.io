@@ -7,10 +7,10 @@ function __call(__label, __this, __env, __args) {
     while (true) {
       switch (__label) {
       case 'yes':
-        __env.console[0].log('y');
+        (__env.console ? __env.console[0] : console).log('y');
         __args = [];
-        __label = __env.yes[0].__label;
-        __env = __env.yes[0].__env;
+        __label = (__env.yes ? __env.yes[0] : yes).__label;
+        __env = (__env.yes ? __env.yes[0] : yes).__env;
         continue __jmp;
       default:
         console.error('unrecognized label: ' + __label);

@@ -87,6 +87,31 @@ function isTailCallStmt(ast) {
     return false;
   }
 }
+function optLhs1(ast) {
+  switch (ast.type) {
+  case 'MemberExpression':
+    var obj = optLhs1(ast.object);
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: ast.property
+    };
+  case 'Identifier':
+    return { type: 'MemberExpression', object: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ast
+      }, computed: true, property: {type: 'Literal', value: 0}};
+default:
+    console.error('unrecognized ast: ' + ast.type);
+}
+}
+function optLhs2(ast) {
+  return ast;
+}
 function optExpr(ast) {
   switch (ast.type) {
   case 'Literal':
@@ -97,7 +122,16 @@ function optExpr(ast) {
       name: '__this'
     };
   case 'Identifier':
-    return {
+    return { type: 'ConditionalExpression',
+test:{
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ast
+      },
+consequent: {
       type: 'MemberExpression',
       object: {
         type: 'MemberExpression',
@@ -112,16 +146,28 @@ function optExpr(ast) {
         value: 0
       },
       computed: true
-    };
+    },
+alternate: /*{ type: 'MemberExpression', object: {type:'ThisExpression'},
+property: */ast/* }*/
+};
   case 'AssignmentExpression':
-    var lhs = optExpr(ast.left);
+    var lhs1 = optLhs1(ast.left);
+    var lhs2 = optLhs2(ast.left);
     var rhs = optExpr(ast.right);
-    return {
+    return { type: 'ConditionalExpression',
+test: lhs1,
+consequent: {
       type: 'AssignmentExpression',
       operator: ast.operator,
-      left: lhs,
+      left: lhs1,
       right: rhs
-    };
+    },
+alternate: {
+      type: 'AssignmentExpression',
+      operator: ast.operator,
+      left: lhs2,
+      right: rhs
+    }};
   case 'BinaryExpression':
     var lhs = optExpr(ast.left);
     var rhs = optExpr(ast.right);

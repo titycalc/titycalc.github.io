@@ -9,16 +9,16 @@ function __call(__label, __this, __env, __args) {
       case '__lambda_10':
         __env.i = [__args[0]];
         __args = [
-          __env.tick[0],
-          __env.i[0]
+          __env.tick ? __env.tick[0] : tick,
+          __env.i ? __env.i[0] : i
         ];
-        __label = __env.execState[0].__label;
-        __env = __env.execState[0].__env;
+        __label = (__env.execState ? __env.execState[0] : execState).__label;
+        __env = (__env.execState ? __env.execState[0] : execState).__env;
         continue __jmp;
       case '__lambda_8':
         __env.i = [__args[0]];
         __args = [
-          __env.put[0](__env.i[0] + 1),
+          (__env.put ? __env.put[0] : put)((__env.i ? __env.i[0] : i) + 1),
           {
             __env: {
               __lambda_1: __env.__lambda_1,
@@ -71,17 +71,17 @@ function __call(__label, __this, __env, __args) {
             __label: '__lambda_9'
           }
         ];
-        __label = __env.bind[0].__label;
-        __env = __env.bind[0].__env;
+        __label = (__env.bind ? __env.bind[0] : bind).__label;
+        __env = (__env.bind ? __env.bind[0] : bind).__env;
         continue __jmp;
       case '__lambda_9':
         __env._ = [__args[0]];
-        return __env.i[0];
+        return __env.i ? __env.i[0] : i;
       case 'execState':
         __env.m = [__args[0]];
         __env.s = [__args[1]];
         __args = [
-          __env.s[0],
+          __env.s ? __env.s[0] : s,
           {
             __env: {
               __lambda_1: __env.__lambda_1,
@@ -134,18 +134,18 @@ function __call(__label, __this, __env, __args) {
             __label: '__lambda_7'
           }
         ];
-        __label = __env.m[0].__label;
-        __env = __env.m[0].__env;
+        __label = (__env.m ? __env.m[0] : m).__label;
+        __env = (__env.m ? __env.m[0] : m).__env;
         continue __jmp;
       case '__lambda_7':
         __env.x = [__args[0]];
         __env.s1 = [__args[1]];
-        return __env.s1[0];
+        return __env.s1 ? __env.s1[0] : s1;
       case 'evalState':
         __env.m = [__args[0]];
         __env.s = [__args[1]];
         __args = [
-          __env.s[0],
+          __env.s ? __env.s[0] : s,
           {
             __env: {
               __lambda_1: __env.__lambda_1,
@@ -198,18 +198,18 @@ function __call(__label, __this, __env, __args) {
             __label: '__lambda_6'
           }
         ];
-        __label = __env.m[0].__label;
-        __env = __env.m[0].__env;
+        __label = (__env.m ? __env.m[0] : m).__label;
+        __env = (__env.m ? __env.m[0] : m).__env;
         continue __jmp;
       case '__lambda_6':
         __env.x = [__args[0]];
         __env.s1 = [__args[1]];
-        return __env.x[0];
+        return __env.x ? __env.x[0] : x;
       case 'runState':
         __env.m = [__args[0]];
         __env.s = [__args[1]];
         __args = [
-          __env.s[0],
+          __env.s ? __env.s[0] : s,
           {
             __env: {
               __lambda_1: __env.__lambda_1,
@@ -262,15 +262,15 @@ function __call(__label, __this, __env, __args) {
             __label: '__lambda_5'
           }
         ];
-        __label = __env.m[0].__label;
-        __env = __env.m[0].__env;
+        __label = (__env.m ? __env.m[0] : m).__label;
+        __env = (__env.m ? __env.m[0] : m).__env;
         continue __jmp;
       case '__lambda_5':
         __env.x = [__args[0]];
         __env.s1 = [__args[1]];
         return {
-          x: __env.x[0],
-          s: __env.s1[0]
+          x: __env.x ? __env.x[0] : x,
+          s: __env.s1 ? __env.s1[0] : s1
         };
       case 'put':
         __env.s = [__args[0]];
@@ -330,20 +330,20 @@ function __call(__label, __this, __env, __args) {
         __env.cont = [__args[1]];
         __args = [
           null,
-          __env.s[0]
+          __env.s ? __env.s[0] : s
         ];
-        __label = __env.cont[0].__label;
-        __env = __env.cont[0].__env;
+        __label = (__env.cont ? __env.cont[0] : cont).__label;
+        __env = (__env.cont ? __env.cont[0] : cont).__env;
         continue __jmp;
       case 'get':
         __env.s = [__args[0]];
         __env.cont = [__args[1]];
         __args = [
-          __env.s[0],
-          __env.s[0]
+          __env.s ? __env.s[0] : s,
+          __env.s ? __env.s[0] : s
         ];
-        __label = __env.cont[0].__label;
-        __env = __env.cont[0].__env;
+        __label = (__env.cont ? __env.cont[0] : cont).__label;
+        __env = (__env.cont ? __env.cont[0] : cont).__env;
         continue __jmp;
       case 'bind':
         __env.m = [__args[0]];
@@ -403,7 +403,7 @@ function __call(__label, __this, __env, __args) {
         __env.s = [__args[0]];
         __env.cont = [__args[1]];
         __args = [
-          __env.s[0],
+          __env.s ? __env.s[0] : s,
           {
             __env: {
               __lambda_1: __env.__lambda_1,
@@ -456,18 +456,18 @@ function __call(__label, __this, __env, __args) {
             __label: '__lambda_3'
           }
         ];
-        __label = __env.m[0].__label;
-        __env = __env.m[0].__env;
+        __label = (__env.m ? __env.m[0] : m).__label;
+        __env = (__env.m ? __env.m[0] : m).__env;
         continue __jmp;
       case '__lambda_3':
         __env.x = [__args[0]];
         __env.s1 = [__args[1]];
         __args = [
-          __env.s1[0],
-          __env.cont[0]
+          __env.s1 ? __env.s1[0] : s1,
+          __env.cont ? __env.cont[0] : cont
         ];
-        __label = __env.k[0](__env.x[0]).__label;
-        __env = __env.k[0](__env.x[0]).__env;
+        __label = (__env.k ? __env.k[0] : k)(__env.x ? __env.x[0] : x).__label;
+        __env = (__env.k ? __env.k[0] : k)(__env.x ? __env.x[0] : x).__env;
         continue __jmp;
       case 'ret':
         __env.x = [__args[0]];
@@ -526,11 +526,11 @@ function __call(__label, __this, __env, __args) {
         __env.s = [__args[0]];
         __env.cont = [__args[1]];
         __args = [
-          __env.x[0],
-          __env.s[0]
+          __env.x ? __env.x[0] : x,
+          __env.s ? __env.s[0] : s
         ];
-        __label = __env.cont[0].__label;
-        __env = __env.cont[0].__env;
+        __label = (__env.cont ? __env.cont[0] : cont).__label;
+        __env = (__env.cont ? __env.cont[0] : cont).__env;
         continue __jmp;
       default:
         console.error('unrecognized label: ' + __label);
@@ -541,12 +541,9 @@ function __call(__label, __this, __env, __args) {
 function __call1(__label, __this, __env, __args) {
   var ret = __call(__label, __this, __env, __args);
   if (typeof ret === 'object' && ret.__label && ret.__env) {
-    var fn = function () {
+    return function () {
       return __call1(ret.__label, this, ret.__env, [].slice.call(arguments));
     };
-    fn.__label = ret.__label;
-    fn.__env = ret.__env;
-    return fn;
   } else {
     return ret;
   }

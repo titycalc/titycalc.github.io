@@ -27,22 +27,22 @@ function __call(__label, __this, __env, __args) {
             },
             __label: 'discard'
           }];
-        return __env.discard[0];
+        return __env.discard ? __env.discard[0] : discard;
       case 'discard':
         __env.y = [__args[0]];
-        return __env.x[0];
+        return __env.x ? __env.x[0] : x;
       case 'identity':
         __env.x = [__args[0]];
-        return __env.x[0];
+        return __env.x ? __env.x[0] : x;
       case 'mutualLoop2':
         __args = [];
-        __label = __env.mutualLoop1[0].__label;
-        __env = __env.mutualLoop1[0].__env;
+        __label = (__env.mutualLoop1 ? __env.mutualLoop1[0] : mutualLoop1).__label;
+        __env = (__env.mutualLoop1 ? __env.mutualLoop1[0] : mutualLoop1).__env;
         continue __jmp;
       case 'mutualLoop1':
         __args = [];
-        __label = __env.mutualLoop2[0].__label;
-        __env = __env.mutualLoop2[0].__env;
+        __label = (__env.mutualLoop2 ? __env.mutualLoop2[0] : mutualLoop2).__label;
+        __env = (__env.mutualLoop2 ? __env.mutualLoop2[0] : mutualLoop2).__env;
         continue __jmp;
       case '__lambda_2':
         __args = [];
@@ -52,13 +52,13 @@ function __call(__label, __this, __env, __args) {
         continue __jmp;
       case '__lambda_1':
         __args = [];
-        __label = __env.infLoop1[0].__label;
-        __env = __env.infLoop1[0].__env;
+        __label = (__env.infLoop1 ? __env.infLoop1[0] : infLoop1).__label;
+        __env = (__env.infLoop1 ? __env.infLoop1[0] : infLoop1).__env;
         continue __jmp;
       case 'infLoop':
         __args = [];
-        __label = __env.infLoop[0].__label;
-        __env = __env.infLoop[0].__env;
+        __label = (__env.infLoop ? __env.infLoop[0] : infLoop).__label;
+        __env = (__env.infLoop ? __env.infLoop[0] : infLoop).__env;
         continue __jmp;
       default:
         console.error('unrecognized label: ' + __label);
