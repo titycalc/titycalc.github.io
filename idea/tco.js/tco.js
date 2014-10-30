@@ -169,6 +169,12 @@ alternate: {
       left: lhs2,
       right: rhs
     }};
+  case 'ConditionalExpression':
+    var test = optExpr(ast.test);
+    var alternate = optExpr(ast.alternate);
+    var consequent = optExpr(ast.consequent);
+    return { type: 'ConditionalExpression', test: test,
+alternate: alternate, consequent: consequent };
   case 'BinaryExpression':
   case 'LogicalExpression':
     var lhs = optExpr(ast.left);
@@ -712,6 +718,12 @@ function optToplevelExpr(ast) {
       left: lhs,
       right: rhs
     };
+  case 'ConditionalExpression':
+    var test = optExpr(ast.test);
+    var alternate = optExpr(ast.alternate);
+    var consequent = optExpr(ast.consequent);
+    return { type: 'ConditionalExpression', test: test,
+alternate: alternate, consequent: consequent };
   case 'BinaryExpression':
   case 'LogicalExpression':
     var lhs = optToplevelExpr(ast.left);
