@@ -58,32 +58,26 @@ function __mk(__label, __env, fn) {
   fn.__env = __env;
   return fn;
 }
-{
-  function mkCounter(i) {
-    function add() {
-      return i += 1;
-    }
-    return add;
+function mkCounter(i) {
+  function add() {
+    return i += 1;
   }
-  mkCounter.__label = 'mkCounter';
-  mkCounter.__env = __global;
-  __global.mkCounter = [mkCounter];
+  return add;
 }
-{
-  function mkCounter1(i) {
-    return function () {
-      return i += 1;
-    };
-  }
-  mkCounter1.__label = 'mkCounter1';
-  mkCounter1.__env = __global;
-  __global.mkCounter1 = [mkCounter1];
+mkCounter.__label = 'mkCounter';
+mkCounter.__env = __global;
+__global.mkCounter = [mkCounter];
+function mkCounter1(i) {
+  return function () {
+    return i += 1;
+  };
 }
-{
-  var c;
-  c = mkCounter1(0);
-  __global.c = [c];
-}
+mkCounter1.__label = 'mkCounter1';
+mkCounter1.__env = __global;
+__global.mkCounter1 = [mkCounter1];
+var c;
+c = mkCounter1(0);
+__global.c = [c];
 for (var i = 0; i < 1000000; ++i) {
   c();
 }

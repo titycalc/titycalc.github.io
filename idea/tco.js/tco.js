@@ -1139,7 +1139,13 @@ function optProgram(ast) {
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
       stmt = optToplevelStmt(stmt);
+      switch (stmt.type) {
+      case 'BlockStatement':
+      body = body.concat(stmt.body);
+      break;
+      default:
       body.push(stmt);
+}
     }
     return {
       type: 'Program',

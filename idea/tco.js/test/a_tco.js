@@ -81,72 +81,56 @@ function __mk(__label, __env, fn) {
   fn.__env = __env;
   return fn;
 }
-{
-  function infLoop() {
-    return __call1('infLoop', this, __global, []);
-  }
-  infLoop.__label = 'infLoop';
-  infLoop.__env = __global;
-  __global.infLoop = [infLoop];
+function infLoop() {
+  return __call1('infLoop', this, __global, []);
 }
-{
-  var infLoop1;
-  infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
-    return __call1('__lambda_1', this, __global, []);
-  });
-  __global.infLoop1 = [infLoop1];
-}
-{
-  var obj;
-  obj = {};
-  __global.obj = [obj];
-}
+infLoop.__label = 'infLoop';
+infLoop.__env = __global;
+__global.infLoop = [infLoop];
+var infLoop1;
+infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
+  return __call1('__lambda_1', this, __global, []);
+});
+__global.infLoop1 = [infLoop1];
+var obj;
+obj = {};
+__global.obj = [obj];
 obj.infLoop2 = __mk('__lambda_2', this, function __lambda_2() {
   return __call1('__lambda_2', this, __global, []);
 });
-{
-  function mutualLoop1() {
-    return __call1('mutualLoop1', this, __global, []);
-  }
-  mutualLoop1.__label = 'mutualLoop1';
-  mutualLoop1.__env = __global;
-  __global.mutualLoop1 = [mutualLoop1];
+function mutualLoop1() {
+  return __call1('mutualLoop1', this, __global, []);
 }
-{
-  function mutualLoop2() {
-    return __call1('mutualLoop2', this, __global, []);
-  }
-  mutualLoop2.__label = 'mutualLoop2';
-  mutualLoop2.__env = __global;
-  __global.mutualLoop2 = [mutualLoop2];
+mutualLoop1.__label = 'mutualLoop1';
+mutualLoop1.__env = __global;
+__global.mutualLoop1 = [mutualLoop1];
+function mutualLoop2() {
+  return __call1('mutualLoop2', this, __global, []);
 }
-{
-  function identity(x) {
+mutualLoop2.__label = 'mutualLoop2';
+mutualLoop2.__env = __global;
+__global.mutualLoop2 = [mutualLoop2];
+function identity(x) {
+  return x;
+}
+identity.__label = 'identity';
+identity.__env = __global;
+__global.identity = [identity];
+function constantly(x) {
+  function discard(y) {
     return x;
   }
-  identity.__label = 'identity';
-  identity.__env = __global;
-  __global.identity = [identity];
+  return discard;
 }
-{
-  function constantly(x) {
-    function discard(y) {
-      return x;
-    }
-    return discard;
-  }
-  constantly.__label = 'constantly';
-  constantly.__env = __global;
-  __global.constantly = [constantly];
+constantly.__label = 'constantly';
+constantly.__env = __global;
+__global.constantly = [constantly];
+function incr() {
+  return this.x + 1;
 }
-{
-  function incr() {
-    return this.x + 1;
-  }
-  incr.__label = 'incr';
-  incr.__env = __global;
-  __global.incr = [incr];
-}
+incr.__label = 'incr';
+incr.__env = __global;
+__global.incr = [incr];
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,

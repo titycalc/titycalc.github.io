@@ -33,12 +33,10 @@ function __mk(__label, __env, fn) {
   fn.__env = __env;
   return fn;
 }
-{
-  function yes() {
-    return __call1('yes', this, __global, []);
-  }
-  yes.__label = 'yes';
-  yes.__env = __global;
-  __global.yes = [yes];
+function yes() {
+  return __call1('yes', this, __global, []);
 }
+yes.__label = 'yes';
+yes.__env = __global;
+__global.yes = [yes];
 yes();
