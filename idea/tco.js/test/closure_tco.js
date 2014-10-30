@@ -9,14 +9,7 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter1':
         __env.i = [__args[0]];
         return {
-          __env: {
-            add: __env.add,
-            mkCounter: __env.mkCounter,
-            i: __env.i,
-            __lambda_1: __env.__lambda_1,
-            mkCounter1: __env.mkCounter1,
-            i: __env.i
-          },
+          __env: Object.create(__env),
           __label: '__lambda_1'
         };
       case '__lambda_1':
@@ -24,14 +17,7 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter':
         __env.i = [__args[0]];
         __env.add = [{
-            __env: {
-              add: __env.add,
-              mkCounter: __env.mkCounter,
-              i: __env.i,
-              __lambda_1: __env.__lambda_1,
-              mkCounter1: __env.mkCounter1,
-              i: __env.i
-            },
+            __env: Object.create(__env),
             __label: 'add'
           }];
         return __env.add ? __env.add[0] : add;

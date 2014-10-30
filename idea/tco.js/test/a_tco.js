@@ -22,24 +22,7 @@ function __call(__label, __this, __env, __args) {
       case 'constantly':
         __env.x = [__args[0]];
         __env.discard = [{
-            __env: {
-              infLoop: __env.infLoop,
-              __lambda_1: __env.__lambda_1,
-              __lambda_2: __env.__lambda_2,
-              mutualLoop1: __env.mutualLoop1,
-              mutualLoop2: __env.mutualLoop2,
-              identity: __env.identity,
-              x: __env.x,
-              discard: __env.discard,
-              y: __env.y,
-              constantly: __env.constantly,
-              x: __env.x,
-              incr: __env.incr,
-              try_catch_finally: __env.try_catch_finally,
-              try_clause: __env.try_clause,
-              catch_clause: __env.catch_clause,
-              finally_clause: __env.finally_clause
-            },
+            __env: Object.create(__env),
             __label: 'discard'
           }];
         return __env.discard ? __env.discard[0] : discard;

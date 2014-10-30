@@ -7,15 +7,12 @@ var GLOBAL = {
   type: 'ObjectExpression',
   properties: []
 };
-var COPYENV = {
-  type: 'ObjectExpression',
-  properties: []
-};
+var COPYENV = esprima.parse("Object.create(__env)").body[0].expression
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
 function appendProp(a_prop) {
-  COPYENV.properties.push(a_prop);
+  //COPYENV.properties.push(a_prop);
 }
 function appendVar(ident) {
   var prop = {
