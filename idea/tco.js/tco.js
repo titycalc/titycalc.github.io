@@ -369,16 +369,16 @@ function optStmt(ast) {
   case 'SwitchStatement':
     var discriminant = optExpr(ast.discriminant);
     var cases = [];
-    for (var i = 0; i < ast.cases; ++i) {
+    for (var i = 0; i < ast.cases.length; ++i) {
       var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
       var body = [];
-      for (var j = 0; j < ast.cases[i].body.length; ++i) {
-        body.push(optStmt(ast.cases[i].body[j]));
+      for (var j = 0; j < ast.cases[i].consequent.length; ++j) {
+        body.push(optStmt(ast.cases[i].consequent[j]));
       }
       cases.push({
         type: 'SwitchCase',
         test: test,
-        body: body
+        consequent: body, lexical: ast.lexical
       });
     }
     return {
@@ -942,16 +942,16 @@ function optToplevelStmt(ast) {
   case 'SwitchStatement':
     var discriminant = optToplevelExpr(ast.discriminant);
     var cases = [];
-    for (var i = 0; i < ast.cases; ++i) {
+    for (var i = 0; i < ast.cases.length; ++i) {
       var test = ast.cases[i].test ? opTopleveltExpr(ast.cases[i].test) : null;
       var body = [];
-      for (var j = 0; j < ast.cases[i].body.length; ++i) {
-        body.push(optToplevelStmt(ast.cases[i].body[j]));
+      for (var j = 0; j < ast.cases[i].consequent.length; ++j) {
+        body.push(optToplevelStmt(ast.cases[i].consequent[j]));
       }
       cases.push({
         type: 'SwitchCase',
         test: test,
-        body: body
+        consequent: body, lexical: ast.lexical
       });
     }
     return {
