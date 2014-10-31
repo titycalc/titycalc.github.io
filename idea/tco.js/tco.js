@@ -206,6 +206,14 @@ alternate: {
     return { type: 'ConditionalExpression', test: test,
 alternate: alternate, consequent: consequent };
   case 'BinaryExpression':
+    var lhs = optExpr(ast.left);
+    var rhs = optExpr(ast.right);
+    return {
+      type: 'LogicalExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
   case 'LogicalExpression':
     var lhs = optExpr(ast.left);
     var rhs = optExpr(ast.right);
@@ -800,6 +808,8 @@ function optToplevelExpr(ast) {
     }
     return { type: 'SequenceExpression', expressions: exprs };
   case 'UpdateExpression':
+    return { type: 'UpdateExpression', prefix: ast.prefix,
+argument: optToplevelExpr(ast.argument), operator: ast.operator };
   case 'UnaryExpression':
     return { type: 'UnaryExpression', prefix: ast.prefix,
 argument: optToplevelExpr(ast.argument), operator: ast.operator };
@@ -817,8 +827,16 @@ arguments: args };
     var consequent = optExpr(ast.consequent);
     return { type: 'ConditionalExpression', test: test,
 alternate: alternate, consequent: consequent };
-  case 'BinaryExpression':
   case 'LogicalExpression':
+    var lhs = optToplevelExpr(ast.left);
+    var rhs = optToplevelExpr(ast.right);
+    return {
+      type: 'LogicalExpression',
+      operator: ast.operator,
+      left: lhs,
+      right: rhs
+    };
+  case 'BinaryExpression':
     var lhs = optToplevelExpr(ast.left);
     var rhs = optToplevelExpr(ast.right);
     return {
