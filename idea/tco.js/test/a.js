@@ -38,6 +38,9 @@ function try_catch_finally(try_clause, catch_clause, finally_clause) {
   finally { finally_clause(); }
 }
 
+(function (callback){ return callback(); })(function (){});
+(function (callback){ return callback[0](); })([function (){}]);
+
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,

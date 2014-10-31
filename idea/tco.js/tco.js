@@ -810,7 +810,7 @@ alternate: alternate, consequent: consequent };
     var elts = [];
     for (var i = 0; i < ast.elements.length; ++i) {
       var elt = ast.elements[i];
-      elts.push(optExpr(elt));
+      elts.push(optToplevelExpr(elt));
     }
     return {
       type: 'ArrayExpression',

@@ -6,6 +6,21 @@ function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
+      case '__lambda_6':
+      case '__lambda_5':
+        __env.callback = [__args[0]];
+        __args = [];
+        __label = (__env.callback ? __env.callback[0] : callback)[0].__label;
+        __env = (__env.callback ? __env.callback[0] : callback)[0].__env;
+        __this = __env.callback ? __env.callback[0] : callback;
+        continue __jmp;
+      case '__lambda_4':
+      case '__lambda_3':
+        __env.callback = [__args[0]];
+        __args = [];
+        __label = (__env.callback ? __env.callback[0] : callback).__label;
+        __env = (__env.callback ? __env.callback[0] : callback).__env;
+        continue __jmp;
       case 'try_catch_finally':
         __env.try_clause = [__args[0]];
         __env.catch_clause = [__args[1]];
@@ -136,6 +151,16 @@ function try_catch_finally(try_clause, catch_clause, finally_clause) {
 try_catch_finally.__label = 'try_catch_finally';
 try_catch_finally.__env = __global;
 __global.try_catch_finally = [try_catch_finally];
+__mk('__lambda_3', this, function __lambda_3(callback) {
+  return __call1('__lambda_3', this, __global, [callback]);
+})(__mk('__lambda_4', this, function __lambda_4() {
+  return __call1('__lambda_4', this, __global, []);
+}));
+__mk('__lambda_5', this, function __lambda_5(callback) {
+  return __call1('__lambda_5', this, __global, [callback]);
+})([__mk('__lambda_6', this, function __lambda_6() {
+    return __call1('__lambda_6', this, __global, []);
+  })]);
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,
