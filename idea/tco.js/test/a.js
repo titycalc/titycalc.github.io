@@ -47,6 +47,7 @@ function sum(xs) {
 }
 
 (function (callback){ return callback(); })(function (){});
+(function f(callback){ return callback(); })(function (){});
 (function (callback){ return callback[0](); })([function (){}]);
 
 module.exports = {

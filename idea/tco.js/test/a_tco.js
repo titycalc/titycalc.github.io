@@ -22,20 +22,34 @@ function __ENV(__env) {
   this.callback = __env.callback;
   this.__lambda_4 = __env.__lambda_4;
   this.__lambda_5 = __env.__lambda_5;
+  this.f = __env.f;
   this.callback = __env.callback;
   this.__lambda_6 = __env.__lambda_6;
+  this.__lambda_7 = __env.__lambda_7;
+  this.callback = __env.callback;
+  this.__lambda_8 = __env.__lambda_8;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
-      case '__lambda_6':
-      case '__lambda_5':
+      case '__lambda_8':
+      case '__lambda_7':
         __env.callback = [__args[0]];
         __args = [];
         __label = (__env.callback ? __env.callback[0] : callback)[0].__label;
         __env = (__env.callback ? __env.callback[0] : callback)[0].__env;
         __this = __env.callback ? __env.callback[0] : callback;
+        continue __jmp;
+      case '__lambda_6':
+      case '__lambda_5':
+        __env.f = __mk('__lambda_5', __global, function __lambda_5(callback) {
+          return __call1('__lambda_5', this, __global, [callback]);
+        });
+        __env.callback = [__args[0]];
+        __args = [];
+        __label = (__env.callback ? __env.callback[0] : callback).__label;
+        __env = (__env.callback ? __env.callback[0] : callback).__env;
         continue __jmp;
       case '__lambda_4':
       case '__lambda_3':
@@ -193,8 +207,13 @@ __mk('__lambda_3', __global, function __lambda_3(callback) {
 }));
 __mk('__lambda_5', __global, function __lambda_5(callback) {
   return __call1('__lambda_5', this, __global, [callback]);
-})([__mk('__lambda_6', __global, function __lambda_6() {
-    return __call1('__lambda_6', this, __global, []);
+})(__mk('__lambda_6', __global, function __lambda_6() {
+  return __call1('__lambda_6', this, __global, []);
+}));
+__mk('__lambda_7', __global, function __lambda_7(callback) {
+  return __call1('__lambda_7', this, __global, [callback]);
+})([__mk('__lambda_8', __global, function __lambda_8() {
+    return __call1('__lambda_8', this, __global, []);
   })]);
 module.exports = {
   infLoop: infLoop,

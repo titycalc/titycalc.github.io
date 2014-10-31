@@ -293,9 +293,79 @@ alternate: alternate, consequent: consequent };
       type: 'Identifier',
       name: gensym()
     };
+      var fn = {
+        type: 'FunctionExpression',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: id.name
+                  },
+                  { type: 'Identifier', name: '__this' },
+                  {
+                    type: 'Identifier',
+                    name: '__env'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      };
+      var mk = {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: '__mk'
+        },
+        arguments: [
+          {
+            type: 'Literal',
+            value: id.name
+          },
+          { type: 'Identifier', name: '__env' },
+          fn
+        ]
+      };
+
+
     var body = optStmt(ast.body);
     var body1 = [];
     appendVar(id);
+    if (ast.id != null) {
+      appendVar(ast.id);
+      body1.push({
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: ast.id
+          }, right:  mk}});
+    }
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -346,6 +416,7 @@ alternate: alternate, consequent: consequent };
       },
       consequent: body1
     });
+    return mk;
     /*return {
       type: 'ObjectExpression',
       properties: [
@@ -372,58 +443,6 @@ alternate: alternate, consequent: consequent };
         }
       ]
     };*/
-      var fn = {
-        type: 'FunctionExpression',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call1'
-                },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: id.name
-                  },
-                  { type: 'Identifier', name: '__this' },
-                  {
-                    type: 'Identifier',
-                    name: '__env'
-                  },
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
-        },
-        id: id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-      return {
-        type: 'CallExpression',
-        callee: {
-          type: 'Identifier',
-          name: '__mk'
-        },
-        arguments: [
-          {
-            type: 'Literal',
-            value: id.name
-          },
-          { type: 'Identifier', name: '__env' },
-          fn
-        ]
-      };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
     var args = [];
@@ -993,9 +1012,78 @@ alternate: alternate, consequent: consequent };
       type: 'Identifier',
       name: gensym()
     };
+      var fn = {
+        type: 'FunctionExpression',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: id.name
+                  },
+                  { type: 'ThisExpression' },
+                  {
+                    type: 'Identifier',
+                    name: '__global'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      };
+      var mk = {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: '__mk'
+        },
+        arguments: [
+          {
+            type: 'Literal',
+            value: id.name
+          },
+          { type: 'Identifier', name: '__global' },
+          fn
+        ]
+      };
     var body = optStmt(ast.body);
     var body1 = [];
     appendVar(id);
+    if (ast.id != null) {
+      appendVar(ast.id);
+      body1.push({
+        type: 'ExpressionStatement',
+        expression: {
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: ast.id
+          }, right:  mk}});
+    }
+    
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -1047,58 +1135,7 @@ alternate: alternate, consequent: consequent };
       consequent: body1
     });
     /*if (isTailCallStmt(ast.body)) {*/
-      var fn = {
-        type: 'FunctionExpression',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call1'
-                },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: id.name
-                  },
-                  { type: 'ThisExpression' },
-                  {
-                    type: 'Identifier',
-                    name: '__global'
-                  },
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
-        },
-        id: id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-      return {
-        type: 'CallExpression',
-        callee: {
-          type: 'Identifier',
-          name: '__mk'
-        },
-        arguments: [
-          {
-            type: 'Literal',
-            value: id.name
-          },
-          { type: 'Identifier', name: '__global' },
-          fn
-        ]
-      };
+    return mk;
     /*} else {
       return ast;
     }*/
