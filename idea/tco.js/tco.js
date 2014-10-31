@@ -322,7 +322,7 @@ alternate: alternate, consequent: consequent };
       },
       consequent: body1
     });
-    return {
+    /*return {
       type: 'ObjectExpression',
       properties: [
         {
@@ -347,7 +347,59 @@ alternate: alternate, consequent: consequent };
           kind: 'init'
         }
       ]
-    };
+    };*/
+      var fn = {
+        type: 'FunctionExpression',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: id.name
+                  },
+                  { type: 'Identifier', name: '__this' },
+                  {
+                    type: 'Identifier',
+                    name: '__env'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      };
+      return {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: '__mk'
+        },
+        arguments: [
+          {
+            type: 'Literal',
+            value: id.name
+          },
+          { type: 'Identifier', name: '__env' },
+          fn
+        ]
+      };
   case 'CallExpression':
     var callee = optExpr(ast.callee);
     var args = [];
@@ -525,7 +577,7 @@ body: body }
   case 'ReturnStatement':
     if (ast.argument == null){ return { type: 'ReturnStatement' }}
     var argument = optExpr(ast.argument);
-    switch (argument.type) {
+    switch (ast.argument.type) {
     case 'CallExpression':
 //console.log(ast.argument.callee.type);
       switch (ast.argument.callee.type) {

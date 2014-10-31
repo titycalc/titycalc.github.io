@@ -13,10 +13,9 @@ function __call(__label, __this, __env, __args) {
       switch (__label) {
       case 'mkCounter1':
         __env.i = [__args[0]];
-        return {
-          __env: new __ENV(__env),
-          __label: '__lambda_1'
-        };
+        return __mk('__lambda_1', __env, function __lambda_1() {
+          return __call1('__lambda_1', __this, __env, []);
+        });
       case '__lambda_1':
         return __env.i[0] ? __env.i[0] += 1 : i += 1;
       case 'mkCounter':
