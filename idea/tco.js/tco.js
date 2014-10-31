@@ -97,14 +97,14 @@ function existsLhs1(ast) {
   case 'MemberExpression':
     return existsLhs1(ast.object);
   case 'Identifier':
-    return { type: 'MemberExpression', object: {
+    return {
         type: 'MemberExpression',
         object: {
           type: 'Identifier',
           name: '__env'
         },
         property: ast
-      }, computed: true, property: {type: 'Literal', value: 0}};
+      };
 default:
     console.error('unrecognized ast: ' + ast.type);
 }}

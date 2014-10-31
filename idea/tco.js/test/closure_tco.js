@@ -17,7 +17,7 @@ function __call(__label, __this, __env, __args) {
           return __call1('__lambda_1', __this, __env, []);
         });
       case '__lambda_1':
-        return __env.i[0] ? __env.i[0] += 1 : i += 1;
+        return __env.i ? __env.i[0] += 1 : i += 1;
       case 'mkCounter':
         __env.i = [__args[0]];
         __env.add = [__mk('add', new __ENV(__env), function add() {
@@ -25,7 +25,7 @@ function __call(__label, __this, __env, __args) {
           })];
         return __env.add ? __env.add[0] : add;
       case 'add':
-        return __env.i[0] ? __env.i[0] += 1 : i += 1;
+        return __env.i ? __env.i[0] += 1 : i += 1;
       default:
         console.error('unrecognized label: ' + __label);
         break __jmp;
