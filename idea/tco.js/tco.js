@@ -92,6 +92,22 @@ function isTailCallStmt(ast) {
     return false;
   }
 }
+function existsLhs1(ast) {
+  switch (ast.type) {
+  case 'MemberExpression':
+    return existsLhs1(ast.object);
+  case 'Identifier':
+    return { type: 'MemberExpression', object: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ast
+      }, computed: true, property: {type: 'Literal', value: 0}};
+default:
+    console.error('unrecognized ast: ' + ast.type);
+}}
 function optLhs1(ast) {
   switch (ast.type) {
   case 'MemberExpression':
@@ -184,7 +200,7 @@ arguments: args };
   case 'UpdateExpression':
     var arg1 = optLhs1(ast.argument);
     var arg2 = optLhs2(ast.argument);
-    return { type: 'ConditionalExpression', test: arg1,
+    return { type: 'ConditionalExpression', test: existsLhs1(ast.argument),
 consequent: { type: 'UpdateExpression', operator: ast.operator,
 argument: arg1, prefix: ast.prefix },
 alternate:  { type: 'UpdateExpression', operator: ast.operator,
@@ -194,7 +210,7 @@ argument: arg2, prefix: ast.prefix } }
     var lhs2 = optLhs2(ast.left);
     var rhs = optExpr(ast.right);
     return { type: 'ConditionalExpression',
-test: lhs1,
+test: existsLhs1(ast.left),
 consequent: {
       type: 'AssignmentExpression',
       operator: ast.operator,
