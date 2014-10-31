@@ -21,6 +21,13 @@ function __call(__label, __this, __env, __args) {
         __label = (__env.callback ? __env.callback[0] : callback).__label;
         __env = (__env.callback ? __env.callback[0] : callback).__env;
         continue __jmp;
+      case 'sum':
+        __env.xs = [__args[0]];
+        var x = 0;
+        for (var i = 0; (__env.i ? __env.i[0] : i) < (__env.xs ? __env.xs[0] : xs).length; ++(__env.x ? __env.x[0] : x)) {
+          __env.x[0] ? __env.x[0] += (__env.xs ? __env.xs[0] : xs)[i] : x += (__env.xs ? __env.xs[0] : xs)[i];
+        }
+        return __env.x ? __env.x[0] : x;
       case 'try_catch_finally':
         __env.try_clause = [__args[0]];
         __env.catch_clause = [__args[1]];
@@ -151,6 +158,12 @@ function try_catch_finally(try_clause, catch_clause, finally_clause) {
 try_catch_finally.__label = 'try_catch_finally';
 try_catch_finally.__env = __global;
 __global.try_catch_finally = [try_catch_finally];
+function sum(xs) {
+  return __call1('sum', this, __global, [xs]);
+}
+sum.__label = 'sum';
+sum.__env = __global;
+__global.sum = [sum];
 __mk('__lambda_3', this, function __lambda_3(callback) {
   return __call1('__lambda_3', this, __global, [callback]);
 })(__mk('__lambda_4', this, function __lambda_4() {

@@ -154,6 +154,7 @@ property: */ast/* }*/
       exprs.push(optExpr(ast.expressions[i]));
     }
     return { type: 'SequenceExpression', expressions: exprs };
+  case 'UpdateExpression':
   case 'UnaryExpression':
     return { type: 'UnaryExpression', prefix: ast.prefix,
 argument: optExpr(ast.argument), operator: ast.operator };
@@ -336,6 +337,26 @@ function optCatchClause(ast) {
 guard: ast.guard ? optExpr(ast.guard) : null,
 body: optStmt(ast.body) }
 }
+function optVariableDeclaration(ast){
+    var declarations = [];
+    for (var i = 0; i < ast.declarations.length; ++i) {
+      var declaration = ast.declarations[i];
+      if (declaration.init) {
+        declarations.push({
+          type: 'VariableDeclarator',
+          id: declaration.id,
+          init: optExpr(declaration.init)
+        });
+      } else {
+        declarations.push(declaration);
+      }
+    }
+    return {
+      type: 'VariableDeclaration',
+      declarations: declarations,
+      kind: ast.kind
+    };
+}
 function optStmt(ast) {
   switch (ast.type) {
   case 'EmptyStatement':
@@ -449,31 +470,30 @@ finalizer: finalizer };
       test: test,
       body: body
     };
-  //case 'ForStatement':
+  case 'ForStatement':
+    if (ast.init == null) {
+      var init = null;
+    } else {
+      switch (ast.init.type) {
+      case 'VariableDeclaration':
+        var init = optVariableDeclaration(ast.init);
+        break;
+      default:
+        var init = optExpr(ast.init);
+      }
+    }
+    var test = ast.test ? optExpr(ast.test) : null;
+    var update = ast.update ? optExpr(ast.update) : null;
+    var body = optStmt(ast.body);
+    return { type: 'ForStatement', init: init, test: test, update: update,
+body: body }
   //case 'ForInStatement':
   //case 'ForOfStatement':
   //case 'LetStatement':
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-    var declarations = [];
-    for (var i = 0; i < ast.declarations.length; ++i) {
-      var declaration = ast.declarations[i];
-      if (declaration.init) {
-        declarations.push({
-          type: 'VariableDeclarator',
-          id: declaration.id,
-          init: optExpr(declaration.init)
-        });
-      } else {
-        declarations.push(declaration);
-      }
-    }
-    return {
-      type: 'VariableDeclaration',
-      declarations: declarations,
-      kind: ast.kind
-    };
+    return optVariableDeclaration(ast);
   case 'ReturnStatement':
     if (ast.argument == null){ return { type: 'ReturnStatement' }}
     var argument = optExpr(ast.argument);
@@ -756,6 +776,7 @@ function optToplevelExpr(ast) {
       exprs.push(optToplevelExpr(ast.expressions[i]));
     }
     return { type: 'SequenceExpression', expressions: exprs };
+  case 'UpdateExpression':
   case 'UnaryExpression':
     return { type: 'UnaryExpression', prefix: ast.prefix,
 argument: optToplevelExpr(ast.argument), operator: ast.operator };
@@ -951,6 +972,26 @@ function optToplevelCatchClause(ast) {
 guard: ast.guard ? optToplevelExpr(ast.guard) : null,
 body: optToplevelStmt(ast.body) }
 }
+function optToplevelVariableDeclaration(ast){
+    var declarations = [];
+    for (var i = 0; i < ast.declarations.length; ++i) {
+      var declaration = ast.declarations[i];
+      if (declaration.init) {
+        declarations.push({
+          type: 'VariableDeclarator',
+          id: declaration.id,
+          init: optToplevelExpr(declaration.init)
+        });
+      } else {
+        declarations.push(declaration);
+      }
+    }
+    return {
+      type: 'VariableDeclaration',
+      declarations: declarations,
+      kind: ast.kind
+    };
+}
 function optToplevelStmt(ast) {
   switch (ast.type) {
   case 'EmptyStatement':
@@ -1064,7 +1105,23 @@ finalizer: finalizer };
       test: test,
       body: body
     };
-  //case 'ForStatement':
+  case 'ForStatement':
+    if (ast.init == null) {
+      var init = null;
+    } else {
+      switch (ast.init.type) {
+      case 'VariableDeclaration':
+        var init = optToplevelVariableDeclaration(ast.init);
+        break;
+      default:
+        var init = optToplevelExpr(ast.init);
+      }
+    }
+    var test = ast.test ? optToplevelExpr(ast.test) : null;
+    var update = ast.update ? optToplevelExpr(ast.update) : null;
+    var body = optToplevelStmt(ast.body);
+    return { type: 'ForStatement', init: init, test: test, update: update,
+body: body }
   //case 'ForInStatement':
   //case 'ForOfStatement':
   //case 'LetStatement':

@@ -38,6 +38,14 @@ function try_catch_finally(try_clause, catch_clause, finally_clause) {
   finally { finally_clause(); }
 }
 
+function sum(xs) {
+  var x = 0;
+  for (var i = 0; i < xs.length; ++x) {
+    x += xs[i];
+  }
+  return x;
+}
+
 (function (callback){ return callback(); })(function (){});
 (function (callback){ return callback[0](); })([function (){}]);
 
