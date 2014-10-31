@@ -343,18 +343,18 @@ function optVariableDeclaration(ast){
       var declaration = ast.declarations[i];
       if (declaration.init) {
         declarations.push({
-          type: 'VariableDeclarator',
-          id: declaration.id,
-          init: optExpr(declaration.init)
+          type: 'AssignmentExpression',
+          operator: '=',
+          left: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:declaration.id},
+          right: {type:'ArrayExpression',elements:declaration.init ? [optExpr(declaration.init)] : []}
         });
       } else {
         declarations.push(declaration);
       }
     }
     return {
-      type: 'VariableDeclaration',
-      declarations: declarations,
-      kind: ast.kind
+      type: 'SequenceExpression',
+      expressions: declarations
     };
 }
 function optStmt(ast) {
@@ -493,7 +493,7 @@ body: body }
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-    return optVariableDeclaration(ast);
+    return {type:'ExpressionStatement',expression:optVariableDeclaration(ast)};
   case 'ReturnStatement':
     if (ast.argument == null){ return { type: 'ReturnStatement' }}
     var argument = optExpr(ast.argument);
