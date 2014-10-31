@@ -1,6 +1,29 @@
 var __global = {};
-for (var k in __global) {
-  __global[k][0].__env = __global;
+function __ENV(__env) {
+  this.infLoop = __env.infLoop;
+  this.__lambda_1 = __env.__lambda_1;
+  this.__lambda_2 = __env.__lambda_2;
+  this.mutualLoop1 = __env.mutualLoop1;
+  this.mutualLoop2 = __env.mutualLoop2;
+  this.identity = __env.identity;
+  this.x = __env.x;
+  this.discard = __env.discard;
+  this.y = __env.y;
+  this.constantly = __env.constantly;
+  this.x = __env.x;
+  this.incr = __env.incr;
+  this.try_catch_finally = __env.try_catch_finally;
+  this.try_clause = __env.try_clause;
+  this.catch_clause = __env.catch_clause;
+  this.finally_clause = __env.finally_clause;
+  this.sum = __env.sum;
+  this.xs = __env.xs;
+  this.__lambda_3 = __env.__lambda_3;
+  this.callback = __env.callback;
+  this.__lambda_4 = __env.__lambda_4;
+  this.__lambda_5 = __env.__lambda_5;
+  this.callback = __env.callback;
+  this.__lambda_6 = __env.__lambda_6;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -44,7 +67,7 @@ function __call(__label, __this, __env, __args) {
       case 'constantly':
         __env.x = [__args[0]];
         __env.discard = [{
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: 'discard'
           }];
         return __env.discard ? __env.discard[0] : discard;

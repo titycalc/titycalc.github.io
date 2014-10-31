@@ -1,6 +1,9 @@
 var __global = {};
-for (var k in __global) {
-  __global[k][0].__env = __global;
+function __ENV(__env) {
+  this.isEven = __env.isEven;
+  this.x = __env.x;
+  this.isOdd = __env.isOdd;
+  this.x = __env.x;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

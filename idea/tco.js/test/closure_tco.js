@@ -1,6 +1,11 @@
 var __global = {};
-for (var k in __global) {
-  __global[k][0].__env = __global;
+function __ENV(__env) {
+  this.add = __env.add;
+  this.mkCounter = __env.mkCounter;
+  this.i = __env.i;
+  this.__lambda_1 = __env.__lambda_1;
+  this.mkCounter1 = __env.mkCounter1;
+  this.i = __env.i;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -9,7 +14,7 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter1':
         __env.i = [__args[0]];
         return {
-          __env: Object.create(__env),
+          __env: new __ENV(__env),
           __label: '__lambda_1'
         };
       case '__lambda_1':
@@ -17,7 +22,7 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter':
         __env.i = [__args[0]];
         __env.add = [{
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: 'add'
           }];
         return __env.add ? __env.add[0] : add;

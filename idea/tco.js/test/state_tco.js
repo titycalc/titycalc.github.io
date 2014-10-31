@@ -1,6 +1,51 @@
 var __global = {};
-for (var k in __global) {
-  __global[k][0].__env = __global;
+function __ENV(__env) {
+  this.__lambda_1 = __env.__lambda_1;
+  this.s = __env.s;
+  this.cont = __env.cont;
+  this.ret = __env.ret;
+  this.x = __env.x;
+  this.__lambda_3 = __env.__lambda_3;
+  this.x = __env.x;
+  this.s1 = __env.s1;
+  this.__lambda_2 = __env.__lambda_2;
+  this.s = __env.s;
+  this.cont = __env.cont;
+  this.bind = __env.bind;
+  this.m = __env.m;
+  this.k = __env.k;
+  this.get = __env.get;
+  this.s = __env.s;
+  this.cont = __env.cont;
+  this.__lambda_4 = __env.__lambda_4;
+  this._ = __env._;
+  this.cont = __env.cont;
+  this.put = __env.put;
+  this.s = __env.s;
+  this.__lambda_5 = __env.__lambda_5;
+  this.x = __env.x;
+  this.s1 = __env.s1;
+  this.runState = __env.runState;
+  this.m = __env.m;
+  this.s = __env.s;
+  this.__lambda_6 = __env.__lambda_6;
+  this.x = __env.x;
+  this.s1 = __env.s1;
+  this.evalState = __env.evalState;
+  this.m = __env.m;
+  this.s = __env.s;
+  this.__lambda_7 = __env.__lambda_7;
+  this.x = __env.x;
+  this.s1 = __env.s1;
+  this.execState = __env.execState;
+  this.m = __env.m;
+  this.s = __env.s;
+  this.__lambda_9 = __env.__lambda_9;
+  this._ = __env._;
+  this.__lambda_8 = __env.__lambda_8;
+  this.i = __env.i;
+  this.__lambda_10 = __env.__lambda_10;
+  this.i = __env.i;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -20,7 +65,7 @@ function __call(__label, __this, __env, __args) {
         __args = [
           (__env.put ? __env.put[0] : put)((__env.i ? __env.i[0] : i) + 1),
           {
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: '__lambda_9'
           }
         ];
@@ -36,7 +81,7 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s ? __env.s[0] : s,
           {
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: '__lambda_7'
           }
         ];
@@ -53,7 +98,7 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s ? __env.s[0] : s,
           {
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: '__lambda_6'
           }
         ];
@@ -70,7 +115,7 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s ? __env.s[0] : s,
           {
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: '__lambda_5'
           }
         ];
@@ -87,7 +132,7 @@ function __call(__label, __this, __env, __args) {
       case 'put':
         __env.s = [__args[0]];
         return {
-          __env: Object.create(__env),
+          __env: new __ENV(__env),
           __label: '__lambda_4'
         };
       case '__lambda_4':
@@ -114,7 +159,7 @@ function __call(__label, __this, __env, __args) {
         __env.m = [__args[0]];
         __env.k = [__args[1]];
         return {
-          __env: Object.create(__env),
+          __env: new __ENV(__env),
           __label: '__lambda_2'
         };
       case '__lambda_2':
@@ -123,7 +168,7 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s ? __env.s[0] : s,
           {
-            __env: Object.create(__env),
+            __env: new __ENV(__env),
             __label: '__lambda_3'
           }
         ];
@@ -143,7 +188,7 @@ function __call(__label, __this, __env, __args) {
       case 'ret':
         __env.x = [__args[0]];
         return {
-          __env: Object.create(__env),
+          __env: new __ENV(__env),
           __label: '__lambda_1'
         };
       case '__lambda_1':

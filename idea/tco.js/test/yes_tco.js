@@ -1,6 +1,6 @@
 var __global = {};
-for (var k in __global) {
-  __global[k][0].__env = __global;
+function __ENV(__env) {
+  this.yes = __env.yes;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
