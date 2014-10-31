@@ -293,12 +293,12 @@ execState.__label = 'execState';
 execState.__env = __global;
 __global.execState = [execState];
 var tick;
-tick = bind(get, __mk('__lambda_8', this, function __lambda_8(i) {
+tick = bind(get, __mk('__lambda_8', __global, function __lambda_8(i) {
   return __call1('__lambda_8', this, __global, [i]);
 }));
 __global.tick = [tick];
 var plusOne;
-plusOne = __mk('__lambda_10', this, function __lambda_10(i) {
+plusOne = __mk('__lambda_10', __global, function __lambda_10(i) {
   return __call1('__lambda_10', this, __global, [i]);
 });
 __global.plusOne = [plusOne];

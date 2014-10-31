@@ -1041,7 +1041,7 @@ alternate: alternate, consequent: consequent };
             type: 'Literal',
             value: id.name
           },
-          { type: 'ThisExpression' },
+          { type: 'Identifier', name: '__global' },
           fn
         ]
       };

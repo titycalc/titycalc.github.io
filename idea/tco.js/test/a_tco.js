@@ -131,14 +131,14 @@ infLoop.__label = 'infLoop';
 infLoop.__env = __global;
 __global.infLoop = [infLoop];
 var infLoop1;
-infLoop1 = __mk('__lambda_1', this, function __lambda_1() {
+infLoop1 = __mk('__lambda_1', __global, function __lambda_1() {
   return __call1('__lambda_1', this, __global, []);
 });
 __global.infLoop1 = [infLoop1];
 var obj;
 obj = {};
 __global.obj = [obj];
-obj.infLoop2 = __mk('__lambda_2', this, function __lambda_2() {
+obj.infLoop2 = __mk('__lambda_2', __global, function __lambda_2() {
   return __call1('__lambda_2', this, __global, []);
 });
 function mutualLoop1() {
@@ -187,14 +187,14 @@ function sum(xs) {
 sum.__label = 'sum';
 sum.__env = __global;
 __global.sum = [sum];
-__mk('__lambda_3', this, function __lambda_3(callback) {
+__mk('__lambda_3', __global, function __lambda_3(callback) {
   return __call1('__lambda_3', this, __global, [callback]);
-})(__mk('__lambda_4', this, function __lambda_4() {
+})(__mk('__lambda_4', __global, function __lambda_4() {
   return __call1('__lambda_4', this, __global, []);
 }));
-__mk('__lambda_5', this, function __lambda_5(callback) {
+__mk('__lambda_5', __global, function __lambda_5(callback) {
   return __call1('__lambda_5', this, __global, [callback]);
-})([__mk('__lambda_6', this, function __lambda_6() {
+})([__mk('__lambda_6', __global, function __lambda_6() {
     return __call1('__lambda_6', this, __global, []);
   })]);
 module.exports = {
