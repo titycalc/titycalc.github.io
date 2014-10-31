@@ -449,10 +449,10 @@ finalizer: finalizer };
       test: test,
       body: body
     };
-  case 'ForStatement':
-  case 'ForInStatement':
-  case 'ForOfStatement':
-  case 'LetStatement':
+  //case 'ForStatement':
+  //case 'ForInStatement':
+  //case 'ForOfStatement':
+  //case 'LetStatement':
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
@@ -1064,10 +1064,10 @@ finalizer: finalizer };
       test: test,
       body: body
     };
-  case 'ForStatement':
-  case 'ForInStatement':
-  case 'ForOfStatement':
-  case 'LetStatement':
+  //case 'ForStatement':
+  //case 'ForInStatement':
+  //case 'ForOfStatement':
+  //case 'LetStatement':
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
