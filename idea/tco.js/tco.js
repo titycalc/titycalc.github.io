@@ -209,12 +209,20 @@ alternate: alternate, consequent: consequent };
     };
   case 'MemberExpression':
     var obj = optExpr(ast.object);
+    if (ast.computed) {
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: optExpr(ast.property),
+      computed: ast.computed
+    };
+    } else {
     return {
       type: 'MemberExpression',
       object: obj,
       property: ast.property,
       computed: ast.computed
-    };
+    };}
   case 'ObjectExpression':
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
@@ -813,12 +821,19 @@ alternate: alternate, consequent: consequent };
     };
   case 'MemberExpression':
     var obj = optToplevelExpr(ast.object);
+    if (ast.computed) {
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: optToplevelExpr(ast.property),
+      computed: ast.computed
+    };    } else {
     return {
       type: 'MemberExpression',
       object: obj,
       property: ast.property,
       computed: ast.computed
-    };
+    };}
   case 'ObjectExpression':
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
