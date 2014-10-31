@@ -154,7 +154,6 @@ property: */ast/* }*/
       exprs.push(optExpr(ast.expressions[i]));
     }
     return { type: 'SequenceExpression', expressions: exprs };
-  case 'UpdateExpression':
   case 'UnaryExpression':
     return { type: 'UnaryExpression', prefix: ast.prefix,
 argument: optExpr(ast.argument), operator: ast.operator };
@@ -166,6 +165,14 @@ argument: optExpr(ast.argument), operator: ast.operator };
     }
     return { type: 'NewExpression', callee: callee,
 arguments: args };
+  case 'UpdateExpression':
+    var arg1 = optLhs1(ast.argument);
+    var arg2 = optLhs2(ast.argument);
+    return { type: 'ConditionalExpression', test: arg1,
+consequent: { type: 'UpdateExpression', operator: ast.operator,
+argument: arg1, prefix: ast.prefix },
+alternate:  { type: 'UpdateExpression', operator: ast.operator,
+argument: arg2, prefix: ast.prefix } }
   case 'AssignmentExpression':
     var lhs1 = optLhs1(ast.left);
     var lhs2 = optLhs2(ast.left);

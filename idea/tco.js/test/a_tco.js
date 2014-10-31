@@ -24,7 +24,7 @@ function __call(__label, __this, __env, __args) {
       case 'sum':
         __env.xs = [__args[0]];
         __env.x = [0];
-        for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.xs ? __env.xs[0] : xs).length; ++(__env.x ? __env.x[0] : x)) {
+        for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.xs ? __env.xs[0] : xs).length; __env.x[0] ? ++__env.x[0] : ++x) {
           __env.x[0] ? __env.x[0] += (__env.xs ? __env.xs[0] : xs)[i] : x += (__env.xs ? __env.xs[0] : xs)[i];
         }
         return __env.x ? __env.x[0] : x;
