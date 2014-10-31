@@ -372,16 +372,13 @@ function optVariableDeclaration(ast){
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
-      if (declaration.init) {
         declarations.push({
           type: 'AssignmentExpression',
           operator: '=',
           left: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:declaration.id},
           right: {type:'ArrayExpression',elements:declaration.init ? [optExpr(declaration.init)] : []}
         });
-      } else {
-        declarations.push(declaration);
-      }
+
     }
     return {
       type: 'SequenceExpression',
