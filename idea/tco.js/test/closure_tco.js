@@ -20,10 +20,9 @@ function __call(__label, __this, __env, __args) {
         return __env.i[0] ? __env.i[0] += 1 : i += 1;
       case 'mkCounter':
         __env.i = [__args[0]];
-        __env.add = [{
-            __env: new __ENV(__env),
-            __label: 'add'
-          }];
+        __env.add = [__mk('add', new __ENV(__env), function add() {
+            return __call1('add', __this, __env, []);
+          })];
         return __env.add ? __env.add[0] : add;
       case 'add':
         return __env.i[0] ? __env.i[0] += 1 : i += 1;

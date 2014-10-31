@@ -785,6 +785,61 @@ body: body }
       },
       consequent: body1
     });
+
+      var fn = {
+        type: 'FunctionExpression',
+        params: ast.params,
+        body: {
+          type: 'BlockStatement',
+          body: [{
+              type: 'ReturnStatement',
+              argument: {
+                type: 'CallExpression',
+                callee: {
+                  type: 'Identifier',
+                  name: '__call1'
+                },
+                arguments: [
+                  {
+                    type: 'Literal',
+                    value: ast.id.name
+                  },
+                  { type: 'Identifier', name: '__this' },
+                  {
+                    type: 'Identifier',
+                    name: '__env'
+                  },
+                  {
+                    type: 'ArrayExpression',
+                    elements: ast.params
+                  }
+                ]
+              }
+            }]
+        },
+        id: ast.id,
+        defaults: [],
+        rest: null,
+        generator: false,
+        expression: false
+      };
+      var mk = {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: '__mk'
+        },
+        arguments: [
+          {
+            type: 'Literal',
+            value: ast.id.name
+          },
+          COPYENV,
+          fn
+        ]
+      };
+
+
     return {
       type: 'ExpressionStatement',
       expression: {
@@ -800,32 +855,7 @@ body: body }
         },
         right: {
           type: 'ArrayExpression',
-          elements: [{
-              type: 'ObjectExpression',
-              properties: [
-                {
-                  type: 'Property',
-                  key: {
-                    type: 'Identifier',
-                    name: '__env'
-                  },
-                  value: COPYENV,
-                  kind: 'init'
-                },
-                {
-                  type: 'Property',
-                  key: {
-                    type: 'Identifier',
-                    name: '__label'
-                  },
-                  value: {
-                    type: 'Literal',
-                    value: ast.id.name
-                  },
-                  kind: 'init'
-                }
-              ]
-            }]
+          elements: [mk]
         }
       }
     };

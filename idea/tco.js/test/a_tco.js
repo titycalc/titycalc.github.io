@@ -66,10 +66,9 @@ function __call(__label, __this, __env, __args) {
         return __this.x + 1;
       case 'constantly':
         __env.x = [__args[0]];
-        __env.discard = [{
-            __env: new __ENV(__env),
-            __label: 'discard'
-          }];
+        __env.discard = [__mk('discard', new __ENV(__env), function discard(y) {
+            return __call1('discard', __this, __env, [y]);
+          })];
         return __env.discard ? __env.discard[0] : discard;
       case 'discard':
         __env.y = [__args[0]];
