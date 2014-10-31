@@ -95,13 +95,21 @@ function isTailCallStmt(ast) {
 function optLhs1(ast) {
   switch (ast.type) {
   case 'MemberExpression':
+    if (ast.computed) {    var obj = optLhs1(ast.object);
+var prop = optExpr(ast.property);
+    return {
+      type: 'MemberExpression',
+      object: obj,
+      property: prop,
+      computed: ast.computed
+    };} else {
     var obj = optLhs1(ast.object);
     return {
       type: 'MemberExpression',
       object: obj,
       property: ast.property,
       computed: ast.computed
-    };
+    };}
   case 'Identifier':
     return { type: 'MemberExpression', object: {
         type: 'MemberExpression',
