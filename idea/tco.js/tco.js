@@ -1208,7 +1208,7 @@ function optToplevelStmt(ast) {
       expression: expr
     };
   case 'IfStatement':
-    var test = optToplvelExpr(ast.test);
+    var test = optToplevelExpr(ast.test);
     var consequent = optToplevelStmt(ast.consequent);
     var alternate = ast.alternate ? optToplevelStmt(ast.alternate) : null;
     return {
