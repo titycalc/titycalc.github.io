@@ -236,70 +236,70 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function ret(x) {
-  return __call1('ret', this, __global, [x]);
+  return __call1('ret', this, new __ENV(__global), [x]);
 }
 ret.__label = 'ret';
-ret.__env = __global;
+ret.__env = new __ENV(__global);
 __global.ret = [ret];
 function bind(m, k) {
-  return __call1('bind', this, __global, [
+  return __call1('bind', this, new __ENV(__global), [
     m,
     k
   ]);
 }
 bind.__label = 'bind';
-bind.__env = __global;
+bind.__env = new __ENV(__global);
 __global.bind = [bind];
 function get(s, cont) {
-  return __call1('get', this, __global, [
+  return __call1('get', this, new __ENV(__global), [
     s,
     cont
   ]);
 }
 get.__label = 'get';
-get.__env = __global;
+get.__env = new __ENV(__global);
 __global.get = [get];
 function put(s) {
-  return __call1('put', this, __global, [s]);
+  return __call1('put', this, new __ENV(__global), [s]);
 }
 put.__label = 'put';
-put.__env = __global;
+put.__env = new __ENV(__global);
 __global.put = [put];
 function runState(m, s) {
-  return __call1('runState', this, __global, [
+  return __call1('runState', this, new __ENV(__global), [
     m,
     s
   ]);
 }
 runState.__label = 'runState';
-runState.__env = __global;
+runState.__env = new __ENV(__global);
 __global.runState = [runState];
 function evalState(m, s) {
-  return __call1('evalState', this, __global, [
+  return __call1('evalState', this, new __ENV(__global), [
     m,
     s
   ]);
 }
 evalState.__label = 'evalState';
-evalState.__env = __global;
+evalState.__env = new __ENV(__global);
 __global.evalState = [evalState];
 function execState(m, s) {
-  return __call1('execState', this, __global, [
+  return __call1('execState', this, new __ENV(__global), [
     m,
     s
   ]);
 }
 execState.__label = 'execState';
-execState.__env = __global;
+execState.__env = new __ENV(__global);
 __global.execState = [execState];
 var tick;
-tick = bind(get, __mk('__lambda_8', __global, function __lambda_8(i) {
-  return __call1('__lambda_8', this, __global, [i]);
+tick = bind(get, __mk('__lambda_8', new __ENV(__global), function __lambda_8(i) {
+  return __call1('__lambda_8', this, new __ENV(__global), [i]);
 }));
 __global.tick = [tick];
 var plusOne;
-plusOne = __mk('__lambda_10', __global, function __lambda_10(i) {
-  return __call1('__lambda_10', this, __global, [i]);
+plusOne = __mk('__lambda_10', new __ENV(__global), function __lambda_10(i) {
+  return __call1('__lambda_10', this, new __ENV(__global), [i]);
 });
 __global.plusOne = [plusOne];
 module.exports = {

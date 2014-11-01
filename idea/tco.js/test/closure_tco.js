@@ -48,16 +48,16 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function mkCounter(i) {
-  return __call1('mkCounter', this, __global, [i]);
+  return __call1('mkCounter', this, new __ENV(__global), [i]);
 }
 mkCounter.__label = 'mkCounter';
-mkCounter.__env = __global;
+mkCounter.__env = new __ENV(__global);
 __global.mkCounter = [mkCounter];
 function mkCounter1(i) {
-  return __call1('mkCounter1', this, __global, [i]);
+  return __call1('mkCounter1', this, new __ENV(__global), [i]);
 }
 mkCounter1.__label = 'mkCounter1';
-mkCounter1.__env = __global;
+mkCounter1.__env = new __ENV(__global);
 __global.mkCounter1 = [mkCounter1];
 var c;
 c = mkCounter1(0);

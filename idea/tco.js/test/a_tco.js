@@ -43,8 +43,8 @@ function __call(__label, __this, __env, __args) {
         continue __jmp;
       case '__lambda_6':
       case '__lambda_5':
-        __env.f = __mk('__lambda_5', __global, function __lambda_5(callback) {
-          return __call1('__lambda_5', this, __global, [callback]);
+        __env.f = __mk('__lambda_5', new __ENV(__global), function __lambda_5(callback) {
+          return __call1('__lambda_5', this, new __ENV(__global), [callback]);
         });
         __env.callback = [__args[0]];
         __args = [];
@@ -138,82 +138,82 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function infLoop() {
-  return __call1('infLoop', this, __global, []);
+  return __call1('infLoop', this, new __ENV(__global), []);
 }
 infLoop.__label = 'infLoop';
-infLoop.__env = __global;
+infLoop.__env = new __ENV(__global);
 __global.infLoop = [infLoop];
 var infLoop1;
-infLoop1 = __mk('__lambda_1', __global, function __lambda_1() {
-  return __call1('__lambda_1', this, __global, []);
+infLoop1 = __mk('__lambda_1', new __ENV(__global), function __lambda_1() {
+  return __call1('__lambda_1', this, new __ENV(__global), []);
 });
 __global.infLoop1 = [infLoop1];
 var obj;
 obj = {};
 __global.obj = [obj];
-obj.infLoop2 = __mk('__lambda_2', __global, function __lambda_2() {
-  return __call1('__lambda_2', this, __global, []);
+obj.infLoop2 = __mk('__lambda_2', new __ENV(__global), function __lambda_2() {
+  return __call1('__lambda_2', this, new __ENV(__global), []);
 });
 function mutualLoop1() {
-  return __call1('mutualLoop1', this, __global, []);
+  return __call1('mutualLoop1', this, new __ENV(__global), []);
 }
 mutualLoop1.__label = 'mutualLoop1';
-mutualLoop1.__env = __global;
+mutualLoop1.__env = new __ENV(__global);
 __global.mutualLoop1 = [mutualLoop1];
 function mutualLoop2() {
-  return __call1('mutualLoop2', this, __global, []);
+  return __call1('mutualLoop2', this, new __ENV(__global), []);
 }
 mutualLoop2.__label = 'mutualLoop2';
-mutualLoop2.__env = __global;
+mutualLoop2.__env = new __ENV(__global);
 __global.mutualLoop2 = [mutualLoop2];
 function identity(x) {
-  return __call1('identity', this, __global, [x]);
+  return __call1('identity', this, new __ENV(__global), [x]);
 }
 identity.__label = 'identity';
-identity.__env = __global;
+identity.__env = new __ENV(__global);
 __global.identity = [identity];
 function constantly(x) {
-  return __call1('constantly', this, __global, [x]);
+  return __call1('constantly', this, new __ENV(__global), [x]);
 }
 constantly.__label = 'constantly';
-constantly.__env = __global;
+constantly.__env = new __ENV(__global);
 __global.constantly = [constantly];
 function incr() {
-  return __call1('incr', this, __global, []);
+  return __call1('incr', this, new __ENV(__global), []);
 }
 incr.__label = 'incr';
-incr.__env = __global;
+incr.__env = new __ENV(__global);
 __global.incr = [incr];
 function try_catch_finally(try_clause, catch_clause, finally_clause) {
-  return __call1('try_catch_finally', this, __global, [
+  return __call1('try_catch_finally', this, new __ENV(__global), [
     try_clause,
     catch_clause,
     finally_clause
   ]);
 }
 try_catch_finally.__label = 'try_catch_finally';
-try_catch_finally.__env = __global;
+try_catch_finally.__env = new __ENV(__global);
 __global.try_catch_finally = [try_catch_finally];
 function sum(xs) {
-  return __call1('sum', this, __global, [xs]);
+  return __call1('sum', this, new __ENV(__global), [xs]);
 }
 sum.__label = 'sum';
-sum.__env = __global;
+sum.__env = new __ENV(__global);
 __global.sum = [sum];
-__mk('__lambda_3', __global, function __lambda_3(callback) {
-  return __call1('__lambda_3', this, __global, [callback]);
-})(__mk('__lambda_4', __global, function __lambda_4() {
-  return __call1('__lambda_4', this, __global, []);
+__mk('__lambda_3', new __ENV(__global), function __lambda_3(callback) {
+  return __call1('__lambda_3', this, new __ENV(__global), [callback]);
+})(__mk('__lambda_4', new __ENV(__global), function __lambda_4() {
+  return __call1('__lambda_4', this, new __ENV(__global), []);
 }));
-__mk('__lambda_5', __global, function __lambda_5(callback) {
-  return __call1('__lambda_5', this, __global, [callback]);
-})(__mk('__lambda_6', __global, function __lambda_6() {
-  return __call1('__lambda_6', this, __global, []);
+__mk('__lambda_5', new __ENV(__global), function __lambda_5(callback) {
+  return __call1('__lambda_5', this, new __ENV(__global), [callback]);
+})(__mk('__lambda_6', new __ENV(__global), function __lambda_6() {
+  return __call1('__lambda_6', this, new __ENV(__global), []);
 }));
-__mk('__lambda_7', __global, function __lambda_7(callback) {
-  return __call1('__lambda_7', this, __global, [callback]);
-})([__mk('__lambda_8', __global, function __lambda_8() {
-    return __call1('__lambda_8', this, __global, []);
+__mk('__lambda_7', new __ENV(__global), function __lambda_7(callback) {
+  return __call1('__lambda_7', this, new __ENV(__global), [callback]);
+})([__mk('__lambda_8', new __ENV(__global), function __lambda_8() {
+    return __call1('__lambda_8', this, new __ENV(__global), []);
   })]);
 module.exports = {
   infLoop: infLoop,

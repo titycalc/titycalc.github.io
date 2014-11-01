@@ -51,16 +51,16 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function isEven(x) {
-  return __call1('isEven', this, __global, [x]);
+  return __call1('isEven', this, new __ENV(__global), [x]);
 }
 isEven.__label = 'isEven';
-isEven.__env = __global;
+isEven.__env = new __ENV(__global);
 __global.isEven = [isEven];
 function isOdd(x) {
-  return __call1('isOdd', this, __global, [x]);
+  return __call1('isOdd', this, new __ENV(__global), [x]);
 }
 isOdd.__label = 'isOdd';
-isOdd.__env = __global;
+isOdd.__env = new __ENV(__global);
 __global.isOdd = [isOdd];
 exports.isEven = isEven;
 exports.isOdd = isOdd;

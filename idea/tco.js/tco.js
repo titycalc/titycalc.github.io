@@ -8,6 +8,8 @@ var GLOBAL = {
   properties: []
 };
 var COPYENV = esprima.parse("new __ENV(__env)").body[0].expression
+var COPYGLOBAL = esprima.parse("new __ENV(__global)").body[0].expression
+
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
 }
@@ -1037,10 +1039,11 @@ alternate: alternate, consequent: consequent };
                     value: id.name
                   },
                   { type: 'ThisExpression' },
-                  {
+                  COPYGLOBAL,
+                  /*{
                     type: 'Identifier',
                     name: '__global'
-                  },
+                  },*/
                   {
                     type: 'ArrayExpression',
                     elements: ast.params
@@ -1066,7 +1069,8 @@ alternate: alternate, consequent: consequent };
             type: 'Literal',
             value: id.name
           },
-          { type: 'Identifier', name: '__global' },
+          COPYGLOBAL,
+          /*{ type: 'Identifier', name: '__global' },*/
           fn
         ]
       };
@@ -1445,10 +1449,11 @@ body: body }
                     value: ast.id.name
                   },
                   { type: 'ThisExpression' },
-                  {
+                  COPYGLOBAL,
+                  /*{
                     type: 'Identifier',
                     name: '__global'
-                  },
+                  },*/
                   {
                     type: 'ArrayExpression',
                     elements: ast.params
@@ -1502,10 +1507,10 @@ body: body }
                 name: '__env'
               }
             },
-            right: {
+            right: COPYGLOBAL/*{
               type: 'Identifier',
               name: '__global'
-            }
+            }*/
           }
         },
         {
