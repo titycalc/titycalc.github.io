@@ -11,6 +11,7 @@ function __ENV(__env) {
   this.y = __env.y;
   this.constantly = __env.constantly;
   this.x = __env.x;
+  this.abcdeabcde = __env.abcdeabcde;
   this.__lambda_3 = __env.__lambda_3;
   this.z = __env.z;
   this.constantly1 = __env.constantly1;
@@ -20,6 +21,8 @@ function __ENV(__env) {
   this.try_clause = __env.try_clause;
   this.catch_clause = __env.catch_clause;
   this.finally_clause = __env.finally_clause;
+  this.x = __env.x;
+  this.i = __env.i;
   this.sum = __env.sum;
   this.xs = __env.xs;
 }

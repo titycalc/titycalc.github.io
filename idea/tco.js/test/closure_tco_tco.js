@@ -6,6 +6,8 @@ function __ENV(__env) {
   this.__lambda_1 = __env.__lambda_1;
   this.mkCounter1 = __env.mkCounter1;
   this.i = __env.i;
+  this.i = __env.i;
+  this.x = __env.x;
   this.__lambda_2 = __env.__lambda_2;
   this.__lambda_3 = __env.__lambda_3;
   this.mkClosure = __env.mkClosure;

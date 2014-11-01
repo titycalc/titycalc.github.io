@@ -496,6 +496,7 @@ function optVariableDeclaration(ast){
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
+      appendVar(declaration.id);
         declarations.push({
           type: 'AssignmentExpression',
           operator: '=',
@@ -1199,6 +1200,7 @@ function optToplevelVariableDeclaration(ast){
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
+      appendVar(declaration.id);
       if (declaration.init) {
         declarations.push({
           type: 'VariableDeclarator',
