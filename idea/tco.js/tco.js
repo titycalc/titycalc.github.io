@@ -12,9 +12,11 @@ var COPYGLOBAL = esprima.parse("new __ENV(__global)").body[0].expression
 
 function appendCase(a_case) {
   OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
+  return;
 }
 function appendProp(a_prop) {
   //COPYENV.properties.push(a_prop);
+  return;
 }
 function appendVar(ident) {
   var stmt = {type:'ExpressionStatement',expression:{type: 'AssignmentExpression',
@@ -1570,4 +1572,5 @@ fs.readFile(process.argv[2], 'utf-8', function (err, code) {
   var program = optProgram(esprima.parse(code));
   OUTPUT.body = OUTPUT.body.concat(program.body);
   console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
+  return;
 });
