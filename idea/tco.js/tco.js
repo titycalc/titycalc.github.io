@@ -194,8 +194,28 @@ property: */ast/* }*/
     }
     return { type: 'SequenceExpression', expressions: exprs };
   case 'UnaryExpression':
+    //console.error(ast.operator);
+    switch (ast.operator) {
+    case 'typeof':
+      switch (ast.argument.type) {
+      case 'Identifier':
+         return { type: 'ConditionalExpression',
+           test: existsLhs1(ast.argument),
+           consequent: { type: 'UnaryExpression', prefix: ast.prefix,
+argument: optLhs1(ast.argument), operator: ast.operator },
+           alternate: { type: 'UnaryExpression', prefix: ast.prefix,
+argument: optLhs2(ast.argument), operator: ast.operator },
+            }
+      default:
     return { type: 'UnaryExpression', prefix: ast.prefix,
 argument: optExpr(ast.argument), operator: ast.operator };
+	  
+      }
+     
+    default:
+    return { type: 'UnaryExpression', prefix: ast.prefix,
+argument: optExpr(ast.argument), operator: ast.operator };
+    }
   case 'NewExpression':
     var callee = optExpr(ast.callee);
     var args = [];

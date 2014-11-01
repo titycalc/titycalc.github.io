@@ -1243,12 +1243,42 @@ function __call(__label, __this, __env, __args) {
             expressions: __env.exprs ? __env.exprs[0] : exprs
           };
         case 'UnaryExpression':
-          return {
-            type: 'UnaryExpression',
-            prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-            argument: (__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).argument),
-            operator: (__env.ast ? __env.ast[0] : ast).operator
-          };
+          switch ((__env.ast ? __env.ast[0] : ast).operator) {
+          case 'typeof':
+            switch ((__env.ast ? __env.ast[0] : ast).argument.type) {
+            case 'Identifier':
+              return {
+                type: 'ConditionalExpression',
+                test: (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1)((__env.ast ? __env.ast[0] : ast).argument),
+                consequent: {
+                  type: 'UnaryExpression',
+                  prefix: (__env.ast ? __env.ast[0] : ast).prefix,
+                  argument: (__env.optLhs1 ? __env.optLhs1[0] : optLhs1)((__env.ast ? __env.ast[0] : ast).argument),
+                  operator: (__env.ast ? __env.ast[0] : ast).operator
+                },
+                alternate: {
+                  type: 'UnaryExpression',
+                  prefix: (__env.ast ? __env.ast[0] : ast).prefix,
+                  argument: (__env.optLhs2 ? __env.optLhs2[0] : optLhs2)((__env.ast ? __env.ast[0] : ast).argument),
+                  operator: (__env.ast ? __env.ast[0] : ast).operator
+                }
+              };
+            default:
+              return {
+                type: 'UnaryExpression',
+                prefix: (__env.ast ? __env.ast[0] : ast).prefix,
+                argument: (__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).argument),
+                operator: (__env.ast ? __env.ast[0] : ast).operator
+              };
+            }
+          default:
+            return {
+              type: 'UnaryExpression',
+              prefix: (__env.ast ? __env.ast[0] : ast).prefix,
+              argument: (__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).argument),
+              operator: (__env.ast ? __env.ast[0] : ast).operator
+            };
+          }
         case 'NewExpression':
           __env.callee = [(__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).callee)];
           __env.args = [[]];

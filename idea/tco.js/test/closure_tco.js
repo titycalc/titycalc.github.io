@@ -6,11 +6,29 @@ function __ENV(__env) {
   this.__lambda_1 = __env.__lambda_1;
   this.mkCounter1 = __env.mkCounter1;
   this.i = __env.i;
+  this.__lambda_2 = __env.__lambda_2;
+  this.__lambda_3 = __env.__lambda_3;
+  this.mkClosure = __env.mkClosure;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
+      case 'mkClosure':
+        return [
+          __mk('__lambda_2', __env, function __lambda_2() {
+            return __call1('__lambda_2', __this, __env, []);
+          }),
+          __mk('__lambda_3', __env, function __lambda_3() {
+            return __call1('__lambda_3', __this, __env, []);
+          })
+        ];
+      case '__lambda_3':
+        if ((__env.x ? typeof __env.x[0] : typeof x) !== 'undefined') {
+          (__env.console ? __env.console[0] : console).log('Oops: ' + (__env.x ? __env.x[0] : x));
+        }
+      case '__lambda_2':
+        __env.x = [1];
       case 'mkCounter1':
         __env.i = [__args[0]];
         return __mk('__lambda_1', __env, function __lambda_1() {
@@ -62,6 +80,24 @@ __global.mkCounter1 = [mkCounter1];
 var c;
 c = mkCounter1(0);
 __global.c = [c];
-for (var i = 0; i < 1000000; ++i) {
+for (var i = 0; i < 3; ++i) {
   c();
 }
+function mkClosure() {
+  return __call1('mkClosure', this, new __ENV(__global), []);
+}
+mkClosure.__label = 'mkClosure';
+mkClosure.__env = new __ENV(__global);
+__global.mkClosure = [mkClosure];
+var k;
+k = mkClosure();
+__global.k = [k];
+var k1;
+k1 = k[0];
+__global.k1 = [k1];
+var k2;
+k2 = k[1];
+__global.k2 = [k2];
+k2();
+k1();
+k2();
