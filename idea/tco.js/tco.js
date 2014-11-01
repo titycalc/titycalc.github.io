@@ -152,6 +152,9 @@ function optExpr(ast) {
       name: '__this'
     };
   case 'Identifier':
+    if (ast.name.lastIndexOf('__',0) === 0) {
+      console.warn('any identifier starting with ``__" is reserved.')
+    }
     return { type: 'ConditionalExpression',
 test:{
         type: 'MemberExpression',
@@ -913,6 +916,9 @@ function optToplevelExpr(ast) {
   case 'ThisExpression':
     return ast;
   case 'Identifier':
+    if (ast.name.lastIndexOf('__',0) === 0) {
+      console.warn('any identifier starting with ``__" is reserved.')
+    }
     return ast;
   case 'AssignmentExpression':
     var lhs = optToplevelExpr(ast.left);
