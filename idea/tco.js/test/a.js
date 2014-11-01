@@ -28,6 +28,11 @@ function constantly(x) {
   return discard;
 }
 
+function constantly1(x) {
+  var abcdeabcde = x;
+  return function (z) { return abcdeabcde; }
+}
+
 function incr() {
   return this.x + 1;
 }
@@ -46,9 +51,9 @@ function sum(xs) {
   return x;
 }
 
-(function (callback){ return callback(); })(function (){});
-(function f(callback){ return callback(); })(function (){});
-(function (callback){ return callback[0](); })([function (){}]);
+//(function (callback){ return callback(); })(function (){return});
+//(function f(callback){ return callback(); })(function (){return});
+//(function (callback){ return callback[0](); })([function (){return}]);
 
 module.exports = {
   infLoop: infLoop,
@@ -58,5 +63,6 @@ module.exports = {
   mutualLoop2: mutualLoop2,
   identity: identity,
   constantly: constantly,
+  constantly1: constantly1,
   incr: incr
 }

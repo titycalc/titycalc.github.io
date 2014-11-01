@@ -11,6 +11,10 @@ function __ENV(__env) {
   this.y = __env.y;
   this.constantly = __env.constantly;
   this.x = __env.x;
+  this.__lambda_3 = __env.__lambda_3;
+  this.z = __env.z;
+  this.constantly1 = __env.constantly1;
+  this.x = __env.x;
   this.incr = __env.incr;
   this.try_catch_finally = __env.try_catch_finally;
   this.try_clause = __env.try_clause;
@@ -18,46 +22,11 @@ function __ENV(__env) {
   this.finally_clause = __env.finally_clause;
   this.sum = __env.sum;
   this.xs = __env.xs;
-  this.__lambda_3 = __env.__lambda_3;
-  this.callback = __env.callback;
-  this.__lambda_4 = __env.__lambda_4;
-  this.__lambda_5 = __env.__lambda_5;
-  this.f = __env.f;
-  this.callback = __env.callback;
-  this.__lambda_6 = __env.__lambda_6;
-  this.__lambda_7 = __env.__lambda_7;
-  this.callback = __env.callback;
-  this.__lambda_8 = __env.__lambda_8;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
-      case '__lambda_8':
-      case '__lambda_7':
-        __env.callback = [__args[0]];
-        __args = [];
-        __label = (__env.callback ? __env.callback[0] : callback)[0].__label;
-        __env = (__env.callback ? __env.callback[0] : callback)[0].__env;
-        __this = __env.callback ? __env.callback[0] : callback;
-        continue __jmp;
-      case '__lambda_6':
-      case '__lambda_5':
-        __env.f = __mk('__lambda_5', new __ENV(__global), function __lambda_5(callback) {
-          return __call1('__lambda_5', this, new __ENV(__global), [callback]);
-        });
-        __env.callback = [__args[0]];
-        __args = [];
-        __label = (__env.callback ? __env.callback[0] : callback).__label;
-        __env = (__env.callback ? __env.callback[0] : callback).__env;
-        continue __jmp;
-      case '__lambda_4':
-      case '__lambda_3':
-        __env.callback = [__args[0]];
-        __args = [];
-        __label = (__env.callback ? __env.callback[0] : callback).__label;
-        __env = (__env.callback ? __env.callback[0] : callback).__env;
-        continue __jmp;
       case 'sum':
         __env.xs = [__args[0]];
         __env.x = [0];
@@ -78,6 +47,15 @@ function __call(__label, __this, __env, __args) {
         }
       case 'incr':
         return __this.x + 1;
+      case 'constantly1':
+        __env.x = [__args[0]];
+        __env.abcdeabcde = [__env.x ? __env.x[0] : x];
+        return __mk('__lambda_3', new __ENV(__env), function __lambda_3(z) {
+          return __call1('__lambda_3', __this, new __ENV(__env), [z]);
+        });
+      case '__lambda_3':
+        __env.z = [__args[0]];
+        return __env.abcdeabcde ? __env.abcdeabcde[0] : abcdeabcde;
       case 'constantly':
         __env.x = [__args[0]];
         __env.discard = [__mk('discard', new __ENV(__env), function discard(y) {
@@ -178,6 +156,12 @@ function constantly(x) {
 constantly.__label = 'constantly';
 constantly.__env = new __ENV(__global);
 __global.constantly = [constantly];
+function constantly1(x) {
+  return __call1('constantly1', this, new __ENV(__global), [x]);
+}
+constantly1.__label = 'constantly1';
+constantly1.__env = new __ENV(__global);
+__global.constantly1 = [constantly1];
 function incr() {
   return __call1('incr', this, new __ENV(__global), []);
 }
@@ -200,21 +184,6 @@ function sum(xs) {
 sum.__label = 'sum';
 sum.__env = new __ENV(__global);
 __global.sum = [sum];
-__mk('__lambda_3', new __ENV(__global), function __lambda_3(callback) {
-  return __call1('__lambda_3', this, new __ENV(__global), [callback]);
-})(__mk('__lambda_4', new __ENV(__global), function __lambda_4() {
-  return __call1('__lambda_4', this, new __ENV(__global), []);
-}));
-__mk('__lambda_5', new __ENV(__global), function __lambda_5(callback) {
-  return __call1('__lambda_5', this, new __ENV(__global), [callback]);
-})(__mk('__lambda_6', new __ENV(__global), function __lambda_6() {
-  return __call1('__lambda_6', this, new __ENV(__global), []);
-}));
-__mk('__lambda_7', new __ENV(__global), function __lambda_7(callback) {
-  return __call1('__lambda_7', this, new __ENV(__global), [callback]);
-})([__mk('__lambda_8', new __ENV(__global), function __lambda_8() {
-    return __call1('__lambda_8', this, new __ENV(__global), []);
-  })]);
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,
@@ -223,5 +192,6 @@ module.exports = {
   mutualLoop2: mutualLoop2,
   identity: identity,
   constantly: constantly,
+  constantly1: constantly1,
   incr: incr
 };
