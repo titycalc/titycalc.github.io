@@ -14,7 +14,7 @@ function mkCounter1(i) {
 var c = mkCounter1(0);
 
 for (var i = 0; i < 3; ++i) {
-  c();
+  console.log(c());
 }
 
 function mkClosure() {

@@ -339,10 +339,11 @@ alternate: alternate, consequent: consequent };
                     value: id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  {
+                  COPYENV,
+                  /*{
                     type: 'Identifier',
                     name: '__env'
-                  },
+                  },*/
                   {
                     type: 'ArrayExpression',
                     elements: ast.params
@@ -368,7 +369,8 @@ alternate: alternate, consequent: consequent };
             type: 'Literal',
             value: id.name
           },
-          { type: 'Identifier', name: '__env' },
+          COPYENV,
+          /*{ type: 'Identifier', name: '__env' },*/
           fn
         ]
       };
@@ -875,10 +877,11 @@ body: body }
                     value: ast.id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  {
+                  COPYENV,
+                  /*{
                     type: 'Identifier',
                     name: '__env'
-                  },
+                  },*/
                   {
                     type: 'ArrayExpression',
                     elements: ast.params

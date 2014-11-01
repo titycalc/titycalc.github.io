@@ -1102,10 +1102,7 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        {
-                          type: 'Identifier',
-                          name: '__env'
-                        },
+                        __env.COPYENV ? __env.COPYENV[0] : COPYENV,
                         {
                           type: 'ArrayExpression',
                           elements: (__env.ast ? __env.ast[0] : ast).params
@@ -1426,10 +1423,7 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        {
-                          type: 'Identifier',
-                          name: '__env'
-                        },
+                        __env.COPYENV ? __env.COPYENV[0] : COPYENV,
                         {
                           type: 'ArrayExpression',
                           elements: (__env.ast ? __env.ast[0] : ast).params
@@ -1455,10 +1449,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: (__env.id ? __env.id[0] : id).name
                 },
-                {
-                  type: 'Identifier',
-                  name: '__env'
-                },
+                __env.COPYENV ? __env.COPYENV[0] : COPYENV,
                 __env.fn ? __env.fn[0] : fn
               ]
             }];

@@ -16,11 +16,11 @@ function __call(__label, __this, __env, __args) {
       switch (__label) {
       case 'mkClosure':
         return [
-          __mk('__lambda_2', __env, function __lambda_2() {
-            return __call1('__lambda_2', __this, __env, []);
+          __mk('__lambda_2', new __ENV(__env), function __lambda_2() {
+            return __call1('__lambda_2', __this, new __ENV(__env), []);
           }),
-          __mk('__lambda_3', __env, function __lambda_3() {
-            return __call1('__lambda_3', __this, __env, []);
+          __mk('__lambda_3', new __ENV(__env), function __lambda_3() {
+            return __call1('__lambda_3', __this, new __ENV(__env), []);
           })
         ];
       case '__lambda_3':
@@ -31,15 +31,15 @@ function __call(__label, __this, __env, __args) {
         __env.x = [1];
       case 'mkCounter1':
         __env.i = [__args[0]];
-        return __mk('__lambda_1', __env, function __lambda_1() {
-          return __call1('__lambda_1', __this, __env, []);
+        return __mk('__lambda_1', new __ENV(__env), function __lambda_1() {
+          return __call1('__lambda_1', __this, new __ENV(__env), []);
         });
       case '__lambda_1':
         return __env.i ? __env.i[0] += 1 : i += 1;
       case 'mkCounter':
         __env.i = [__args[0]];
         __env.add = [__mk('add', new __ENV(__env), function add() {
-            return __call1('add', __this, __env, []);
+            return __call1('add', __this, new __ENV(__env), []);
           })];
         return __env.add ? __env.add[0] : add;
       case 'add':
@@ -81,7 +81,7 @@ var c;
 c = mkCounter1(0);
 __global.c = [c];
 for (var i = 0; i < 3; ++i) {
-  c();
+  console.log(c());
 }
 function mkClosure() {
   return __call1('mkClosure', this, new __ENV(__global), []);
