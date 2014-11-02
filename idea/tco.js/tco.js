@@ -188,6 +188,24 @@ function optExpr(info) {
     if (ast.name.lastIndexOf('__',0) === 0) {
       console.warn('any identifier starting with ``__" is reserved.')
     }
+    if (env[ast.name]) {
+      return {
+      type: 'MemberExpression',
+      object: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ast
+      },
+      property: {
+        type: 'Literal',
+        value: 0
+      },
+      computed: true
+    }
+    } else { return ast; }
     return { type: 'ConditionalExpression',
 test:{
         type: 'MemberExpression',
@@ -349,6 +367,7 @@ alternate: alternate, consequent: consequent };
       type: 'Identifier',
       name: gensym()
     };
+    env = shallowCopy(env);
       var fn = {
         type: 'FunctionExpression',
         params: ast.params,
@@ -410,7 +429,8 @@ alternate: alternate, consequent: consequent };
     var body1 = [];
     //appendVar(id);
     if (ast.id != null) {
-      appendVar(ast.id);
+      //appendVar(ast.id);
+      env[ast.id.name] = true;
       body1.push({
         type: 'ExpressionStatement',
         expression: {
@@ -427,7 +447,8 @@ alternate: alternate, consequent: consequent };
     }
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      appendVar(param);
+      //appendVar(param);
+      env[param.name] = true;
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -530,7 +551,8 @@ function optVariableDeclaration(info){
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
-      appendVar(declaration.id);
+      //appendVar(declaration.id);
+      env[declaration.id.name] = true;
         declarations.push({
           type: 'AssignmentExpression',
           operator: '=',
@@ -677,12 +699,16 @@ finalizer: finalizer };
     return { type: 'ForStatement', init: init, test: test, update: update,
 body: body }
   case 'ForInStatement':
+    // ***************************************** TODO ***********
     if (ast.left == null) {
       var left = null;
     } else {
       switch (ast.left.type) {
       case 'VariableDeclaration':
-        var left = optVariableDeclaration({ast:ast.left,env:env});
+        var left_init = optVariableDeclaration({ast:ast.left,env:env});
+        var left = {type: 'MemberExpression',object:
+{type:'MemberExpression',
+object:{type:'Identifier',name:'__env'},property: ast.left.declarations[0].id },property: {type:'Literal',value:0},computed:true}
         break;
       default:
         var left = optExpr({ast:ast.init,env:env});
@@ -690,8 +716,9 @@ body: body }
     }
     var right  = optExpr({ast:ast.right,env:env});
     var body = optStmt({ast:ast.body, env:env});
-    return { type: 'ForInStatement', left: left, right: right, 
-body: body, each: ast.each }
+    return {type:'BlockStatement',body:[{type: 'ExpressionStatement',expression:left_init},
+{ type: 'ForInStatement', left: left, right: right, 
+body: body, each: ast.each }]}
   //case 'ForOfStatement':
   //case 'LetStatement':
   case 'DebuggerStatement':
@@ -856,12 +883,13 @@ body: body, each: ast.each }
       };
     }
   case 'FunctionDeclaration':
-    var body = optStmt({ast:ast.body, env:env});
+    env = shallowCopy(env);
     var body1 = [];
-    appendVar(ast.id);
+    //appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      appendVar(param);
+      env[param.name] = true;
+      //appendVar(param);
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -894,6 +922,7 @@ body: body, each: ast.each }
       };
       body1.push(setParam);
     }
+    var body = optStmt({ast:ast.body, env:env});
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);

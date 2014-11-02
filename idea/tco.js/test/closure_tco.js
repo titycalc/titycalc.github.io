@@ -1,22 +1,14 @@
 function __ENV(__env) {
-  if (__env.add)
-    this.add = __env.add;
-  if (__env.x)
-    this.x = __env.x;
-  if (__env.aaabbb)
-    this.aaabbb = __env.aaabbb;
-  if (__env.f)
-    this.f = __env.f;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
       case '__lambda_6':
-        __env.f = [(__env.bar ? __env.bar[0] : bar)()];
-        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
-        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
-        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
+        __env.f = [bar()];
+        console.log(__env.f[0]());
+        console.log(__env.f[0]());
+        console.log(__env.f[0]());
       case '__lambda_4':
         __env.aaabbb = [0];
         __env.f = [function (__env) {
@@ -24,15 +16,15 @@ function __call(__label, __this, __env, __args) {
               return __call('__lambda_5', __this, __env, []);
             });
           }(new __ENV(__env))];
-        __args = [__env.f ? __env.f[0] : f];
-        __label = (__env.id ? __env.id[0] : id).__label;
-        __env = (__env.id ? __env.id[0] : id).__env;
+        __args = [__env.f[0]];
+        __label = id.__label;
+        __env = id.__env;
         continue __jmp;
       case '__lambda_5':
-        return __env.aaabbb ? __env.aaabbb[0] : aaabbb;
+        return __env.aaabbb[0];
       case 'id':
         __env.x = [__args[0]];
-        return __env.x ? __env.x[0] : x;
+        return __env.x[0];
       case 'mkClosure':
         return [
           function (__env) {
@@ -47,8 +39,9 @@ function __call(__label, __this, __env, __args) {
           }(new __ENV(__env))
         ];
       case '__lambda_3':
+        console.log(__env);
         if ((__env.x ? typeof __env.x[0] : typeof x) !== 'undefined') {
-          (__env.console ? __env.console[0] : console).log('Oops: ' + (__env.x ? __env.x[0] : x));
+          console.log('Oops: ' + x);
         }
       case '__lambda_2':
         __env.x = [1];
@@ -68,7 +61,7 @@ function __call(__label, __this, __env, __args) {
               return __call('add', __this, __env, []);
             });
           }(new __ENV(__env))];
-        return __env.add ? __env.add[0] : add;
+        return add;
       case 'add':
         return __env.i ? __env.i[0] += 1 : i += 1;
       default:

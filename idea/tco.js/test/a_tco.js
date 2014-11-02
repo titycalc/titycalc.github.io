@@ -1,16 +1,4 @@
 function __ENV(__env) {
-  if (__env.discard)
-    this.discard = __env.discard;
-  if (__env.y)
-    this.y = __env.y;
-  if (__env.abcdeabcde)
-    this.abcdeabcde = __env.abcdeabcde;
-  if (__env.z)
-    this.z = __env.z;
-  if (__env.x)
-    this.x = __env.x;
-  if (__env.i)
-    this.i = __env.i;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -19,26 +7,26 @@ function __call(__label, __this, __env, __args) {
       case 'sum':
         __env.xs = [__args[0]];
         __env.x = [0];
-        for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.xs ? __env.xs[0] : xs).length; __env.x ? ++__env.x[0] : ++x) {
-          __env.x ? __env.x[0] += (__env.xs ? __env.xs[0] : xs)[__env.i ? __env.i[0] : i] : x += (__env.xs ? __env.xs[0] : xs)[__env.i ? __env.i[0] : i];
+        for (__env.i = [0]; __env.i[0] < __env.xs[0].length; __env.x ? ++__env.x[0] : ++x) {
+          __env.x ? __env.x[0] += __env.xs[0][__env.i[0]] : x += __env.xs[0][__env.i[0]];
         }
-        return __env.x ? __env.x[0] : x;
+        return __env.x[0];
       case 'try_catch_finally':
         __env.try_clause = [__args[0]];
         __env.catch_clause = [__args[1]];
         __env.finally_clause = [__args[2]];
         try {
-          (__env.try_clause ? __env.try_clause[0] : try_clause)();
+          __env.try_clause[0]();
         } catch (e) {
-          (__env.catch_clause ? __env.catch_clause[0] : catch_clause)(__env.e ? __env.e[0] : e);
+          __env.catch_clause[0](e);
         } finally {
-          (__env.finally_clause ? __env.finally_clause[0] : finally_clause)();
+          __env.finally_clause[0]();
         }
       case 'incr':
         return __this.x + 1;
       case 'constantly1':
         __env.x = [__args[0]];
-        __env.abcdeabcde = [__env.x ? __env.x[0] : x];
+        __env.abcdeabcde = [__env.x[0]];
         return function (__env) {
           return __mk('__lambda_3', __env, function __lambda_3(z) {
             return __call('__lambda_3', __this, __env, [z]);
@@ -46,7 +34,7 @@ function __call(__label, __this, __env, __args) {
         }(new __ENV(__env));
       case '__lambda_3':
         __env.z = [__args[0]];
-        return __env.abcdeabcde ? __env.abcdeabcde[0] : abcdeabcde;
+        return __env.abcdeabcde[0];
       case 'constantly':
         __env.x = [__args[0]];
         __env.discard = [function (__env) {
@@ -54,22 +42,22 @@ function __call(__label, __this, __env, __args) {
               return __call('discard', __this, __env, [y]);
             });
           }(new __ENV(__env))];
-        return __env.discard ? __env.discard[0] : discard;
+        return discard;
       case 'discard':
         __env.y = [__args[0]];
-        return __env.x ? __env.x[0] : x;
+        return __env.x[0];
       case 'identity':
         __env.x = [__args[0]];
-        return __env.x ? __env.x[0] : x;
+        return __env.x[0];
       case 'mutualLoop2':
         __args = [];
-        __label = (__env.mutualLoop1 ? __env.mutualLoop1[0] : mutualLoop1).__label;
-        __env = (__env.mutualLoop1 ? __env.mutualLoop1[0] : mutualLoop1).__env;
+        __label = mutualLoop1.__label;
+        __env = mutualLoop1.__env;
         continue __jmp;
       case 'mutualLoop1':
         __args = [];
-        __label = (__env.mutualLoop2 ? __env.mutualLoop2[0] : mutualLoop2).__label;
-        __env = (__env.mutualLoop2 ? __env.mutualLoop2[0] : mutualLoop2).__env;
+        __label = mutualLoop2.__label;
+        __env = mutualLoop2.__env;
         continue __jmp;
       case '__lambda_2':
         __args = [];
@@ -79,13 +67,13 @@ function __call(__label, __this, __env, __args) {
         continue __jmp;
       case '__lambda_1':
         __args = [];
-        __label = (__env.infLoop1 ? __env.infLoop1[0] : infLoop1).__label;
-        __env = (__env.infLoop1 ? __env.infLoop1[0] : infLoop1).__env;
+        __label = infLoop1.__label;
+        __env = infLoop1.__env;
         continue __jmp;
       case 'infLoop':
         __args = [];
-        __label = (__env.infLoop ? __env.infLoop[0] : infLoop).__label;
-        __env = (__env.infLoop ? __env.infLoop[0] : infLoop).__env;
+        __label = infLoop.__label;
+        __env = infLoop.__env;
         continue __jmp;
       default:
         console.error('unrecognized label: ' + __label);

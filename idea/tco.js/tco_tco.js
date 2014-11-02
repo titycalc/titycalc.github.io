@@ -1,106 +1,4 @@
 function __ENV(__env) {
-  if (__env.cp)
-    this.cp = __env.cp;
-  if (__env.k)
-    this.k = __env.k;
-  if (__env.stmt)
-    this.stmt = __env.stmt;
-  if (__env.prop1)
-    this.prop1 = __env.prop1;
-  if (__env.ast)
-    this.ast = __env.ast;
-  if (__env.env)
-    this.env = __env.env;
-  if (__env.obj)
-    this.obj = __env.obj;
-  if (__env.prop)
-    this.prop = __env.prop;
-  if (__env.exprs)
-    this.exprs = __env.exprs;
-  if (__env.i)
-    this.i = __env.i;
-  if (__env.callee)
-    this.callee = __env.callee;
-  if (__env.args)
-    this.args = __env.args;
-  if (__env.arg1)
-    this.arg1 = __env.arg1;
-  if (__env.arg2)
-    this.arg2 = __env.arg2;
-  if (__env.lhs1)
-    this.lhs1 = __env.lhs1;
-  if (__env.lhs2)
-    this.lhs2 = __env.lhs2;
-  if (__env.rhs)
-    this.rhs = __env.rhs;
-  if (__env.test)
-    this.test = __env.test;
-  if (__env.alternate)
-    this.alternate = __env.alternate;
-  if (__env.consequent)
-    this.consequent = __env.consequent;
-  if (__env.lhs)
-    this.lhs = __env.lhs;
-  if (__env.props)
-    this.props = __env.props;
-  if (__env.elts)
-    this.elts = __env.elts;
-  if (__env.elt)
-    this.elt = __env.elt;
-  if (__env.id)
-    this.id = __env.id;
-  if (__env.fn)
-    this.fn = __env.fn;
-  if (__env.mk)
-    this.mk = __env.mk;
-  if (__env.bind)
-    this.bind = __env.bind;
-  if (__env.body)
-    this.body = __env.body;
-  if (__env.body1)
-    this.body1 = __env.body1;
-  if (__env.param)
-    this.param = __env.param;
-  if (__env.setParam)
-    this.setParam = __env.setParam;
-  if (__env.declarations)
-    this.declarations = __env.declarations;
-  if (__env.declaration)
-    this.declaration = __env.declaration;
-  if (__env.expr)
-    this.expr = __env.expr;
-  if (__env.discriminant)
-    this.discriminant = __env.discriminant;
-  if (__env.cases)
-    this.cases = __env.cases;
-  if (__env.j)
-    this.j = __env.j;
-  if (__env.arg)
-    this.arg = __env.arg;
-  if (__env.block)
-    this.block = __env.block;
-  if (__env.handlers)
-    this.handlers = __env.handlers;
-  if (__env.guardedHandlers)
-    this.guardedHandlers = __env.guardedHandlers;
-  if (__env.finalizer)
-    this.finalizer = __env.finalizer;
-  if (__env.init)
-    this.init = __env.init;
-  if (__env.update)
-    this.update = __env.update;
-  if (__env.left)
-    this.left = __env.left;
-  if (__env.right)
-    this.right = __env.right;
-  if (__env.argument)
-    this.argument = __env.argument;
-  if (__env.decls)
-    this.decls = __env.decls;
-  if (__env.decl)
-    this.decl = __env.decl;
-  if (__env.program)
-    this.program = __env.program;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -109,217 +7,217 @@ function __call(__label, __this, __env, __args) {
       case '__lambda_1':
         __env.err = [__args[0]];
         __env.code = [__args[1]];
-        if (__env.err ? __env.err[0] : err) {
-          (__env.console ? __env.console[0] : console).error(__env.err ? __env.err[0] : err);
+        if (__env.err[0]) {
+          console.error(__env.err[0]);
           return;
         }
-        __env.program = [(__env.optProgram ? __env.optProgram[0] : optProgram)((__env.esprima ? __env.esprima[0] : esprima).parse(__env.code ? __env.code[0] : code))];
-        __env.OUTPUT ? __env.OUTPUT[0].body = (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body.concat((__env.program ? __env.program[0] : program).body) : OUTPUT.body = (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body.concat((__env.program ? __env.program[0] : program).body);
-        (__env.console ? __env.console[0] : console).log((__env.escodegen ? __env.escodegen[0] : escodegen).generate(__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT, { indent: '  ' }));
+        __env.program = [optProgram(esprima.parse(__env.code[0]))];
+        __env.OUTPUT ? __env.OUTPUT[0].body = OUTPUT.body.concat(__env.program[0].body) : OUTPUT.body = OUTPUT.body.concat(__env.program[0].body);
+        console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
         return;
       case 'optProgram':
         __env.ast = [__args[0]];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        switch (__env.ast[0].type) {
         case 'Program':
           __env.body = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).body.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.stmt = [(__env.ast ? __env.ast[0] : ast).body[__env.i ? __env.i[0] : i]];
-            __env.stmt ? __env.stmt[0] = (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)(__env.stmt ? __env.stmt[0] : stmt) : stmt = (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)(__env.stmt ? __env.stmt[0] : stmt);
-            switch ((__env.stmt ? __env.stmt[0] : stmt).type) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.stmt = [__env.ast[0].body[__env.i[0]]];
+            __env.stmt ? __env.stmt[0] = optToplevelStmt(__env.stmt[0]) : stmt = optToplevelStmt(__env.stmt[0]);
+            switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body) : body = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body);
+              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
-              (__env.body ? __env.body[0] : body).push(__env.stmt ? __env.stmt[0] : stmt);
+              __env.body[0].push(__env.stmt[0]);
             }
           }
           return {
             type: 'Program',
-            body: __env.body ? __env.body[0] : body
+            body: __env.body[0]
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'optToplevelStmt':
         __env.ast = [__args[0]];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        switch (__env.ast[0].type) {
         case 'EmptyStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'BlockStatement':
           __env.body = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).body.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.stmt = [(__env.ast ? __env.ast[0] : ast).body[__env.i ? __env.i[0] : i]];
-            __env.stmt ? __env.stmt[0] = (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)(__env.stmt ? __env.stmt[0] : stmt) : stmt = (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)(__env.stmt ? __env.stmt[0] : stmt);
-            switch ((__env.stmt ? __env.stmt[0] : stmt).type) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.stmt = [__env.ast[0].body[__env.i[0]]];
+            __env.stmt ? __env.stmt[0] = optToplevelStmt(__env.stmt[0]) : stmt = optToplevelStmt(__env.stmt[0]);
+            switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body) : body = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body);
+              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
-              (__env.body ? __env.body[0] : body).push(__env.stmt ? __env.stmt[0] : stmt);
+              __env.body[0].push(__env.stmt[0]);
             }
           }
           return {
             type: 'BlockStatement',
-            body: __env.body ? __env.body[0] : body
+            body: __env.body[0]
           };
         case 'ExpressionStatement':
-          __env.expr = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).expression)];
+          __env.expr = [optToplevelExpr(__env.ast[0].expression)];
           return {
             type: 'ExpressionStatement',
-            expression: __env.expr ? __env.expr[0] : expr
+            expression: __env.expr[0]
           };
         case 'IfStatement':
-          __env.test = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).test)];
-          __env.consequent = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).consequent)];
-          __env.alternate = [(__env.ast ? __env.ast[0] : ast).alternate ? (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).alternate) : null];
+          __env.test = [optToplevelExpr(__env.ast[0].test)];
+          __env.consequent = [optToplevelStmt(__env.ast[0].consequent)];
+          __env.alternate = [__env.ast[0].alternate ? optToplevelStmt(__env.ast[0].alternate) : null];
           return {
             type: 'IfStatement',
-            test: __env.test ? __env.test[0] : test,
-            consequent: __env.consequent ? __env.consequent[0] : consequent,
-            alternate: __env.alternate ? __env.alternate[0] : alternate
+            test: __env.test[0],
+            consequent: __env.consequent[0],
+            alternate: __env.alternate[0]
           };
         case 'LabeledStatement':
-          __env.body = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)];
+          __env.body = [optToplevelStmt(__env.ast[0].body)];
           return {
             type: 'LabeledStatement',
-            label: (__env.ast ? __env.ast[0] : ast).label,
-            body: __env.body ? __env.body[0] : body
+            label: __env.ast[0].label,
+            body: __env.body[0]
           };
         case 'BreakStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'ContinueStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'WithStatement':
-          __env.obj = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).object)];
-          __env.body = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)];
+          __env.obj = [optToplevelExpr(__env.ast[0].object)];
+          __env.body = [optToplevelStmt(__env.ast[0].body)];
           return {
             type: 'WithStatement',
-            object: __env.obj ? __env.obj[0] : obj,
-            body: __env.body ? __env.body[0] : body
+            object: __env.obj[0],
+            body: __env.body[0]
           };
         case 'SwitchStatement':
-          __env.discriminant = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).discriminant)];
+          __env.discriminant = [optToplevelExpr(__env.ast[0].discriminant)];
           __env.cases = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).cases.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.test = [(__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].test ? (__env.opTopleveltExpr ? __env.opTopleveltExpr[0] : opTopleveltExpr)((__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].test) : null];
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.test = [__env.ast[0].cases[__env.i[0]].test ? opTopleveltExpr(__env.ast[0].cases[__env.i[0]].test) : null];
             __env.body = [[]];
-            for (__env.j = [0]; (__env.j ? __env.j[0] : j) < (__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].consequent.length; __env.j ? ++__env.j[0] : ++j) {
-              (__env.body ? __env.body[0] : body).push((__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].consequent[__env.j ? __env.j[0] : j]));
+            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; __env.j ? ++__env.j[0] : ++j) {
+              __env.body[0].push(optToplevelStmt(__env.ast[0].cases[__env.i[0]].consequent[__env.j[0]]));
             }
-            (__env.cases ? __env.cases[0] : cases).push({
+            __env.cases[0].push({
               type: 'SwitchCase',
-              test: __env.test ? __env.test[0] : test,
-              consequent: __env.body ? __env.body[0] : body,
-              lexical: (__env.ast ? __env.ast[0] : ast).lexical
+              test: __env.test[0],
+              consequent: __env.body[0],
+              lexical: __env.ast[0].lexical
             });
           }
           return {
             type: 'SwitchStatement',
-            discriminant: __env.discriminant ? __env.discriminant[0] : discriminant,
-            cases: __env.cases ? __env.cases[0] : cases,
-            lexical: (__env.ast ? __env.ast[0] : ast).lexical
+            discriminant: __env.discriminant[0],
+            cases: __env.cases[0],
+            lexical: __env.ast[0].lexical
           };
         case 'ThrowStatement':
-          __env.arg = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).argument)];
+          __env.arg = [optToplevelExpr(__env.ast[0].argument)];
           return {
             type: 'ThrowStatement',
-            argument: __env.arg ? __env.arg[0] : arg
+            argument: __env.arg[0]
           };
         case 'TryStatement':
-          __env.block = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).block)];
+          __env.block = [optToplevelStmt(__env.ast[0].block)];
           __env.handlers = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).handlers.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.handlers ? __env.handlers[0] : handlers).push((__env.optToplevelCatchClause ? __env.optToplevelCatchClause[0] : optToplevelCatchClause)((__env.ast ? __env.ast[0] : ast).handlers[__env.i ? __env.i[0] : i]));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.handlers[0].push(optToplevelCatchClause(__env.ast[0].handlers[__env.i[0]]));
           }
           __env.guardedHandlers = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.guardedHandlers ? __env.guardedHandlers[0] : guardedHandlers).push((__env.optToplevelCatchClause ? __env.optToplevelCatchClause[0] : optToplevelCatchClause)((__env.ast ? __env.ast[0] : ast).guardedHandlers[__env.i ? __env.i[0] : i]));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.guardedHandlers[0].push(optToplevelCatchClause(__env.ast[0].guardedHandlers[__env.i[0]]));
           }
-          __env.finalizer = [(__env.ast ? __env.ast[0] : ast).finalizer ? (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).finalizer) : null];
+          __env.finalizer = [__env.ast[0].finalizer ? optToplevelStmt(__env.ast[0].finalizer) : null];
           return {
             type: 'TryStatement',
-            block: __env.block ? __env.block[0] : block,
-            handlers: __env.handlers ? __env.handlers[0] : handlers,
-            guardedHandlers: __env.guardedHandlers ? __env.guardedHandlers[0] : guardedHandlers,
-            finalizer: __env.finalizer ? __env.finalizer[0] : finalizer
+            block: __env.block[0],
+            handlers: __env.handlers[0],
+            guardedHandlers: __env.guardedHandlers[0],
+            finalizer: __env.finalizer[0]
           };
         case 'WhileStatement':
-          __env.test = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).test)];
-          __env.body = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)];
+          __env.test = [optToplevelExpr(__env.ast[0].test)];
+          __env.body = [optToplevelStmt(__env.ast[0].body)];
           return {
             type: 'WhileStatement',
-            test: __env.test ? __env.test[0] : test,
-            body: __env.body ? __env.body[0] : body
+            test: __env.test[0],
+            body: __env.body[0]
           };
         case 'DoWhileStatement':
-          __env.test = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).test)];
-          __env.body = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)];
+          __env.test = [optToplevelExpr(__env.ast[0].test)];
+          __env.body = [optToplevelStmt(__env.ast[0].body)];
           return {
             type: 'DoWhileStatement',
-            test: __env.test ? __env.test[0] : test,
-            body: __env.body ? __env.body[0] : body
+            test: __env.test[0],
+            body: __env.body[0]
           };
         case 'ForStatement':
-          if ((__env.ast ? __env.ast[0] : ast).init == null) {
+          if (__env.ast[0].init == null) {
             __env.init = [null];
           } else {
-            switch ((__env.ast ? __env.ast[0] : ast).init.type) {
+            switch (__env.ast[0].init.type) {
             case 'VariableDeclaration':
-              __env.init = [(__env.optToplevelVariableDeclaration ? __env.optToplevelVariableDeclaration[0] : optToplevelVariableDeclaration)((__env.ast ? __env.ast[0] : ast).init)];
+              __env.init = [optToplevelVariableDeclaration(__env.ast[0].init)];
               break;
             default:
-              __env.init = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).init)];
+              __env.init = [optToplevelExpr(__env.ast[0].init)];
             }
           }
-          __env.test = [(__env.ast ? __env.ast[0] : ast).test ? (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).test) : null];
-          __env.update = [(__env.ast ? __env.ast[0] : ast).update ? (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).update) : null];
-          __env.body = [(__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)];
+          __env.test = [__env.ast[0].test ? optToplevelExpr(__env.ast[0].test) : null];
+          __env.update = [__env.ast[0].update ? optToplevelExpr(__env.ast[0].update) : null];
+          __env.body = [optToplevelStmt(__env.ast[0].body)];
           return {
             type: 'ForStatement',
-            init: __env.init ? __env.init[0] : init,
-            test: __env.test ? __env.test[0] : test,
-            update: __env.update ? __env.update[0] : update,
-            body: __env.body ? __env.body[0] : body
+            init: __env.init[0],
+            test: __env.test[0],
+            update: __env.update[0],
+            body: __env.body[0]
           };
         case 'DebuggerStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'VariableDeclaration':
           __env.decls = [[]];
           __env.body = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).declarations.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.decls ? __env.decls[0] : decls).push({
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.decls[0].push({
               type: 'VariableDeclaration',
-              kind: (__env.ast ? __env.ast[0] : ast).kind,
+              kind: __env.ast[0].kind,
               declarations: [{
                   type: 'VariableDeclarator',
-                  id: (__env.ast ? __env.ast[0] : ast).declarations[__env.i ? __env.i[0] : i].id
+                  id: __env.ast[0].declarations[__env.i[0]].id
                 }]
             });
           }
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).declarations.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.body ? __env.body[0] : body).push({
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.body[0].push({
               type: 'ExpressionStatement',
               expression: {
                 type: 'AssignmentExpression',
                 operator: '=',
-                left: (__env.ast ? __env.ast[0] : ast).declarations[__env.i ? __env.i[0] : i].id,
-                right: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).declarations[__env.i ? __env.i[0] : i].init)
+                left: __env.ast[0].declarations[__env.i[0]].id,
+                right: optToplevelExpr(__env.ast[0].declarations[__env.i[0]].init)
               }
             });
           }
           return {
             type: 'BlockStatement',
-            body: (__env.decls ? __env.decls[0] : decls).concat(__env.body ? __env.body[0] : body)
+            body: __env.decls[0].concat(__env.body[0])
           };
         case 'ReturnStatement':
-          (__env.console ? __env.console[0] : console).error('unexpected ast: ReturnStatement');
+          console.error('unexpected ast: ReturnStatement');
           break;
         case 'FunctionDeclaration':
           __env.env = [{}];
           __env.body1 = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).params.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.param = [(__env.ast ? __env.ast[0] : ast).params[__env.i ? __env.i[0] : i]];
-            __env.env ? __env.env[0][(__env.param ? __env.param[0] : param).name] = true : env[(__env.param ? __env.param[0] : param).name] = true;
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.param = [__env.ast[0].params[__env.i[0]]];
+            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -331,7 +229,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'Identifier',
                       name: '__env'
                     },
-                    property: __env.param ? __env.param[0] : param
+                    property: __env.param[0]
                   },
                   right: {
                     type: 'ArrayExpression',
@@ -344,36 +242,36 @@ function __call(__label, __this, __env, __args) {
                         },
                         property: {
                           type: 'Literal',
-                          value: __env.i ? __env.i[0] : i
+                          value: __env.i[0]
                         }
                       }]
                   }
                 }
               }];
-            (__env.body1 ? __env.body1[0] : body1).push(__env.setParam ? __env.setParam[0] : setParam);
+            __env.body1[0].push(__env.setParam[0]);
           }
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
-          switch ((__env.body ? __env.body[0] : body).type) {
+          switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body) : body1 = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body);
+            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
-            (__env.body1 ? __env.body1[0] : body1).push(__env.body ? __env.body[0] : body);
+            __env.body1[0].push(__env.body[0]);
           }
-          (__env.appendCase ? __env.appendCase[0] : appendCase)({
+          appendCase({
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: (__env.ast ? __env.ast[0] : ast).id.name
+              value: __env.ast[0].id.name
             },
-            consequent: __env.body1 ? __env.body1[0] : body1
+            consequent: __env.body1[0]
           });
           __env.decl = [{
               type: 'FunctionDeclaration',
-              params: (__env.ast ? __env.ast[0] : ast).params,
+              params: __env.ast[0].params,
               body: {
                 type: 'BlockStatement',
                 body: [{
@@ -387,19 +285,19 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: (__env.ast ? __env.ast[0] : ast).id.name
+                          value: __env.ast[0].id.name
                         },
                         { type: 'ThisExpression' },
-                        __env.COPYGLOBAL ? __env.COPYGLOBAL[0] : COPYGLOBAL,
+                        COPYGLOBAL,
                         {
                           type: 'ArrayExpression',
-                          elements: (__env.ast ? __env.ast[0] : ast).params
+                          elements: __env.ast[0].params
                         }
                       ]
                     }
                   }]
               },
-              id: (__env.ast ? __env.ast[0] : ast).id,
+              id: __env.ast[0].id,
               defaults: [],
               rest: null,
               generator: false,
@@ -408,7 +306,7 @@ function __call(__label, __this, __env, __args) {
           return {
             type: 'BlockStatement',
             body: [
-              __env.decl ? __env.decl[0] : decl,
+              __env.decl[0],
               {
                 type: 'ExpressionStatement',
                 expression: {
@@ -416,7 +314,7 @@ function __call(__label, __this, __env, __args) {
                   operator: '=',
                   left: {
                     type: 'MemberExpression',
-                    object: (__env.decl ? __env.decl[0] : decl).id,
+                    object: __env.decl[0].id,
                     property: {
                       type: 'Identifier',
                       name: '__label'
@@ -424,7 +322,7 @@ function __call(__label, __this, __env, __args) {
                   },
                   right: {
                     type: 'Literal',
-                    value: (__env.decl ? __env.decl[0] : decl).id.name
+                    value: __env.decl[0].id.name
                   }
                 }
               },
@@ -435,191 +333,191 @@ function __call(__label, __this, __env, __args) {
                   operator: '=',
                   left: {
                     type: 'MemberExpression',
-                    object: (__env.decl ? __env.decl[0] : decl).id,
+                    object: __env.decl[0].id,
                     property: {
                       type: 'Identifier',
                       name: '__env'
                     }
                   },
-                  right: __env.COPYGLOBAL ? __env.COPYGLOBAL[0] : COPYGLOBAL
+                  right: COPYGLOBAL
                 }
               }
             ]
           };
           ;
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'optToplevelVariableDeclaration':
         __env.ast = [__args[0]];
         __env.declarations = [[]];
-        for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).declarations.length; __env.i ? ++__env.i[0] : ++i) {
-          __env.declaration = [(__env.ast ? __env.ast[0] : ast).declarations[__env.i ? __env.i[0] : i]];
-          if ((__env.declaration ? __env.declaration[0] : declaration).init) {
-            (__env.declarations ? __env.declarations[0] : declarations).push({
+        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+          __env.declaration = [__env.ast[0].declarations[__env.i[0]]];
+          if (__env.declaration[0].init) {
+            __env.declarations[0].push({
               type: 'VariableDeclarator',
-              id: (__env.declaration ? __env.declaration[0] : declaration).id,
-              init: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.declaration ? __env.declaration[0] : declaration).init)
+              id: __env.declaration[0].id,
+              init: optToplevelExpr(__env.declaration[0].init)
             });
           } else {
-            (__env.declarations ? __env.declarations[0] : declarations).push(__env.declaration ? __env.declaration[0] : declaration);
+            __env.declarations[0].push(__env.declaration[0]);
           }
         }
         return {
           type: 'VariableDeclaration',
-          declarations: __env.declarations ? __env.declarations[0] : declarations,
-          kind: (__env.ast ? __env.ast[0] : ast).kind
+          declarations: __env.declarations[0],
+          kind: __env.ast[0].kind
         };
       case 'optToplevelCatchClause':
         __env.ast = [__args[0]];
         return {
           type: 'CatchClause',
-          param: (__env.ast ? __env.ast[0] : ast).param,
-          guard: (__env.ast ? __env.ast[0] : ast).guard ? (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).guard) : null,
-          body: (__env.optToplevelStmt ? __env.optToplevelStmt[0] : optToplevelStmt)((__env.ast ? __env.ast[0] : ast).body)
+          param: __env.ast[0].param,
+          guard: __env.ast[0].guard ? optToplevelExpr(__env.ast[0].guard) : null,
+          body: optToplevelStmt(__env.ast[0].body)
         };
       case 'optToplevelExpr':
         __env.ast = [__args[0]];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        switch (__env.ast[0].type) {
         case 'Literal':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'ThisExpression':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'Identifier':
-          if ((__env.ast ? __env.ast[0] : ast).name.lastIndexOf('__', 0) === 0) {
-            (__env.console ? __env.console[0] : console).warn('any identifier starting with ``__" is reserved.');
+          if (__env.ast[0].name.lastIndexOf('__', 0) === 0) {
+            console.warn('any identifier starting with ``__" is reserved.');
           }
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'AssignmentExpression':
-          __env.lhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).left)];
-          __env.rhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).right)];
+          __env.lhs = [optToplevelExpr(__env.ast[0].left)];
+          __env.rhs = [optToplevelExpr(__env.ast[0].right)];
           return {
             type: 'AssignmentExpression',
-            operator: (__env.ast ? __env.ast[0] : ast).operator,
-            left: __env.lhs ? __env.lhs[0] : lhs,
-            right: __env.rhs ? __env.rhs[0] : rhs
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'SequenceExpression':
           __env.exprs = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).expressions.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.exprs ? __env.exprs[0] : exprs).push((__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).expressions[__env.i ? __env.i[0] : i]));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.exprs[0].push(optToplevelExpr(__env.ast[0].expressions[__env.i[0]]));
           }
           return {
             type: 'SequenceExpression',
-            expressions: __env.exprs ? __env.exprs[0] : exprs
+            expressions: __env.exprs[0]
           };
         case 'UpdateExpression':
           return {
             type: 'UpdateExpression',
-            prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-            argument: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).argument),
-            operator: (__env.ast ? __env.ast[0] : ast).operator
+            prefix: __env.ast[0].prefix,
+            argument: optToplevelExpr(__env.ast[0].argument),
+            operator: __env.ast[0].operator
           };
         case 'UnaryExpression':
           return {
             type: 'UnaryExpression',
-            prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-            argument: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).argument),
-            operator: (__env.ast ? __env.ast[0] : ast).operator
+            prefix: __env.ast[0].prefix,
+            argument: optToplevelExpr(__env.ast[0].argument),
+            operator: __env.ast[0].operator
           };
         case 'NewExpression':
-          __env.callee = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).callee)];
+          __env.callee = [optToplevelExpr(__env.ast[0].callee)];
           __env.args = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).arguments.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.args ? __env.args[0] : args).push((__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).arguments[__env.i ? __env.i[0] : i]));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.args[0].push(optToplevelExpr(__env.ast[0].arguments[__env.i[0]]));
           }
           return {
             type: 'NewExpression',
-            callee: __env.callee ? __env.callee[0] : callee,
-            arguments: __env.args ? __env.args[0] : args
+            callee: __env.callee[0],
+            arguments: __env.args[0]
           };
         case 'ConditionalExpression':
-          __env.test = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [optExpr({
+              ast: __env.ast[0].test,
+              env: env
             })];
-          __env.alternate = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).alternate,
-              env: __env.env ? __env.env[0] : env
+          __env.alternate = [optExpr({
+              ast: __env.ast[0].alternate,
+              env: env
             })];
-          __env.consequent = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).consequent,
-              env: __env.env ? __env.env[0] : env
+          __env.consequent = [optExpr({
+              ast: __env.ast[0].consequent,
+              env: env
             })];
           return {
             type: 'ConditionalExpression',
-            test: __env.test ? __env.test[0] : test,
-            alternate: __env.alternate ? __env.alternate[0] : alternate,
-            consequent: __env.consequent ? __env.consequent[0] : consequent
+            test: __env.test[0],
+            alternate: __env.alternate[0],
+            consequent: __env.consequent[0]
           };
         case 'LogicalExpression':
-          __env.lhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).left)];
-          __env.rhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).right)];
+          __env.lhs = [optToplevelExpr(__env.ast[0].left)];
+          __env.rhs = [optToplevelExpr(__env.ast[0].right)];
           return {
             type: 'LogicalExpression',
-            operator: (__env.ast ? __env.ast[0] : ast).operator,
-            left: __env.lhs ? __env.lhs[0] : lhs,
-            right: __env.rhs ? __env.rhs[0] : rhs
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'BinaryExpression':
-          __env.lhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).left)];
-          __env.rhs = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).right)];
+          __env.lhs = [optToplevelExpr(__env.ast[0].left)];
+          __env.rhs = [optToplevelExpr(__env.ast[0].right)];
           return {
             type: 'BinaryExpression',
-            operator: (__env.ast ? __env.ast[0] : ast).operator,
-            left: __env.lhs ? __env.lhs[0] : lhs,
-            right: __env.rhs ? __env.rhs[0] : rhs
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'MemberExpression':
-          __env.obj = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).object)];
-          if ((__env.ast ? __env.ast[0] : ast).computed) {
+          __env.obj = [optToplevelExpr(__env.ast[0].object)];
+          if (__env.ast[0].computed) {
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).property),
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              object: __env.obj[0],
+              property: optToplevelExpr(__env.ast[0].property),
+              computed: __env.ast[0].computed
             };
           } else {
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: (__env.ast ? __env.ast[0] : ast).property,
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              object: __env.obj[0],
+              property: __env.ast[0].property,
+              computed: __env.ast[0].computed
             };
           }
         case 'ObjectExpression':
           __env.props = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).properties.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.prop = [(__env.ast ? __env.ast[0] : ast).properties[__env.i ? __env.i[0] : i]];
-            (__env.props ? __env.props[0] : props).push({
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.prop = [__env.ast[0].properties[__env.i[0]]];
+            __env.props[0].push({
               type: 'Property',
-              key: (__env.prop ? __env.prop[0] : prop).key,
-              value: (__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.prop ? __env.prop[0] : prop).value),
-              kind: (__env.prop ? __env.prop[0] : prop).kind
+              key: __env.prop[0].key,
+              value: optToplevelExpr(__env.prop[0].value),
+              kind: __env.prop[0].kind
             });
           }
           return {
             type: 'ObjectExpression',
-            properties: __env.props ? __env.props[0] : props
+            properties: __env.props[0]
           };
         case 'ArrayExpression':
           __env.elts = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).elements.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.elt = [(__env.ast ? __env.ast[0] : ast).elements[__env.i ? __env.i[0] : i]];
-            (__env.elts ? __env.elts[0] : elts).push((__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)(__env.elt ? __env.elt[0] : elt));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.elt = [__env.ast[0].elements[__env.i[0]]];
+            __env.elts[0].push(optToplevelExpr(__env.elt[0]));
           }
           return {
             type: 'ArrayExpression',
-            elements: __env.elts ? __env.elts[0] : elts
+            elements: __env.elts[0]
           };
         case 'FunctionExpression':
           __env.id = [{
               type: 'Identifier',
-              name: (__env.gensym ? __env.gensym[0] : gensym)()
+              name: gensym()
             }];
           __env.fn = [{
               type: 'FunctionExpression',
-              params: (__env.ast ? __env.ast[0] : ast).params,
+              params: __env.ast[0].params,
               body: {
                 type: 'BlockStatement',
                 body: [{
@@ -633,19 +531,19 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: (__env.id ? __env.id[0] : id).name
+                          value: __env.id[0].name
                         },
                         { type: 'ThisExpression' },
-                        __env.COPYGLOBAL ? __env.COPYGLOBAL[0] : COPYGLOBAL,
+                        COPYGLOBAL,
                         {
                           type: 'ArrayExpression',
-                          elements: (__env.ast ? __env.ast[0] : ast).params
+                          elements: __env.ast[0].params
                         }
                       ]
                     }
                   }]
               },
-              id: __env.id ? __env.id[0] : id,
+              id: __env.id[0],
               defaults: [],
               rest: null,
               generator: false,
@@ -660,17 +558,17 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: (__env.id ? __env.id[0] : id).name
+                  value: __env.id[0].name
                 },
-                __env.COPYGLOBAL ? __env.COPYGLOBAL[0] : COPYGLOBAL,
-                __env.fn ? __env.fn[0] : fn
+                COPYGLOBAL,
+                __env.fn[0]
               ]
             }];
           __env.env = [{}];
           __env.body1 = [[]];
-          if ((__env.ast ? __env.ast[0] : ast).id != null) {
-            __env.env ? __env.env[0][(__env.ast ? __env.ast[0] : ast).id.name] = true : env[(__env.ast ? __env.ast[0] : ast).id.name] = true;
-            (__env.body1 ? __env.body1[0] : body1).push({
+          if (__env.ast[0].id != null) {
+            __env.env ? __env.env[0][__env.ast[0].id.name] = true : env[__env.ast[0].id.name] = true;
+            __env.body1[0].push({
               type: 'ExpressionStatement',
               expression: {
                 type: 'AssignmentExpression',
@@ -681,15 +579,15 @@ function __call(__label, __this, __env, __args) {
                     type: 'Identifier',
                     name: '__env'
                   },
-                  property: (__env.ast ? __env.ast[0] : ast).id
+                  property: __env.ast[0].id
                 },
-                right: __env.mk ? __env.mk[0] : mk
+                right: __env.mk[0]
               }
             });
           }
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).params.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.param = [(__env.ast ? __env.ast[0] : ast).params[__env.i ? __env.i[0] : i]];
-            __env.env ? __env.env[0][(__env.param ? __env.param[0] : param).name] = true : env[(__env.param ? __env.param[0] : param).name] = true;
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.param = [__env.ast[0].params[__env.i[0]]];
+            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -701,7 +599,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'Identifier',
                       name: '__env'
                     },
-                    property: __env.param ? __env.param[0] : param
+                    property: __env.param[0]
                   },
                   right: {
                     type: 'ArrayExpression',
@@ -714,324 +612,349 @@ function __call(__label, __this, __env, __args) {
                         },
                         property: {
                           type: 'Literal',
-                          value: __env.i ? __env.i[0] : i
+                          value: __env.i[0]
                         }
                       }]
                   }
                 }
               }];
-            (__env.body1 ? __env.body1[0] : body1).push(__env.setParam ? __env.setParam[0] : setParam);
+            __env.body1[0].push(__env.setParam[0]);
           }
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
-          switch ((__env.body ? __env.body[0] : body).type) {
+          switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body) : body1 = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body);
+            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
-            (__env.body1 ? __env.body1[0] : body1).push(__env.body ? __env.body[0] : body);
+            __env.body1[0].push(__env.body[0]);
           }
-          (__env.appendCase ? __env.appendCase[0] : appendCase)({
+          appendCase({
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: (__env.id ? __env.id[0] : id).name
+              value: __env.id[0].name
             },
-            consequent: __env.body1 ? __env.body1[0] : body1
+            consequent: __env.body1[0]
           });
-          return __env.mk ? __env.mk[0] : mk;
+          return __env.mk[0];
           ;
         case 'CallExpression':
-          __env.callee = [(__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).callee)];
+          __env.callee = [optToplevelExpr(__env.ast[0].callee)];
           __env.args = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).arguments.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.args ? __env.args[0] : args).push((__env.optToplevelExpr ? __env.optToplevelExpr[0] : optToplevelExpr)((__env.ast ? __env.ast[0] : ast).arguments[__env.i ? __env.i[0] : i]));
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.args[0].push(optToplevelExpr(__env.ast[0].arguments[__env.i[0]]));
           }
           return {
             type: 'CallExpression',
-            callee: __env.callee ? __env.callee[0] : callee,
-            arguments: __env.args ? __env.args[0] : args
+            callee: __env.callee[0],
+            arguments: __env.args[0]
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'optStmt':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
+        switch (__env.ast[0].type) {
         case 'EmptyStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'BlockStatement':
           __env.body = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).body.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.stmt = [(__env.ast ? __env.ast[0] : ast).body[__env.i ? __env.i[0] : i]];
-            __env.stmt ? __env.stmt[0] = (__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: __env.stmt ? __env.stmt[0] : stmt,
-              env: __env.env ? __env.env[0] : env
-            }) : stmt = (__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: __env.stmt ? __env.stmt[0] : stmt,
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.stmt = [__env.ast[0].body[__env.i[0]]];
+            __env.stmt ? __env.stmt[0] = optStmt({
+              ast: __env.stmt[0],
+              env: __env.env[0]
+            }) : stmt = optStmt({
+              ast: __env.stmt[0],
+              env: __env.env[0]
             });
-            switch ((__env.stmt ? __env.stmt[0] : stmt).type) {
+            switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body) : body = (__env.body ? __env.body[0] : body).concat((__env.stmt ? __env.stmt[0] : stmt).body);
+              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
-              (__env.body ? __env.body[0] : body).push(__env.stmt ? __env.stmt[0] : stmt);
+              __env.body[0].push(__env.stmt[0]);
             }
           }
           return {
             type: 'BlockStatement',
-            body: __env.body ? __env.body[0] : body
+            body: __env.body[0]
           };
         case 'ExpressionStatement':
-          __env.expr = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).expression,
-              env: __env.env ? __env.env[0] : env
+          __env.expr = [optExpr({
+              ast: __env.ast[0].expression,
+              env: __env.env[0]
             })];
           return {
             type: 'ExpressionStatement',
-            expression: __env.expr ? __env.expr[0] : expr
+            expression: __env.expr[0]
           };
         case 'IfStatement':
-          __env.test = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [optExpr({
+              ast: __env.ast[0].test,
+              env: __env.env[0]
             })];
-          __env.consequent = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).consequent,
-              env: __env.env ? __env.env[0] : env
+          __env.consequent = [optStmt({
+              ast: __env.ast[0].consequent,
+              env: __env.env[0]
             })];
-          __env.alternate = [(__env.ast ? __env.ast[0] : ast).alternate ? (__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).alternate,
-              env: __env.env ? __env.env[0] : env
+          __env.alternate = [__env.ast[0].alternate ? optStmt({
+              ast: __env.ast[0].alternate,
+              env: __env.env[0]
             }) : null];
           return {
             type: 'IfStatement',
-            test: __env.test ? __env.test[0] : test,
-            consequent: __env.consequent ? __env.consequent[0] : consequent,
-            alternate: __env.alternate ? __env.alternate[0] : alternate
+            test: __env.test[0],
+            consequent: __env.consequent[0],
+            alternate: __env.alternate[0]
           };
         case 'LabeledStatement':
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
             type: 'LabeledStatement',
-            label: (__env.ast ? __env.ast[0] : ast).label,
-            body: __env.body ? __env.body[0] : body
+            label: __env.ast[0].label,
+            body: __env.body[0]
           };
         case 'BreakStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'ContinueStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'WithStatement':
-          __env.obj = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).object,
-              env: __env.env ? __env.env[0] : env
+          __env.obj = [optExpr({
+              ast: __env.ast[0].object,
+              env: __env.env[0]
             })];
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
             type: 'WithStatement',
-            object: __env.obj ? __env.obj[0] : obj,
-            body: __env.body ? __env.body[0] : body
+            object: __env.obj[0],
+            body: __env.body[0]
           };
         case 'SwitchStatement':
-          __env.discriminant = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).discriminant,
-              env: __env.env ? __env.env[0] : env
+          __env.discriminant = [optExpr({
+              ast: __env.ast[0].discriminant,
+              env: __env.env[0]
             })];
           __env.cases = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).cases.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.test = [(__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].test ? (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].test,
-                env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.test = [__env.ast[0].cases[__env.i[0]].test ? optExpr({
+                ast: __env.ast[0].cases[__env.i[0]].test,
+                env: __env.env[0]
               }) : null];
             __env.body = [[]];
-            for (__env.j = [0]; (__env.j ? __env.j[0] : j) < (__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].consequent.length; __env.j ? ++__env.j[0] : ++j) {
-              (__env.body ? __env.body[0] : body).push((__env.optStmt ? __env.optStmt[0] : optStmt)({
-                ast: (__env.ast ? __env.ast[0] : ast).cases[__env.i ? __env.i[0] : i].consequent[__env.j ? __env.j[0] : j],
-                env: __env.env ? __env.env[0] : env
+            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; __env.j ? ++__env.j[0] : ++j) {
+              __env.body[0].push(optStmt({
+                ast: __env.ast[0].cases[__env.i[0]].consequent[__env.j[0]],
+                env: __env.env[0]
               }));
             }
-            (__env.cases ? __env.cases[0] : cases).push({
+            __env.cases[0].push({
               type: 'SwitchCase',
-              test: __env.test ? __env.test[0] : test,
-              consequent: __env.body ? __env.body[0] : body,
-              lexical: (__env.ast ? __env.ast[0] : ast).lexical
+              test: __env.test[0],
+              consequent: __env.body[0],
+              lexical: __env.ast[0].lexical
             });
           }
           return {
             type: 'SwitchStatement',
-            discriminant: __env.discriminant ? __env.discriminant[0] : discriminant,
-            cases: __env.cases ? __env.cases[0] : cases,
-            lexical: (__env.ast ? __env.ast[0] : ast).lexical
+            discriminant: __env.discriminant[0],
+            cases: __env.cases[0],
+            lexical: __env.ast[0].lexical
           };
         case 'ThrowStatement':
-          __env.arg = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).argument,
-              env: __env.env ? __env.env[0] : env
+          __env.arg = [optExpr({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
             })];
           return {
             type: 'ThrowStatement',
-            argument: __env.arg ? __env.arg[0] : arg
+            argument: __env.arg[0]
           };
         case 'TryStatement':
-          __env.block = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).block,
-              env: __env.env ? __env.env[0] : env
+          __env.block = [optStmt({
+              ast: __env.ast[0].block,
+              env: __env.env[0]
             })];
           __env.handlers = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).handlers.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.handlers ? __env.handlers[0] : handlers).push((__env.optCatchClause ? __env.optCatchClause[0] : optCatchClause)({
-              ast: (__env.ast ? __env.ast[0] : ast).handlers[__env.i ? __env.i[0] : i],
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.handlers[0].push(optCatchClause({
+              ast: __env.ast[0].handlers[__env.i[0]],
+              env: __env.env[0]
             }));
           }
           __env.guardedHandlers = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.guardedHandlers ? __env.guardedHandlers[0] : guardedHandlers).push((__env.optCatchClause ? __env.optCatchClause[0] : optCatchClause)({
-              ast: (__env.ast ? __env.ast[0] : ast).guardedHandlers[__env.i ? __env.i[0] : i],
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.guardedHandlers[0].push(optCatchClause({
+              ast: __env.ast[0].guardedHandlers[__env.i[0]],
+              env: __env.env[0]
             }));
           }
-          __env.finalizer = [(__env.ast ? __env.ast[0] : ast).finalizer ? (__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).finalizer,
-              env: __env.env ? __env.env[0] : env
+          __env.finalizer = [__env.ast[0].finalizer ? optStmt({
+              ast: __env.ast[0].finalizer,
+              env: __env.env[0]
             }) : null];
           return {
             type: 'TryStatement',
-            block: __env.block ? __env.block[0] : block,
-            handlers: __env.handlers ? __env.handlers[0] : handlers,
-            guardedHandlers: __env.guardedHandlers ? __env.guardedHandlers[0] : guardedHandlers,
-            finalizer: __env.finalizer ? __env.finalizer[0] : finalizer
+            block: __env.block[0],
+            handlers: __env.handlers[0],
+            guardedHandlers: __env.guardedHandlers[0],
+            finalizer: __env.finalizer[0]
           };
         case 'WhileStatement':
-          __env.test = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [optExpr({
+              ast: __env.ast[0].test,
+              env: __env.env[0]
             })];
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
             type: 'WhileStatement',
-            test: __env.test ? __env.test[0] : test,
-            body: __env.body ? __env.body[0] : body
+            test: __env.test[0],
+            body: __env.body[0]
           };
         case 'DoWhileStatement':
-          __env.test = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [optExpr({
+              ast: __env.ast[0].test,
+              env: __env.env[0]
             })];
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
             type: 'DoWhileStatement',
-            test: __env.test ? __env.test[0] : test,
-            body: __env.body ? __env.body[0] : body
+            test: __env.test[0],
+            body: __env.body[0]
           };
         case 'ForStatement':
-          if ((__env.ast ? __env.ast[0] : ast).init == null) {
+          if (__env.ast[0].init == null) {
             __env.init = [null];
           } else {
-            switch ((__env.ast ? __env.ast[0] : ast).init.type) {
+            switch (__env.ast[0].init.type) {
             case 'VariableDeclaration':
-              __env.init = [(__env.optVariableDeclaration ? __env.optVariableDeclaration[0] : optVariableDeclaration)({
-                  ast: (__env.ast ? __env.ast[0] : ast).init,
-                  env: __env.env ? __env.env[0] : env
+              __env.init = [optVariableDeclaration({
+                  ast: __env.ast[0].init,
+                  env: __env.env[0]
                 })];
               break;
             default:
-              __env.init = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-                  ast: (__env.ast ? __env.ast[0] : ast).init,
-                  env: __env.env ? __env.env[0] : env
+              __env.init = [optExpr({
+                  ast: __env.ast[0].init,
+                  env: __env.env[0]
                 })];
             }
           }
-          __env.test = [(__env.ast ? __env.ast[0] : ast).test ? (__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [__env.ast[0].test ? optExpr({
+              ast: __env.ast[0].test,
+              env: __env.env[0]
             }) : null];
-          __env.update = [(__env.ast ? __env.ast[0] : ast).update ? (__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).update,
-              env: __env.env ? __env.env[0] : env
+          __env.update = [__env.ast[0].update ? optExpr({
+              ast: __env.ast[0].update,
+              env: __env.env[0]
             }) : null];
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
             type: 'ForStatement',
-            init: __env.init ? __env.init[0] : init,
-            test: __env.test ? __env.test[0] : test,
-            update: __env.update ? __env.update[0] : update,
-            body: __env.body ? __env.body[0] : body
+            init: __env.init[0],
+            test: __env.test[0],
+            update: __env.update[0],
+            body: __env.body[0]
           };
         case 'ForInStatement':
-          if ((__env.ast ? __env.ast[0] : ast).left == null) {
+          if (__env.ast[0].left == null) {
             __env.left = [null];
           } else {
-            switch ((__env.ast ? __env.ast[0] : ast).left.type) {
+            switch (__env.ast[0].left.type) {
             case 'VariableDeclaration':
-              __env.left = [(__env.optVariableDeclaration ? __env.optVariableDeclaration[0] : optVariableDeclaration)({
-                  ast: (__env.ast ? __env.ast[0] : ast).left,
-                  env: __env.env ? __env.env[0] : env
+              __env.left_init = [optVariableDeclaration({
+                  ast: __env.ast[0].left,
+                  env: __env.env[0]
                 })];
+              __env.left = [{
+                  type: 'MemberExpression',
+                  object: {
+                    type: 'MemberExpression',
+                    object: {
+                      type: 'Identifier',
+                      name: '__env'
+                    },
+                    property: __env.ast[0].left.declarations[0].id
+                  },
+                  property: {
+                    type: 'Literal',
+                    value: 0
+                  },
+                  computed: true
+                }];
               break;
             default:
-              __env.left = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-                  ast: (__env.ast ? __env.ast[0] : ast).init,
-                  env: __env.env ? __env.env[0] : env
+              __env.left = [optExpr({
+                  ast: __env.ast[0].init,
+                  env: __env.env[0]
                 })];
             }
           }
-          __env.right = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).right,
-              env: __env.env ? __env.env[0] : env
+          __env.right = [optExpr({
+              ast: __env.ast[0].right,
+              env: __env.env[0]
             })];
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           return {
-            type: 'ForInStatement',
-            left: __env.left ? __env.left[0] : left,
-            right: __env.right ? __env.right[0] : right,
-            body: __env.body ? __env.body[0] : body,
-            each: (__env.ast ? __env.ast[0] : ast).each
+            type: 'BlockStatement',
+            body: [
+              {
+                type: 'ExpressionStatement',
+                expression: __env.left_init[0]
+              },
+              {
+                type: 'ForInStatement',
+                left: __env.left[0],
+                right: __env.right[0],
+                body: __env.body[0],
+                each: __env.ast[0].each
+              }
+            ]
           };
         case 'DebuggerStatement':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'VariableDeclaration':
           return {
             type: 'ExpressionStatement',
-            expression: (__env.optVariableDeclaration ? __env.optVariableDeclaration[0] : optVariableDeclaration)({
-              ast: __env.ast ? __env.ast[0] : ast,
-              env: __env.env ? __env.env[0] : env
+            expression: optVariableDeclaration({
+              ast: __env.ast[0],
+              env: __env.env[0]
             })
           };
         case 'ReturnStatement':
-          if ((__env.ast ? __env.ast[0] : ast).argument == null) {
+          if (__env.ast[0].argument == null) {
             return { type: 'ReturnStatement' };
           }
-          __env.argument = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).argument,
-              env: __env.env ? __env.env[0] : env
+          __env.argument = [optExpr({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
             })];
-          switch ((__env.ast ? __env.ast[0] : ast).argument.type) {
+          switch (__env.ast[0].argument.type) {
           case 'CallExpression':
-            switch ((__env.ast ? __env.ast[0] : ast).argument.callee.type) {
+            switch (__env.ast[0].argument.callee.type) {
             case 'MemberExpression':
               return {
                 type: 'BlockStatement',
@@ -1047,7 +970,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'ArrayExpression',
-                        elements: (__env.argument ? __env.argument[0] : argument).arguments
+                        elements: __env.argument[0].arguments
                       }
                     }
                   },
@@ -1062,7 +985,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'MemberExpression',
-                        object: (__env.argument ? __env.argument[0] : argument).callee,
+                        object: __env.argument[0].callee,
                         property: {
                           type: 'Identifier',
                           name: '__label'
@@ -1081,7 +1004,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'MemberExpression',
-                        object: (__env.argument ? __env.argument[0] : argument).callee,
+                        object: __env.argument[0].callee,
                         property: {
                           type: 'Identifier',
                           name: '__env'
@@ -1098,7 +1021,7 @@ function __call(__label, __this, __env, __args) {
                         type: 'Identifier',
                         name: '__this'
                       },
-                      right: (__env.argument ? __env.argument[0] : argument).callee.object
+                      right: __env.argument[0].callee.object
                     }
                   },
                   {
@@ -1125,7 +1048,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'ArrayExpression',
-                        elements: (__env.argument ? __env.argument[0] : argument).arguments
+                        elements: __env.argument[0].arguments
                       }
                     }
                   },
@@ -1140,7 +1063,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'MemberExpression',
-                        object: (__env.argument ? __env.argument[0] : argument).callee,
+                        object: __env.argument[0].callee,
                         property: {
                           type: 'Identifier',
                           name: '__label'
@@ -1159,7 +1082,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       right: {
                         type: 'MemberExpression',
-                        object: (__env.argument ? __env.argument[0] : argument).callee,
+                        object: __env.argument[0].callee,
                         property: {
                           type: 'Identifier',
                           name: '__env'
@@ -1180,19 +1103,15 @@ function __call(__label, __this, __env, __args) {
           default:
             return {
               type: 'ReturnStatement',
-              argument: __env.argument ? __env.argument[0] : argument
+              argument: __env.argument[0]
             };
           }
         case 'FunctionDeclaration':
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
-            })];
+          __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
           __env.body1 = [[]];
-          (__env.appendVar ? __env.appendVar[0] : appendVar)((__env.ast ? __env.ast[0] : ast).id);
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).params.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.param = [(__env.ast ? __env.ast[0] : ast).params[__env.i ? __env.i[0] : i]];
-            (__env.appendVar ? __env.appendVar[0] : appendVar)(__env.param ? __env.param[0] : param);
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.param = [__env.ast[0].params[__env.i[0]]];
+            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -1204,7 +1123,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'Identifier',
                       name: '__env'
                     },
-                    property: __env.param ? __env.param[0] : param
+                    property: __env.param[0]
                   },
                   right: {
                     type: 'ArrayExpression',
@@ -1217,32 +1136,36 @@ function __call(__label, __this, __env, __args) {
                         },
                         property: {
                           type: 'Literal',
-                          value: __env.i ? __env.i[0] : i
+                          value: __env.i[0]
                         }
                       }]
                   }
                 }
               }];
-            (__env.body1 ? __env.body1[0] : body1).push(__env.setParam ? __env.setParam[0] : setParam);
+            __env.body1[0].push(__env.setParam[0]);
           }
-          switch ((__env.body ? __env.body[0] : body).type) {
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
+            })];
+          switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body) : body1 = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body);
+            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
-            (__env.body1 ? __env.body1[0] : body1).push(__env.body ? __env.body[0] : body);
+            __env.body1[0].push(__env.body[0]);
           }
-          (__env.appendCase ? __env.appendCase[0] : appendCase)({
+          appendCase({
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: (__env.ast ? __env.ast[0] : ast).id.name
+              value: __env.ast[0].id.name
             },
-            consequent: __env.body1 ? __env.body1[0] : body1
+            consequent: __env.body1[0]
           });
           __env.fn = [{
               type: 'FunctionExpression',
-              params: (__env.ast ? __env.ast[0] : ast).params,
+              params: __env.ast[0].params,
               body: {
                 type: 'BlockStatement',
                 body: [{
@@ -1256,22 +1179,22 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: (__env.ast ? __env.ast[0] : ast).id.name
+                          value: __env.ast[0].id.name
                         },
                         {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        __env.COPYENV ? __env.COPYENV[0] : COPYENV,
+                        COPYENV,
                         {
                           type: 'ArrayExpression',
-                          elements: (__env.ast ? __env.ast[0] : ast).params
+                          elements: __env.ast[0].params
                         }
                       ]
                     }
                   }]
               },
-              id: (__env.ast ? __env.ast[0] : ast).id,
+              id: __env.ast[0].id,
               defaults: [],
               rest: null,
               generator: false,
@@ -1286,14 +1209,14 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: (__env.ast ? __env.ast[0] : ast).id.name
+                  value: __env.ast[0].id.name
                 },
-                __env.COPYENV ? __env.COPYENV[0] : COPYENV,
-                __env.fn ? __env.fn[0] : fn
+                COPYENV,
+                __env.fn[0]
               ]
             }];
-          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
-          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
+          __env.bind = [esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
+          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
           return {
             type: 'ExpressionStatement',
             expression: {
@@ -1305,26 +1228,26 @@ function __call(__label, __this, __env, __args) {
                   type: 'Identifier',
                   name: '__env'
                 },
-                property: (__env.ast ? __env.ast[0] : ast).id
+                property: __env.ast[0].id
               },
               right: {
                 type: 'ArrayExpression',
-                elements: [__env.bind ? __env.bind[0] : bind]
+                elements: [__env.bind[0]]
               }
             }
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'optVariableDeclaration':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
         __env.declarations = [[]];
-        for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).declarations.length; __env.i ? ++__env.i[0] : ++i) {
-          __env.declaration = [(__env.ast ? __env.ast[0] : ast).declarations[__env.i ? __env.i[0] : i]];
-          (__env.appendVar ? __env.appendVar[0] : appendVar)((__env.declaration ? __env.declaration[0] : declaration).id);
-          (__env.declarations ? __env.declarations[0] : declarations).push({
+        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+          __env.declaration = [__env.ast[0].declarations[__env.i[0]]];
+          __env.env ? __env.env[0][__env.declaration[0].id.name] = true : env[__env.declaration[0].id.name] = true;
+          __env.declarations[0].push({
             type: 'AssignmentExpression',
             operator: '=',
             left: {
@@ -1333,52 +1256,72 @@ function __call(__label, __this, __env, __args) {
                 type: 'Identifier',
                 name: '__env'
               },
-              property: (__env.declaration ? __env.declaration[0] : declaration).id
+              property: __env.declaration[0].id
             },
             right: {
               type: 'ArrayExpression',
-              elements: (__env.declaration ? __env.declaration[0] : declaration).init ? [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-                  ast: (__env.declaration ? __env.declaration[0] : declaration).init,
-                  env: __env.env ? __env.env[0] : env
+              elements: __env.declaration[0].init ? [optExpr({
+                  ast: __env.declaration[0].init,
+                  env: __env.env[0]
                 })] : []
             }
           });
         }
         return {
           type: 'SequenceExpression',
-          expressions: __env.declarations ? __env.declarations[0] : declarations
+          expressions: __env.declarations[0]
         };
       case 'optCatchClause':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
         return {
           type: 'CatchClause',
-          param: (__env.ast ? __env.ast[0] : ast).param,
-          guard: (__env.ast ? __env.ast[0] : ast).guard ? (__env.optExpr ? __env.optExpr[0] : optExpr)({
-            ast: (__env.ast ? __env.ast[0] : ast).guard,
-            env: __env.env ? __env.env[0] : env
+          param: __env.ast[0].param,
+          guard: __env.ast[0].guard ? optExpr({
+            ast: __env.ast[0].guard,
+            env: __env.env[0]
           }) : null,
-          body: (__env.optStmt ? __env.optStmt[0] : optStmt)({
-            ast: (__env.ast ? __env.ast[0] : ast).body,
-            env: __env.env ? __env.env[0] : env
+          body: optStmt({
+            ast: __env.ast[0].body,
+            env: __env.env[0]
           })
         };
       case 'optExpr':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
+        switch (__env.ast[0].type) {
         case 'Literal':
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         case 'ThisExpression':
           return {
             type: 'Identifier',
             name: '__this'
           };
         case 'Identifier':
-          if ((__env.ast ? __env.ast[0] : ast).name.lastIndexOf('__', 0) === 0) {
-            (__env.console ? __env.console[0] : console).warn('any identifier starting with ``__" is reserved.');
+          if (__env.ast[0].name.lastIndexOf('__', 0) === 0) {
+            console.warn('any identifier starting with ``__" is reserved.');
+          }
+          if (__env.env[0][__env.ast[0].name]) {
+            return {
+              type: 'MemberExpression',
+              object: {
+                type: 'MemberExpression',
+                object: {
+                  type: 'Identifier',
+                  name: '__env'
+                },
+                property: __env.ast[0]
+              },
+              property: {
+                type: 'Literal',
+                value: 0
+              },
+              computed: true
+            };
+          } else {
+            return __env.ast[0];
           }
           return {
             type: 'ConditionalExpression',
@@ -1388,7 +1331,7 @@ function __call(__label, __this, __env, __args) {
                 type: 'Identifier',
                 name: '__env'
               },
-              property: __env.ast ? __env.ast[0] : ast
+              property: __env.ast[0]
             },
             consequent: {
               type: 'MemberExpression',
@@ -1398,7 +1341,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Identifier',
                   name: '__env'
                 },
-                property: __env.ast ? __env.ast[0] : ast
+                property: __env.ast[0]
               },
               property: {
                 type: 'Literal',
@@ -1406,260 +1349,261 @@ function __call(__label, __this, __env, __args) {
               },
               computed: true
             },
-            alternate: __env.ast ? __env.ast[0] : ast
+            alternate: __env.ast[0]
           };
         case 'SequenceExpression':
           __env.exprs = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).expressions.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.exprs ? __env.exprs[0] : exprs).push((__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).expressions[__env.i ? __env.i[0] : i],
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.exprs[0].push(optExpr({
+              ast: __env.ast[0].expressions[__env.i[0]],
+              env: __env.env[0]
             }));
           }
           return {
             type: 'SequenceExpression',
-            expressions: __env.exprs ? __env.exprs[0] : exprs
+            expressions: __env.exprs[0]
           };
         case 'UnaryExpression':
-          switch ((__env.ast ? __env.ast[0] : ast).operator) {
+          switch (__env.ast[0].operator) {
           case 'typeof':
-            switch ((__env.ast ? __env.ast[0] : ast).argument.type) {
+            switch (__env.ast[0].argument.type) {
             case 'Identifier':
               return {
                 type: 'ConditionalExpression',
-                test: (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1)({
-                  ast: (__env.ast ? __env.ast[0] : ast).argument,
-                  env: __env.env ? __env.env[0] : env
+                test: existsLhs1({
+                  ast: __env.ast[0].argument,
+                  env: __env.env[0]
                 }),
                 consequent: {
                   type: 'UnaryExpression',
-                  prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-                  argument: (__env.optLhs1 ? __env.optLhs1[0] : optLhs1)({
-                    ast: (__env.ast ? __env.ast[0] : ast).argument,
-                    env: __env.env ? __env.env[0] : env
+                  prefix: __env.ast[0].prefix,
+                  argument: optLhs1({
+                    ast: __env.ast[0].argument,
+                    env: __env.env[0]
                   }),
-                  operator: (__env.ast ? __env.ast[0] : ast).operator
+                  operator: __env.ast[0].operator
                 },
                 alternate: {
                   type: 'UnaryExpression',
-                  prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-                  argument: (__env.optLhs2 ? __env.optLhs2[0] : optLhs2)({
-                    ast: (__env.ast ? __env.ast[0] : ast).argument,
-                    env: __env.env ? __env.env[0] : env
+                  prefix: __env.ast[0].prefix,
+                  argument: optLhs2({
+                    ast: __env.ast[0].argument,
+                    env: __env.env[0]
                   }),
-                  operator: (__env.ast ? __env.ast[0] : ast).operator
+                  operator: __env.ast[0].operator
                 }
               };
             default:
               return {
                 type: 'UnaryExpression',
-                prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-                argument: (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                  ast: (__env.ast ? __env.ast[0] : ast).argument,
-                  env: __env.env ? __env.env[0] : env
+                prefix: __env.ast[0].prefix,
+                argument: optExpr({
+                  ast: __env.ast[0].argument,
+                  env: __env.env[0]
                 }),
-                operator: (__env.ast ? __env.ast[0] : ast).operator
+                operator: __env.ast[0].operator
               };
             }
           default:
             return {
               type: 'UnaryExpression',
-              prefix: (__env.ast ? __env.ast[0] : ast).prefix,
-              argument: (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.ast ? __env.ast[0] : ast).argument,
-                env: __env.env ? __env.env[0] : env
+              prefix: __env.ast[0].prefix,
+              argument: optExpr({
+                ast: __env.ast[0].argument,
+                env: __env.env[0]
               }),
-              operator: (__env.ast ? __env.ast[0] : ast).operator
+              operator: __env.ast[0].operator
             };
           }
         case 'NewExpression':
-          __env.callee = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).callee,
-              env: __env.env ? __env.env[0] : env
+          __env.callee = [optExpr({
+              ast: __env.ast[0].callee,
+              env: __env.env[0]
             })];
           __env.args = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).arguments.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.args ? __env.args[0] : args).push((__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).arguments[__env.i ? __env.i[0] : i],
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.args[0].push(optExpr({
+              ast: __env.ast[0].arguments[__env.i[0]],
+              env: __env.env[0]
             }));
           }
           return {
             type: 'NewExpression',
-            callee: __env.callee ? __env.callee[0] : callee,
-            arguments: __env.args ? __env.args[0] : args
+            callee: __env.callee[0],
+            arguments: __env.args[0]
           };
         case 'UpdateExpression':
-          __env.arg1 = [(__env.optLhs1 ? __env.optLhs1[0] : optLhs1)({
-              ast: (__env.ast ? __env.ast[0] : ast).argument,
-              env: __env.env ? __env.env[0] : env
+          __env.arg1 = [optLhs1({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
             })];
-          __env.arg2 = [(__env.optLhs2 ? __env.optLhs2[0] : optLhs2)({
-              ast: (__env.ast ? __env.ast[0] : ast).argument,
-              env: __env.env ? __env.env[0] : env
+          __env.arg2 = [optLhs2({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
             })];
           return {
             type: 'ConditionalExpression',
-            test: (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1)({
-              ast: (__env.ast ? __env.ast[0] : ast).argument,
-              env: __env.env ? __env.env[0] : env
+            test: existsLhs1({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
             }),
             consequent: {
               type: 'UpdateExpression',
-              operator: (__env.ast ? __env.ast[0] : ast).operator,
-              argument: __env.arg1 ? __env.arg1[0] : arg1,
-              prefix: (__env.ast ? __env.ast[0] : ast).prefix
+              operator: __env.ast[0].operator,
+              argument: __env.arg1[0],
+              prefix: __env.ast[0].prefix
             },
             alternate: {
               type: 'UpdateExpression',
-              operator: (__env.ast ? __env.ast[0] : ast).operator,
-              argument: __env.arg2 ? __env.arg2[0] : arg2,
-              prefix: (__env.ast ? __env.ast[0] : ast).prefix
+              operator: __env.ast[0].operator,
+              argument: __env.arg2[0],
+              prefix: __env.ast[0].prefix
             }
           };
         case 'AssignmentExpression':
-          __env.lhs1 = [(__env.optLhs1 ? __env.optLhs1[0] : optLhs1)({
-              ast: (__env.ast ? __env.ast[0] : ast).left,
-              env: __env.env ? __env.env[0] : env
+          __env.lhs1 = [optLhs1({
+              ast: __env.ast[0].left,
+              env: __env.env[0]
             })];
-          __env.lhs2 = [(__env.optLhs2 ? __env.optLhs2[0] : optLhs2)({
-              ast: (__env.ast ? __env.ast[0] : ast).left,
-              env: __env.env ? __env.env[0] : env
+          __env.lhs2 = [optLhs2({
+              ast: __env.ast[0].left,
+              env: __env.env[0]
             })];
-          __env.rhs = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).right,
-              env: __env.env ? __env.env[0] : env
+          __env.rhs = [optExpr({
+              ast: __env.ast[0].right,
+              env: __env.env[0]
             })];
           return {
             type: 'ConditionalExpression',
-            test: (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1)({
-              ast: (__env.ast ? __env.ast[0] : ast).left,
-              env: __env.env ? __env.env[0] : env
+            test: existsLhs1({
+              ast: __env.ast[0].left,
+              env: __env.env[0]
             }),
             consequent: {
               type: 'AssignmentExpression',
-              operator: (__env.ast ? __env.ast[0] : ast).operator,
-              left: __env.lhs1 ? __env.lhs1[0] : lhs1,
-              right: __env.rhs ? __env.rhs[0] : rhs
+              operator: __env.ast[0].operator,
+              left: __env.lhs1[0],
+              right: __env.rhs[0]
             },
             alternate: {
               type: 'AssignmentExpression',
-              operator: (__env.ast ? __env.ast[0] : ast).operator,
-              left: __env.lhs2 ? __env.lhs2[0] : lhs2,
-              right: __env.rhs ? __env.rhs[0] : rhs
+              operator: __env.ast[0].operator,
+              left: __env.lhs2[0],
+              right: __env.rhs[0]
             }
           };
         case 'ConditionalExpression':
-          __env.test = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).test,
-              env: __env.env ? __env.env[0] : env
+          __env.test = [optExpr({
+              ast: __env.ast[0].test,
+              env: __env.env[0]
             })];
-          __env.alternate = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).alternate,
-              env: __env.env ? __env.env[0] : env
+          __env.alternate = [optExpr({
+              ast: __env.ast[0].alternate,
+              env: __env.env[0]
             })];
-          __env.consequent = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).consequent,
-              env: __env.env ? __env.env[0] : env
+          __env.consequent = [optExpr({
+              ast: __env.ast[0].consequent,
+              env: __env.env[0]
             })];
           return {
             type: 'ConditionalExpression',
-            test: __env.test ? __env.test[0] : test,
-            alternate: __env.alternate ? __env.alternate[0] : alternate,
-            consequent: __env.consequent ? __env.consequent[0] : consequent
+            test: __env.test[0],
+            alternate: __env.alternate[0],
+            consequent: __env.consequent[0]
           };
         case 'BinaryExpression':
-          __env.lhs = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).left,
-              env: __env.env ? __env.env[0] : env
+          __env.lhs = [optExpr({
+              ast: __env.ast[0].left,
+              env: __env.env[0]
             })];
-          __env.rhs = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).right,
-              env: __env.env ? __env.env[0] : env
+          __env.rhs = [optExpr({
+              ast: __env.ast[0].right,
+              env: __env.env[0]
             })];
           return {
             type: 'LogicalExpression',
-            operator: (__env.ast ? __env.ast[0] : ast).operator,
-            left: __env.lhs ? __env.lhs[0] : lhs,
-            right: __env.rhs ? __env.rhs[0] : rhs
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'LogicalExpression':
-          __env.lhs = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).left,
-              env: __env.env ? __env.env[0] : env
+          __env.lhs = [optExpr({
+              ast: __env.ast[0].left,
+              env: __env.env[0]
             })];
-          __env.rhs = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).right,
-              env: __env.env ? __env.env[0] : env
+          __env.rhs = [optExpr({
+              ast: __env.ast[0].right,
+              env: __env.env[0]
             })];
           return {
             type: 'BinaryExpression',
-            operator: (__env.ast ? __env.ast[0] : ast).operator,
-            left: __env.lhs ? __env.lhs[0] : lhs,
-            right: __env.rhs ? __env.rhs[0] : rhs
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'MemberExpression':
-          __env.obj = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).object,
-              env: __env.env ? __env.env[0] : env
+          __env.obj = [optExpr({
+              ast: __env.ast[0].object,
+              env: __env.env[0]
             })];
-          if ((__env.ast ? __env.ast[0] : ast).computed) {
+          if (__env.ast[0].computed) {
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.ast ? __env.ast[0] : ast).property,
-                env: __env.env ? __env.env[0] : env
+              object: __env.obj[0],
+              property: optExpr({
+                ast: __env.ast[0].property,
+                env: __env.env[0]
               }),
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              computed: __env.ast[0].computed
             };
           } else {
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: (__env.ast ? __env.ast[0] : ast).property,
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              object: __env.obj[0],
+              property: __env.ast[0].property,
+              computed: __env.ast[0].computed
             };
           }
         case 'ObjectExpression':
           __env.props = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).properties.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.prop = [(__env.ast ? __env.ast[0] : ast).properties[__env.i ? __env.i[0] : i]];
-            (__env.props ? __env.props[0] : props).push({
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.prop = [__env.ast[0].properties[__env.i[0]]];
+            __env.props[0].push({
               type: 'Property',
-              key: (__env.prop ? __env.prop[0] : prop).key,
-              value: (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.prop ? __env.prop[0] : prop).value,
-                env: __env.env ? __env.env[0] : env
+              key: __env.prop[0].key,
+              value: optExpr({
+                ast: __env.prop[0].value,
+                env: __env.env[0]
               }),
-              kind: (__env.prop ? __env.prop[0] : prop).kind
+              kind: __env.prop[0].kind
             });
           }
           return {
             type: 'ObjectExpression',
-            properties: __env.props ? __env.props[0] : props
+            properties: __env.props[0]
           };
         case 'ArrayExpression':
           __env.elts = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).elements.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.elt = [(__env.ast ? __env.ast[0] : ast).elements[__env.i ? __env.i[0] : i]];
-            (__env.elts ? __env.elts[0] : elts).push((__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: __env.elt ? __env.elt[0] : elt,
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.elt = [__env.ast[0].elements[__env.i[0]]];
+            __env.elts[0].push(optExpr({
+              ast: __env.elt[0],
+              env: __env.env[0]
             }));
           }
           return {
             type: 'ArrayExpression',
-            elements: __env.elts ? __env.elts[0] : elts
+            elements: __env.elts[0]
           };
         case 'FunctionExpression':
           __env.id = [{
               type: 'Identifier',
-              name: (__env.gensym ? __env.gensym[0] : gensym)()
+              name: gensym()
             }];
+          __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
           __env.fn = [{
               type: 'FunctionExpression',
-              params: (__env.ast ? __env.ast[0] : ast).params,
+              params: __env.ast[0].params,
               body: {
                 type: 'BlockStatement',
                 body: [{
@@ -1673,22 +1617,22 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: (__env.id ? __env.id[0] : id).name
+                          value: __env.id[0].name
                         },
                         {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        __env.COPYENV ? __env.COPYENV[0] : COPYENV,
+                        COPYENV,
                         {
                           type: 'ArrayExpression',
-                          elements: (__env.ast ? __env.ast[0] : ast).params
+                          elements: __env.ast[0].params
                         }
                       ]
                     }
                   }]
               },
-              id: __env.id ? __env.id[0] : id,
+              id: __env.id[0],
               defaults: [],
               rest: null,
               generator: false,
@@ -1703,22 +1647,22 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: (__env.id ? __env.id[0] : id).name
+                  value: __env.id[0].name
                 },
-                __env.COPYENV ? __env.COPYENV[0] : COPYENV,
-                __env.fn ? __env.fn[0] : fn
+                COPYENV,
+                __env.fn[0]
               ]
             }];
-          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
-          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
-          __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)({
-              ast: (__env.ast ? __env.ast[0] : ast).body,
-              env: __env.env ? __env.env[0] : env
+          __env.bind = [esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
+          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
             })];
           __env.body1 = [[]];
-          if ((__env.ast ? __env.ast[0] : ast).id != null) {
-            (__env.appendVar ? __env.appendVar[0] : appendVar)((__env.ast ? __env.ast[0] : ast).id);
-            (__env.body1 ? __env.body1[0] : body1).push({
+          if (__env.ast[0].id != null) {
+            __env.env ? __env.env[0][__env.ast[0].id.name] = true : env[__env.ast[0].id.name] = true;
+            __env.body1[0].push({
               type: 'ExpressionStatement',
               expression: {
                 type: 'AssignmentExpression',
@@ -1729,15 +1673,15 @@ function __call(__label, __this, __env, __args) {
                     type: 'Identifier',
                     name: '__env'
                   },
-                  property: (__env.ast ? __env.ast[0] : ast).id
+                  property: __env.ast[0].id
                 },
-                right: __env.bind ? __env.bind[0] : bind
+                right: __env.bind[0]
               }
             });
           }
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).params.length; __env.i ? ++__env.i[0] : ++i) {
-            __env.param = [(__env.ast ? __env.ast[0] : ast).params[__env.i ? __env.i[0] : i]];
-            (__env.appendVar ? __env.appendVar[0] : appendVar)(__env.param ? __env.param[0] : param);
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.param = [__env.ast[0].params[__env.i[0]]];
+            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -1749,7 +1693,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'Identifier',
                       name: '__env'
                     },
-                    property: __env.param ? __env.param[0] : param
+                    property: __env.param[0]
                   },
                   right: {
                     type: 'ArrayExpression',
@@ -1762,103 +1706,103 @@ function __call(__label, __this, __env, __args) {
                         },
                         property: {
                           type: 'Literal',
-                          value: __env.i ? __env.i[0] : i
+                          value: __env.i[0]
                         }
                       }]
                   }
                 }
               }];
-            (__env.body1 ? __env.body1[0] : body1).push(__env.setParam ? __env.setParam[0] : setParam);
+            __env.body1[0].push(__env.setParam[0]);
           }
-          switch ((__env.body ? __env.body[0] : body).type) {
+          switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body) : body1 = (__env.body1 ? __env.body1[0] : body1).concat((__env.body ? __env.body[0] : body).body);
+            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
-            (__env.body1 ? __env.body1[0] : body1).push(__env.body ? __env.body[0] : body);
+            __env.body1[0].push(__env.body[0]);
           }
-          (__env.appendCase ? __env.appendCase[0] : appendCase)({
+          appendCase({
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: (__env.id ? __env.id[0] : id).name
+              value: __env.id[0].name
             },
-            consequent: __env.body1 ? __env.body1[0] : body1
+            consequent: __env.body1[0]
           });
-          return __env.bind ? __env.bind[0] : bind;
+          return __env.bind[0];
         case 'CallExpression':
-          __env.callee = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).callee,
-              env: __env.env ? __env.env[0] : env
+          __env.callee = [optExpr({
+              ast: __env.ast[0].callee,
+              env: __env.env[0]
             })];
           __env.args = [[]];
-          for (__env.i = [0]; (__env.i ? __env.i[0] : i) < (__env.ast ? __env.ast[0] : ast).arguments.length; __env.i ? ++__env.i[0] : ++i) {
-            (__env.args ? __env.args[0] : args).push((__env.optExpr ? __env.optExpr[0] : optExpr)({
-              ast: (__env.ast ? __env.ast[0] : ast).arguments[__env.i ? __env.i[0] : i],
-              env: __env.env ? __env.env[0] : env
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+            __env.args[0].push(optExpr({
+              ast: __env.ast[0].arguments[__env.i[0]],
+              env: __env.env[0]
             }));
           }
           return {
             type: 'CallExpression',
-            callee: __env.callee ? __env.callee[0] : callee,
-            arguments: __env.args ? __env.args[0] : args
+            callee: __env.callee[0],
+            arguments: __env.args[0]
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'optLhs2':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
+        switch (__env.ast[0].type) {
         case 'MemberExpression':
-          if ((__env.ast ? __env.ast[0] : ast).computed) {
+          if (__env.ast[0].computed) {
             return {
               type: 'MemberExpression',
-              object: (__env.ast ? __env.ast[0] : ast).object,
-              computed: (__env.ast ? __env.ast[0] : ast).computed,
-              property: (__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.ast ? __env.ast[0] : ast).property,
-                env: __env.env ? __env.env[0] : env
+              object: __env.ast[0].object,
+              computed: __env.ast[0].computed,
+              property: optExpr({
+                ast: __env.ast[0].property,
+                env: __env.env[0]
               })
             };
           } else {
-            return __env.ast ? __env.ast[0] : ast;
+            return __env.ast[0];
           }
         default:
-          return __env.ast ? __env.ast[0] : ast;
+          return __env.ast[0];
         }
       case 'optLhs1':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
+        switch (__env.ast[0].type) {
         case 'MemberExpression':
-          if ((__env.ast ? __env.ast[0] : ast).computed) {
-            __env.obj = [(__env.optLhs1 ? __env.optLhs1[0] : optLhs1)({
-                ast: (__env.ast ? __env.ast[0] : ast).object,
-                env: __env.env ? __env.env[0] : env
+          if (__env.ast[0].computed) {
+            __env.obj = [optLhs1({
+                ast: __env.ast[0].object,
+                env: __env.env[0]
               })];
-            __env.prop = [(__env.optExpr ? __env.optExpr[0] : optExpr)({
-                ast: (__env.ast ? __env.ast[0] : ast).property,
-                env: __env.env ? __env.env[0] : env
+            __env.prop = [optExpr({
+                ast: __env.ast[0].property,
+                env: __env.env[0]
               })];
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: __env.prop ? __env.prop[0] : prop,
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              object: __env.obj[0],
+              property: __env.prop[0],
+              computed: __env.ast[0].computed
             };
           } else {
-            __env.obj = [(__env.optLhs1 ? __env.optLhs1[0] : optLhs1)({
-                ast: (__env.ast ? __env.ast[0] : ast).object,
-                env: __env.env ? __env.env[0] : env
+            __env.obj = [optLhs1({
+                ast: __env.ast[0].object,
+                env: __env.env[0]
               })];
             return {
               type: 'MemberExpression',
-              object: __env.obj ? __env.obj[0] : obj,
-              property: (__env.ast ? __env.ast[0] : ast).property,
-              computed: (__env.ast ? __env.ast[0] : ast).computed
+              object: __env.obj[0],
+              property: __env.ast[0].property,
+              computed: __env.ast[0].computed
             };
           }
         case 'Identifier':
@@ -1870,7 +1814,7 @@ function __call(__label, __this, __env, __args) {
                 type: 'Identifier',
                 name: '__env'
               },
-              property: __env.ast ? __env.ast[0] : ast
+              property: __env.ast[0]
             },
             computed: true,
             property: {
@@ -1879,20 +1823,20 @@ function __call(__label, __this, __env, __args) {
             }
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'existsLhs1':
         __env.info = [__args[0]];
-        __env.ast = [(__env.info ? __env.info[0] : info).ast];
-        __env.env = [(__env.info ? __env.info[0] : info).env];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        __env.ast = [__env.info[0].ast];
+        __env.env = [__env.info[0].env];
+        switch (__env.ast[0].type) {
         case 'MemberExpression': {
             __args = [{
-                ast: (__env.ast ? __env.ast[0] : ast).object,
-                env: __env.env ? __env.env[0] : env
+                ast: __env.ast[0].object,
+                env: __env.env[0]
               }];
-            __label = (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1).__label;
-            __env = (__env.existsLhs1 ? __env.existsLhs1[0] : existsLhs1).__env;
+            __label = existsLhs1.__label;
+            __env = existsLhs1.__env;
             continue __jmp;
           }
         case 'Identifier':
@@ -1902,40 +1846,40 @@ function __call(__label, __this, __env, __args) {
               type: 'Identifier',
               name: '__env'
             },
-            property: __env.ast ? __env.ast[0] : ast
+            property: __env.ast[0]
           };
         default:
-          (__env.console ? __env.console[0] : console).error('unrecognized ast: ' + (__env.ast ? __env.ast[0] : ast).type);
+          console.error('unrecognized ast: ' + __env.ast[0].type);
         }
       case 'isTailCallStmt':
         __env.ast = [__args[0]];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        switch (__env.ast[0].type) {
         case 'ExpressionStatement': {
-            __args = [(__env.ast ? __env.ast[0] : ast).expression];
-            __label = (__env.isTailCallExpr ? __env.isTailCallExpr[0] : isTailCallExpr).__label;
-            __env = (__env.isTailCallExpr ? __env.isTailCallExpr[0] : isTailCallExpr).__env;
+            __args = [__env.ast[0].expression];
+            __label = isTailCallExpr.__label;
+            __env = isTailCallExpr.__env;
             continue __jmp;
           }
         case 'BlockStatement': {
-            __args = [(__env.ast ? __env.ast[0] : ast).body[(__env.ast ? __env.ast[0] : ast).body.length - 1]];
-            __label = (__env.isTailCallStmt ? __env.isTailCallStmt[0] : isTailCallStmt).__label;
-            __env = (__env.isTailCallStmt ? __env.isTailCallStmt[0] : isTailCallStmt).__env;
+            __args = [__env.ast[0].body[__env.ast[0].body.length - 1]];
+            __label = isTailCallStmt.__label;
+            __env = isTailCallStmt.__env;
             continue __jmp;
           }
         case 'ReturnStatement': {
-            __args = [(__env.ast ? __env.ast[0] : ast).argument];
-            __label = (__env.isTailCallExpr ? __env.isTailCallExpr[0] : isTailCallExpr).__label;
-            __env = (__env.isTailCallExpr ? __env.isTailCallExpr[0] : isTailCallExpr).__env;
+            __args = [__env.ast[0].argument];
+            __label = isTailCallExpr.__label;
+            __env = isTailCallExpr.__env;
             continue __jmp;
           }
         case 'IfStatement':
-          return (__env.isTailCallStmt ? __env.isTailCallStmt[0] : isTailCallStmt)((__env.ast ? __env.ast[0] : ast).consequent) || (__env.isTailCallStmt ? __env.isTailCallStmt[0] : isTailCallStmt)((__env.ast ? __env.ast[0] : ast).alternate);
+          return isTailCallStmt(__env.ast[0].consequent) || isTailCallStmt(__env.ast[0].alternate);
         default:
           return false;
         }
       case 'isTailCallExpr':
         __env.ast = [__args[0]];
-        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        switch (__env.ast[0].type) {
         case 'CallExpression':
           return true;
         default:
@@ -1943,13 +1887,13 @@ function __call(__label, __this, __env, __args) {
         }
       case 'gensym':
         __env.i ? __env.i[0] += 1 : i += 1;
-        return '__lambda_' + (__env.i ? __env.i[0] : i);
+        return '__lambda_' + i;
       case 'appendGlobalVar':
         __env.ident = [__args[0]];
         return;
         __env.prop1 = [{
             type: 'Property',
-            key: __env.ident ? __env.ident[0] : ident,
+            key: __env.ident[0],
             value: {
               type: 'ArrayExpression',
               elements: [{
@@ -1962,7 +1906,7 @@ function __call(__label, __this, __env, __args) {
                       },
                       value: {
                         type: 'Literal',
-                        value: (__env.ident ? __env.ident[0] : ident).name
+                        value: __env.ident[0].name
                       },
                       kind: 'init'
                     }]
@@ -1970,13 +1914,13 @@ function __call(__label, __this, __env, __args) {
             },
             kind: 'init'
           }];
-        (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body[0].declarations[0].init.properties.push(__env.prop1 ? __env.prop1[0] : prop1);
+        OUTPUT.body[0].declarations[0].init.properties.push(__env.prop1[0]);
       case 'appendVar':
         __env.ident = [__args[0]];
-        if ((__env.VARS ? __env.VARS[0] : VARS)[(__env.ident ? __env.ident[0] : ident).name]) {
+        if (VARS[__env.ident[0].name]) {
           return;
         }
-        __env.VARS ? __env.VARS[0][(__env.ident ? __env.ident[0] : ident).name] = true : VARS[(__env.ident ? __env.ident[0] : ident).name] = true;
+        __env.VARS ? __env.VARS[0][__env.ident[0].name] = true : VARS[__env.ident[0].name] = true;
         __env.stmt = [{
             type: 'ExpressionStatement',
             expression: {
@@ -1985,7 +1929,7 @@ function __call(__label, __this, __env, __args) {
               left: {
                 type: 'MemberExpression',
                 object: { type: 'ThisExpression' },
-                property: __env.ident ? __env.ident[0] : ident
+                property: __env.ident[0]
               },
               right: {
                 type: 'MemberExpression',
@@ -1993,7 +1937,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Identifier',
                   name: '__env'
                 },
-                property: __env.ident ? __env.ident[0] : ident
+                property: __env.ident[0]
               }
             }
           }];
@@ -2005,9 +1949,9 @@ function __call(__label, __this, __env, __args) {
               type: 'Identifier',
               name: '__env'
             },
-            property: __env.ident ? __env.ident[0] : ident
+            property: __env.ident[0]
           },
-          consequent: __env.stmt ? __env.stmt[0] : stmt
+          consequent: __env.stmt[0]
         } : stmt = {
           type: 'IfStatement',
           test: {
@@ -2016,25 +1960,26 @@ function __call(__label, __this, __env, __args) {
               type: 'Identifier',
               name: '__env'
             },
-            property: __env.ident ? __env.ident[0] : ident
+            property: __env.ident[0]
           },
-          consequent: __env.stmt ? __env.stmt[0] : stmt
+          consequent: __env.stmt[0]
         };
-        (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body[0].body.body.push(__env.stmt ? __env.stmt[0] : stmt);
+        OUTPUT.body[0].body.body.push(__env.stmt[0]);
       case 'appendProp':
         __env.a_prop = [__args[0]];
         return;
       case 'appendCase':
         __env.a_case = [__args[0]];
-        (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body[1].body.body[0].body.body.body[0].cases.unshift(__env.a_case ? __env.a_case[0] : a_case);
+        OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(__env.a_case[0]);
         return;
       case 'shallowCopy':
         __env.obj = [__args[0]];
         __env.cp = [{}];
-        for ((__env.k = []) in __env.obj ? __env.obj[0] : obj) {
-          __env.cp ? __env.cp[0][__env.k ? __env.k[0] : k] = (__env.obj ? __env.obj[0] : obj)[__env.k ? __env.k[0] : k] : cp[__env.k ? __env.k[0] : k] = (__env.obj ? __env.obj[0] : obj)[__env.k ? __env.k[0] : k];
+        __env.k = [];
+        for (__env.k[0] in __env.obj[0]) {
+          __env.cp ? __env.cp[0][__env.k[0]] = __env.obj[0][__env.k[0]] : cp[__env.k[0]] = __env.obj[0][__env.k[0]];
         }
-        return __env.cp ? __env.cp[0] : cp;
+        return __env.cp[0];
       default:
         console.error('unrecognized label: ' + __label);
         break __jmp;
