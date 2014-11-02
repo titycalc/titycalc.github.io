@@ -396,11 +396,11 @@ alternate: alternate, consequent: consequent };
                     value: id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  copyenv(env),
-                  /*{
+                  /*copyenv(env),*/
+                  {
                     type: 'Identifier',
                     name: '__env'
-                  },*/
+                  },
                   {
                     type: 'ArrayExpression',
                     elements: ast.params
@@ -426,7 +426,8 @@ alternate: alternate, consequent: consequent };
             type: 'Literal',
             value: id.name
           },
-          copyenv(env),
+          {type:'Identifier',name:'__env'},
+          /*copyenv(env),*/
           /*{ type: 'Identifier', name: '__env' },*/
           fn
         ]
@@ -435,7 +436,6 @@ alternate: alternate, consequent: consequent };
     bind.callee.body.body[0].argument = mk;
     bind.arguments[0] = copyenv(env);
 
-    var body = optStmt({ast:ast.body, env:env});
     var body1 = [];
     //appendVar(id);
     if (ast.id != null) {
@@ -491,6 +491,7 @@ alternate: alternate, consequent: consequent };
       };
       body1.push(setParam);
     }
+    var body = optStmt({ast:ast.body, env:env});
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -968,11 +969,11 @@ body: body, each: ast.each }]}
                     value: ast.id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  copyenv(env),
-                  /*{
+                  /*copyenv(env),*/
+                  {
                     type: 'Identifier',
                     name: '__env'
-                  },*/
+                  },
                   {
                     type: 'ArrayExpression',
                     elements: ast.params
@@ -998,7 +999,7 @@ body: body, each: ast.each }]}
             type: 'Literal',
             value: ast.id.name
           },
-          copyenv(env),
+          {type:'Identifier',name:'__env'},
           fn
         ]
       };

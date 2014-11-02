@@ -1183,7 +1183,10 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        copyenv(__env.env[0]),
+                        {
+                          type: 'Identifier',
+                          name: '__env'
+                        },
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -1209,7 +1212,10 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: __env.ast[0].id.name
                 },
-                copyenv(__env.env[0]),
+                {
+                  type: 'Identifier',
+                  name: '__env'
+                },
                 __env.fn[0]
               ]
             }];
@@ -1622,7 +1628,10 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        copyenv(__env.env[0]),
+                        {
+                          type: 'Identifier',
+                          name: '__env'
+                        },
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -1648,17 +1657,16 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: __env.id[0].name
                 },
-                copyenv(__env.env[0]),
+                {
+                  type: 'Identifier',
+                  name: '__env'
+                },
                 __env.fn[0]
               ]
             }];
           __env.bind = [esprima.parse('(function (__env) { return; })()').body[0].expression];
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
           __env.bind ? __env.bind[0].arguments[0] = copyenv(__env.env[0]) : bind.arguments[0] = copyenv(__env.env[0]);
-          __env.body = [optStmt({
-              ast: __env.ast[0].body,
-              env: __env.env[0]
-            })];
           __env.body1 = [[]];
           if (__env.ast[0].id != null) {
             __env.env ? __env.env[0][__env.ast[0].id.name] = true : env[__env.ast[0].id.name] = true;
@@ -1714,6 +1722,10 @@ function __call(__label, __this, __env, __args) {
               }];
             __env.body1[0].push(__env.setParam[0]);
           }
+          __env.body = [optStmt({
+              ast: __env.ast[0].body,
+              env: __env.env[0]
+            })];
           switch (__env.body[0].type) {
           case 'BlockStatement':
             __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
