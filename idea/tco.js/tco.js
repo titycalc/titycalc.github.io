@@ -1,7 +1,7 @@
 var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'function __ENV(__env){}' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
+var LOOP = 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
@@ -27,7 +27,7 @@ function shallowCopy(obj) {
 }
 
 function appendCase(a_case) {
-  OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
   return;
 }
 function appendProp(a_prop) {

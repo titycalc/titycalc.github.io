@@ -1,5 +1,3 @@
-function __ENV(__env) {
-}
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
@@ -1970,7 +1968,7 @@ function __call(__label, __this, __env, __args) {
         return;
       case 'appendCase':
         __env.a_case = [__args[0]];
-        OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(__env.a_case[0]);
+        OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(__env.a_case[0]);
         return;
       case 'shallowCopy':
         __env.obj = [__args[0]];
@@ -2038,7 +2036,7 @@ escodegen = require('escodegen');
 var esprima;
 esprima = require('esprima');
 var LOOP;
-LOOP = 'function __ENV(__env){}' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
+LOOP = 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT;
 OUTPUT = esprima.parse(LOOP);
 var GLOBAL;
