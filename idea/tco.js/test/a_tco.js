@@ -28,8 +28,14 @@ function __call(__label, __this, __env, __args) {
         __env.x = [__args[0]];
         __env.abcdeabcde = [__env.x[0]];
         return function (__env) {
-          return __mk('__lambda_3', __env, function __lambda_3(z) {
-            return __call('__lambda_3', __this, __env, [z]);
+          return __mk('__lambda_3', {
+            x: __env.x,
+            abcdeabcde: __env.abcdeabcde
+          }, function __lambda_3(z) {
+            return __call('__lambda_3', __this, {
+              x: __env.x,
+              abcdeabcde: __env.abcdeabcde
+            }, [z]);
           });
         }(new __ENV(__env));
       case '__lambda_3':
@@ -38,8 +44,14 @@ function __call(__label, __this, __env, __args) {
       case 'constantly':
         __env.x = [__args[0]];
         __env.discard = [function (__env) {
-            return __mk('discard', __env, function discard(y) {
-              return __call('discard', __this, __env, [y]);
+            return __mk('discard', {
+              x: __env.x,
+              y: __env.y
+            }, function discard(y) {
+              return __call('discard', __this, {
+                x: __env.x,
+                y: __env.y
+              }, [y]);
             });
           }(new __ENV(__env))];
         return discard;

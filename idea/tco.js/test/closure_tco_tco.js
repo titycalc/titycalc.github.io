@@ -12,8 +12,14 @@ function __call(__label, __this, __env, __args) {
       case '__lambda_4':
         __env.aaabbb = [0];
         __env.f = [function (__env) {
-            return __mk('__lambda_5', __env, function __lambda_5() {
-              return __call('__lambda_5', __this, __env, []);
+            return __mk('__lambda_5', {
+              aaabbb: __env.aaabbb,
+              f: __env.f
+            }, function __lambda_5() {
+              return __call('__lambda_5', __this, {
+                aaabbb: __env.aaabbb,
+                f: __env.f
+              }, []);
             });
           }(new __ENV(__env))];
         __args = [__env.f[0]];
@@ -28,13 +34,13 @@ function __call(__label, __this, __env, __args) {
       case 'mkClosure':
         return [
           function (__env) {
-            return __mk('__lambda_2', __env, function __lambda_2() {
-              return __call('__lambda_2', __this, __env, []);
+            return __mk('__lambda_2', {}, function __lambda_2() {
+              return __call('__lambda_2', __this, {}, []);
             });
           }(new __ENV(__env)),
           function (__env) {
-            return __mk('__lambda_3', __env, function __lambda_3() {
-              return __call('__lambda_3', __this, __env, []);
+            return __mk('__lambda_3', {}, function __lambda_3() {
+              return __call('__lambda_3', __this, {}, []);
             });
           }(new __ENV(__env))
         ];
@@ -47,8 +53,8 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter1':
         __env.i = [__args[0]];
         return function (__env) {
-          return __mk('__lambda_1', __env, function __lambda_1() {
-            return __call('__lambda_1', __this, __env, []);
+          return __mk('__lambda_1', { i: __env.i }, function __lambda_1() {
+            return __call('__lambda_1', __this, { i: __env.i }, []);
           });
         }(new __ENV(__env));
       case '__lambda_1':
@@ -56,8 +62,8 @@ function __call(__label, __this, __env, __args) {
       case 'mkCounter':
         __env.i = [__args[0]];
         __env.add = [function (__env) {
-            return __mk('add', __env, function add() {
-              return __call('add', __this, __env, []);
+            return __mk('add', { i: __env.i }, function add() {
+              return __call('add', __this, { i: __env.i }, []);
             });
           }(new __ENV(__env))];
         return add;

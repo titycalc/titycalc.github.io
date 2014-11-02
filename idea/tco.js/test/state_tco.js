@@ -18,8 +18,8 @@ function __call(__label, __this, __env, __args) {
         __args = [
           put(__env.i[0] + 1),
           function (__env) {
-            return __mk('__lambda_9', __env, function __lambda_9(_) {
-              return __call('__lambda_9', __this, __env, [_]);
+            return __mk('__lambda_9', { i: __env.i }, function __lambda_9(_) {
+              return __call('__lambda_9', __this, { i: __env.i }, [_]);
             });
           }(new __ENV(__env))
         ];
@@ -35,8 +35,14 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s[0],
           function (__env) {
-            return __mk('__lambda_7', __env, function __lambda_7(x, s1) {
-              return __call('__lambda_7', __this, __env, [
+            return __mk('__lambda_7', {
+              m: __env.m,
+              s: __env.s
+            }, function __lambda_7(x, s1) {
+              return __call('__lambda_7', __this, {
+                m: __env.m,
+                s: __env.s
+              }, [
                 x,
                 s1
               ]);
@@ -56,8 +62,14 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s[0],
           function (__env) {
-            return __mk('__lambda_6', __env, function __lambda_6(x, s1) {
-              return __call('__lambda_6', __this, __env, [
+            return __mk('__lambda_6', {
+              m: __env.m,
+              s: __env.s
+            }, function __lambda_6(x, s1) {
+              return __call('__lambda_6', __this, {
+                m: __env.m,
+                s: __env.s
+              }, [
                 x,
                 s1
               ]);
@@ -77,8 +89,14 @@ function __call(__label, __this, __env, __args) {
         __args = [
           __env.s[0],
           function (__env) {
-            return __mk('__lambda_5', __env, function __lambda_5(x, s1) {
-              return __call('__lambda_5', __this, __env, [
+            return __mk('__lambda_5', {
+              m: __env.m,
+              s: __env.s
+            }, function __lambda_5(x, s1) {
+              return __call('__lambda_5', __this, {
+                m: __env.m,
+                s: __env.s
+              }, [
                 x,
                 s1
               ]);
@@ -98,8 +116,8 @@ function __call(__label, __this, __env, __args) {
       case 'put':
         __env.s = [__args[0]];
         return function (__env) {
-          return __mk('__lambda_4', __env, function __lambda_4(_, cont) {
-            return __call('__lambda_4', __this, __env, [
+          return __mk('__lambda_4', { s: __env.s }, function __lambda_4(_, cont) {
+            return __call('__lambda_4', __this, { s: __env.s }, [
               _,
               cont
             ]);
@@ -129,8 +147,14 @@ function __call(__label, __this, __env, __args) {
         __env.m = [__args[0]];
         __env.k = [__args[1]];
         return function (__env) {
-          return __mk('__lambda_2', __env, function __lambda_2(s, cont) {
-            return __call('__lambda_2', __this, __env, [
+          return __mk('__lambda_2', {
+            m: __env.m,
+            k: __env.k
+          }, function __lambda_2(s, cont) {
+            return __call('__lambda_2', __this, {
+              m: __env.m,
+              k: __env.k
+            }, [
               s,
               cont
             ]);
@@ -142,8 +166,14 @@ function __call(__label, __this, __env, __args) {
         __args = [
           s,
           function (__env) {
-            return __mk('__lambda_3', __env, function __lambda_3(x, s1) {
-              return __call('__lambda_3', __this, __env, [
+            return __mk('__lambda_3', {
+              m: __env.m,
+              k: __env.k
+            }, function __lambda_3(x, s1) {
+              return __call('__lambda_3', __this, {
+                m: __env.m,
+                k: __env.k
+              }, [
                 x,
                 s1
               ]);
@@ -166,8 +196,8 @@ function __call(__label, __this, __env, __args) {
       case 'ret':
         __env.x = [__args[0]];
         return function (__env) {
-          return __mk('__lambda_1', __env, function __lambda_1(s, cont) {
-            return __call('__lambda_1', __this, __env, [
+          return __mk('__lambda_1', { x: __env.x }, function __lambda_1(s, cont) {
+            return __call('__lambda_1', __this, { x: __env.x }, [
               s,
               cont
             ]);

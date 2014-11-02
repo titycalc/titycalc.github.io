@@ -1185,7 +1185,7 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        COPYENV,
+                        copyenv(__env.env[0]),
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -1211,7 +1211,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: __env.ast[0].id.name
                 },
-                COPYENV,
+                copyenv(__env.env[0]),
                 __env.fn[0]
               ]
             }];
@@ -1623,7 +1623,7 @@ function __call(__label, __this, __env, __args) {
                           type: 'Identifier',
                           name: '__this'
                         },
-                        COPYENV,
+                        copyenv(__env.env[0]),
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -1649,7 +1649,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: __env.id[0].name
                 },
-                COPYENV,
+                copyenv(__env.env[0]),
                 __env.fn[0]
               ]
             }];
@@ -1980,6 +1980,36 @@ function __call(__label, __this, __env, __args) {
           __env.cp ? __env.cp[0][__env.k[0]] = __env.obj[0][__env.k[0]] : cp[__env.k[0]] = __env.obj[0][__env.k[0]];
         }
         return __env.cp[0];
+      case 'copyenv':
+        __env.env = [__args[0]];
+        __env.cp = [{
+            type: 'ObjectExpression',
+            properties: []
+          }];
+        __env.k = [];
+        for (__env.k[0] in __env.env[0]) {
+          __env.prop = [{
+              type: 'Property',
+              key: {
+                type: 'Identifier',
+                name: __env.k[0]
+              },
+              value: {
+                type: 'MemberExpression',
+                object: {
+                  type: 'Identifier',
+                  name: '__env'
+                },
+                property: {
+                  type: 'Identifier',
+                  name: __env.k[0]
+                }
+              },
+              kind: 'init'
+            }];
+          __env.cp[0].properties.push(__env.prop[0]);
+        }
+        return __env.cp[0];
       default:
         console.error('unrecognized label: ' + __label);
         break __jmp;
@@ -2020,6 +2050,11 @@ var COPYENV;
 COPYENV = esprima.parse('__env').body[0].expression;
 var COPYGLOBAL;
 COPYGLOBAL = esprima.parse('({})').body[0].expression;
+function copyenv(env) {
+  return __call('copyenv', this, {}, [env]);
+}
+copyenv.__label = 'copyenv';
+copyenv.__env = {};
 function shallowCopy(obj) {
   return __call('shallowCopy', this, {}, [obj]);
 }

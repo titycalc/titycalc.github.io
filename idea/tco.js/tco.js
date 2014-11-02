@@ -9,6 +9,15 @@ var GLOBAL = {
 };
 var COPYENV = esprima.parse("__env").body[0].expression
 var COPYGLOBAL = esprima.parse("({})").body[0].expression
+function copyenv(env){
+  var cp = {type:'ObjectExpression',properties:[]};  
+  for (var k in env) {
+    var prop = {type:'Property',key:{type:'Identifier',name:k},
+value:{type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:{type:'Identifier',name:k}},kind:'init'}
+    cp.properties.push(prop);
+  }
+  return cp;
+}
 function shallowCopy(obj) {
   var cp = {};
   for (var k in obj) {
@@ -387,7 +396,7 @@ alternate: alternate, consequent: consequent };
                     value: id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  COPYENV,
+                  copyenv(env),
                   /*{
                     type: 'Identifier',
                     name: '__env'
@@ -417,7 +426,7 @@ alternate: alternate, consequent: consequent };
             type: 'Literal',
             value: id.name
           },
-          COPYENV,
+          copyenv(env),
           /*{ type: 'Identifier', name: '__env' },*/
           fn
         ]
@@ -958,7 +967,7 @@ body: body, each: ast.each }]}
                     value: ast.id.name
                   },
                   { type: 'Identifier', name: '__this' },
-                  COPYENV,
+                  copyenv(env),
                   /*{
                     type: 'Identifier',
                     name: '__env'
@@ -988,7 +997,7 @@ body: body, each: ast.each }]}
             type: 'Literal',
             value: ast.id.name
           },
-          COPYENV,
+          copyenv(env),
           fn
         ]
       };
