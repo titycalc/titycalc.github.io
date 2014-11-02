@@ -374,7 +374,8 @@ alternate: alternate, consequent: consequent };
           fn
         ]
       };
-
+    var bind = esprima.parse('(function (__env) { return; })(__env)').body[0].expression;
+    bind.callee.body.body[0].argument = mk;
 
     var body = optStmt(ast.body);
     var body1 = [];
@@ -393,7 +394,7 @@ alternate: alternate, consequent: consequent };
               name: '__env'
             },
             property: ast.id
-          }, right:  mk}});
+          }, right:  bind}});
     }
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
@@ -445,7 +446,7 @@ alternate: alternate, consequent: consequent };
       },
       consequent: body1
     });
-    return mk;
+    return bind;
     /*return {
       type: 'ObjectExpression',
       properties: [
@@ -913,6 +914,8 @@ body: body }
         ]
       };
 
+    var bind = esprima.parse('(function (__env) { return; })(__env)').body[0].expression;
+    bind.callee.body.body[0].argument = mk;
 
     return {
       type: 'ExpressionStatement',
@@ -929,7 +932,7 @@ body: body }
         },
         right: {
           type: 'ArrayExpression',
-          elements: [mk]
+          elements: [bind]
         }
       }
     };

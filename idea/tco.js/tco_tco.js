@@ -51,6 +51,7 @@ function __ENV(__env) {
   this.id = __env.id;
   this.fn = __env.fn;
   this.mk = __env.mk;
+  this.bind = __env.bind;
   this.body = __env.body;
   this.body1 = __env.body1;
   this.i = __env.i;
@@ -109,6 +110,7 @@ function __ENV(__env) {
   this.setParam = __env.setParam;
   this.fn = __env.fn;
   this.mk = __env.mk;
+  this.bind = __env.bind;
   this.optStmt = __env.optStmt;
   this.ast = __env.ast;
   this.lhs = __env.lhs;
@@ -1299,6 +1301,8 @@ function __call(__label, __this, __env, __args) {
                 __env.fn ? __env.fn[0] : fn
               ]
             }];
+          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(__env)').body[0].expression];
+          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
           return {
             type: 'ExpressionStatement',
             expression: {
@@ -1314,7 +1318,7 @@ function __call(__label, __this, __env, __args) {
               },
               right: {
                 type: 'ArrayExpression',
-                elements: [__env.mk ? __env.mk[0] : mk]
+                elements: [__env.bind ? __env.bind[0] : bind]
               }
             }
           };
@@ -1621,6 +1625,8 @@ function __call(__label, __this, __env, __args) {
                 __env.fn ? __env.fn[0] : fn
               ]
             }];
+          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(__env)').body[0].expression];
+          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
           __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)((__env.ast ? __env.ast[0] : ast).body)];
           __env.body1 = [[]];
           (__env.appendVar ? __env.appendVar[0] : appendVar)(__env.id ? __env.id[0] : id);
@@ -1639,7 +1645,7 @@ function __call(__label, __this, __env, __args) {
                   },
                   property: (__env.ast ? __env.ast[0] : ast).id
                 },
-                right: __env.mk ? __env.mk[0] : mk
+                right: __env.bind ? __env.bind[0] : bind
               }
             });
           }
@@ -1693,7 +1699,7 @@ function __call(__label, __this, __env, __args) {
             },
             consequent: __env.body1 ? __env.body1[0] : body1
           });
-          return __env.mk ? __env.mk[0] : mk;
+          return __env.bind ? __env.bind[0] : bind;
         case 'CallExpression':
           __env.callee = [(__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).callee)];
           __env.args = [[]];
