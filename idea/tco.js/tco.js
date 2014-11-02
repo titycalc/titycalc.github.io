@@ -3,7 +3,10 @@ var escodegen = require('escodegen');
 var esprima = require('esprima');
 var LOOP = 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
-var EMPTY_OBJECT = {type:'ObjectExpression',properties:[]};
+var EMPTY_OBJECT = {
+  type: 'ObjectExpression',
+  properties: []
+};
 function copyenv(env) {
   var cp = {
     type: 'ObjectExpression',
