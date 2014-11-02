@@ -27,3 +27,20 @@ var k2 = k[1];
 k2();
 k1();
 k2();
+
+function id(x){ return x; }
+
+var bar = function(){
+  var aaabbb = 0;
+  var f = function (){return aaabbb;};
+  return id(f);
+}
+
+var foo = function(){
+  var f = bar();
+  console.log(f());
+  console.log(f());
+  console.log(f());
+}
+
+foo();

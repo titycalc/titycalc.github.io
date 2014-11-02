@@ -11,11 +11,38 @@ function __ENV(__env) {
   this.__lambda_2 = __env.__lambda_2;
   this.__lambda_3 = __env.__lambda_3;
   this.mkClosure = __env.mkClosure;
+  this.id = __env.id;
+  this.x = __env.x;
+  this.aaabbb = __env.aaabbb;
+  this.f = __env.f;
+  this.__lambda_5 = __env.__lambda_5;
+  this.__lambda_4 = __env.__lambda_4;
+  this.f = __env.f;
+  this.__lambda_6 = __env.__lambda_6;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
+      case '__lambda_6':
+        __env.f = [(__env.bar ? __env.bar[0] : bar)()];
+        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
+        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
+        (__env.console ? __env.console[0] : console).log((__env.f ? __env.f[0] : f)());
+      case '__lambda_4':
+        __env.aaabbb = [0];
+        __env.f = [__mk('__lambda_5', new __ENV(__env), function __lambda_5() {
+            return __call1('__lambda_5', __this, new __ENV(__env), []);
+          })];
+        __args = [__env.f ? __env.f[0] : f];
+        __label = (__env.id ? __env.id[0] : id).__label;
+        __env = (__env.id ? __env.id[0] : id).__env;
+        continue __jmp;
+      case '__lambda_5':
+        return __env.aaabbb ? __env.aaabbb[0] : aaabbb;
+      case 'id':
+        __env.x = [__args[0]];
+        return __env.x ? __env.x[0] : x;
       case 'mkClosure':
         return [
           __mk('__lambda_2', new __ENV(__env), function __lambda_2() {
@@ -103,3 +130,20 @@ __global.k2 = [k2];
 k2();
 k1();
 k2();
+function id(x) {
+  return __call1('id', this, new __ENV(__global), [x]);
+}
+id.__label = 'id';
+id.__env = new __ENV(__global);
+__global.id = [id];
+var bar;
+bar = __mk('__lambda_4', new __ENV(__global), function __lambda_4() {
+  return __call1('__lambda_4', this, new __ENV(__global), []);
+});
+__global.bar = [bar];
+var foo;
+foo = __mk('__lambda_6', new __ENV(__global), function __lambda_6() {
+  return __call1('__lambda_6', this, new __ENV(__global), []);
+});
+__global.foo = [foo];
+foo();
