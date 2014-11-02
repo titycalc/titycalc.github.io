@@ -5,19 +5,15 @@ function __ENV(__env) {
   this.i = __env.i;
   this.__lambda_1 = __env.__lambda_1;
   this.mkCounter1 = __env.mkCounter1;
-  this.i = __env.i;
-  this.i = __env.i;
   this.x = __env.x;
   this.__lambda_2 = __env.__lambda_2;
   this.__lambda_3 = __env.__lambda_3;
   this.mkClosure = __env.mkClosure;
   this.id = __env.id;
-  this.x = __env.x;
   this.aaabbb = __env.aaabbb;
   this.f = __env.f;
   this.__lambda_5 = __env.__lambda_5;
   this.__lambda_4 = __env.__lambda_4;
-  this.f = __env.f;
   this.__lambda_6 = __env.__lambda_6;
 }
 function __call(__label, __this, __env, __args) {

@@ -9,26 +9,19 @@ function __ENV(__env) {
   this.ident = __env.ident;
   this.prop1 = __env.prop1;
   this.appendGlobalVar = __env.appendGlobalVar;
-  this.ident = __env.ident;
   this.gensym = __env.gensym;
   this.isTailCallExpr = __env.isTailCallExpr;
   this.ast = __env.ast;
   this.isTailCallStmt = __env.isTailCallStmt;
-  this.ast = __env.ast;
   this.existsLhs1 = __env.existsLhs1;
-  this.ast = __env.ast;
   this.obj = __env.obj;
   this.prop = __env.prop;
-  this.obj = __env.obj;
   this.optLhs1 = __env.optLhs1;
-  this.ast = __env.ast;
   this.optLhs2 = __env.optLhs2;
-  this.ast = __env.ast;
   this.exprs = __env.exprs;
   this.i = __env.i;
   this.callee = __env.callee;
   this.args = __env.args;
-  this.i = __env.i;
   this.arg1 = __env.arg1;
   this.arg2 = __env.arg2;
   this.lhs1 = __env.lhs1;
@@ -38,15 +31,8 @@ function __ENV(__env) {
   this.alternate = __env.alternate;
   this.consequent = __env.consequent;
   this.lhs = __env.lhs;
-  this.rhs = __env.rhs;
-  this.lhs = __env.lhs;
-  this.rhs = __env.rhs;
-  this.obj = __env.obj;
   this.props = __env.props;
-  this.i = __env.i;
-  this.prop = __env.prop;
   this.elts = __env.elts;
-  this.i = __env.i;
   this.elt = __env.elt;
   this.id = __env.id;
   this.fn = __env.fn;
@@ -54,156 +40,33 @@ function __ENV(__env) {
   this.bind = __env.bind;
   this.body = __env.body;
   this.body1 = __env.body1;
-  this.i = __env.i;
   this.param = __env.param;
   this.setParam = __env.setParam;
-  this.callee = __env.callee;
-  this.args = __env.args;
-  this.i = __env.i;
   this.optExpr = __env.optExpr;
-  this.ast = __env.ast;
   this.optCatchClause = __env.optCatchClause;
-  this.ast = __env.ast;
   this.declarations = __env.declarations;
-  this.i = __env.i;
   this.declaration = __env.declaration;
   this.optVariableDeclaration = __env.optVariableDeclaration;
-  this.ast = __env.ast;
-  this.body = __env.body;
-  this.i = __env.i;
-  this.stmt = __env.stmt;
   this.expr = __env.expr;
-  this.test = __env.test;
-  this.consequent = __env.consequent;
-  this.alternate = __env.alternate;
-  this.body = __env.body;
-  this.obj = __env.obj;
-  this.body = __env.body;
   this.discriminant = __env.discriminant;
   this.cases = __env.cases;
-  this.i = __env.i;
-  this.test = __env.test;
-  this.body = __env.body;
   this.j = __env.j;
   this.arg = __env.arg;
   this.block = __env.block;
   this.handlers = __env.handlers;
-  this.i = __env.i;
   this.guardedHandlers = __env.guardedHandlers;
-  this.i = __env.i;
   this.finalizer = __env.finalizer;
-  this.test = __env.test;
-  this.body = __env.body;
-  this.test = __env.test;
-  this.body = __env.body;
   this.init = __env.init;
-  this.init = __env.init;
-  this.init = __env.init;
-  this.test = __env.test;
   this.update = __env.update;
-  this.body = __env.body;
   this.argument = __env.argument;
-  this.body = __env.body;
-  this.body1 = __env.body1;
-  this.i = __env.i;
-  this.param = __env.param;
-  this.setParam = __env.setParam;
-  this.fn = __env.fn;
-  this.mk = __env.mk;
-  this.bind = __env.bind;
   this.optStmt = __env.optStmt;
-  this.ast = __env.ast;
-  this.lhs = __env.lhs;
-  this.rhs = __env.rhs;
-  this.exprs = __env.exprs;
-  this.i = __env.i;
-  this.callee = __env.callee;
-  this.args = __env.args;
-  this.i = __env.i;
-  this.test = __env.test;
-  this.alternate = __env.alternate;
-  this.consequent = __env.consequent;
-  this.lhs = __env.lhs;
-  this.rhs = __env.rhs;
-  this.lhs = __env.lhs;
-  this.rhs = __env.rhs;
-  this.obj = __env.obj;
-  this.props = __env.props;
-  this.i = __env.i;
-  this.prop = __env.prop;
-  this.elts = __env.elts;
-  this.i = __env.i;
-  this.elt = __env.elt;
-  this.id = __env.id;
-  this.fn = __env.fn;
-  this.mk = __env.mk;
-  this.body = __env.body;
-  this.body1 = __env.body1;
-  this.i = __env.i;
-  this.param = __env.param;
-  this.setParam = __env.setParam;
-  this.callee = __env.callee;
-  this.args = __env.args;
-  this.i = __env.i;
   this.optToplevelExpr = __env.optToplevelExpr;
-  this.ast = __env.ast;
   this.optToplevelCatchClause = __env.optToplevelCatchClause;
-  this.ast = __env.ast;
-  this.declarations = __env.declarations;
-  this.i = __env.i;
-  this.declaration = __env.declaration;
   this.optToplevelVariableDeclaration = __env.optToplevelVariableDeclaration;
-  this.ast = __env.ast;
-  this.body = __env.body;
-  this.i = __env.i;
-  this.stmt = __env.stmt;
-  this.expr = __env.expr;
-  this.test = __env.test;
-  this.consequent = __env.consequent;
-  this.alternate = __env.alternate;
-  this.body = __env.body;
-  this.obj = __env.obj;
-  this.body = __env.body;
-  this.discriminant = __env.discriminant;
-  this.cases = __env.cases;
-  this.i = __env.i;
-  this.test = __env.test;
-  this.body = __env.body;
-  this.j = __env.j;
-  this.arg = __env.arg;
-  this.block = __env.block;
-  this.handlers = __env.handlers;
-  this.i = __env.i;
-  this.guardedHandlers = __env.guardedHandlers;
-  this.i = __env.i;
-  this.finalizer = __env.finalizer;
-  this.test = __env.test;
-  this.body = __env.body;
-  this.test = __env.test;
-  this.body = __env.body;
-  this.init = __env.init;
-  this.init = __env.init;
-  this.init = __env.init;
-  this.test = __env.test;
-  this.update = __env.update;
-  this.body = __env.body;
   this.decls = __env.decls;
-  this.body = __env.body;
-  this.i = __env.i;
-  this.i = __env.i;
-  this.body = __env.body;
-  this.body1 = __env.body1;
-  this.i = __env.i;
-  this.param = __env.param;
-  this.setParam = __env.setParam;
   this.decl = __env.decl;
   this.optToplevelStmt = __env.optToplevelStmt;
-  this.ast = __env.ast;
-  this.body = __env.body;
-  this.i = __env.i;
-  this.stmt = __env.stmt;
   this.optProgram = __env.optProgram;
-  this.ast = __env.ast;
   this.program = __env.program;
   this.__lambda_1 = __env.__lambda_1;
   this.err = __env.err;
@@ -1716,7 +1579,21 @@ function __call(__label, __this, __env, __args) {
         }
       case 'optLhs2':
         __env.ast = [__args[0]];
-        return __env.ast ? __env.ast[0] : ast;
+        switch ((__env.ast ? __env.ast[0] : ast).type) {
+        case 'MemberExpression':
+          if ((__env.ast ? __env.ast[0] : ast).computed) {
+            return {
+              type: 'MemberExpression',
+              object: (__env.ast ? __env.ast[0] : ast).object,
+              computed: (__env.ast ? __env.ast[0] : ast).computed,
+              property: (__env.optExpr ? __env.optExpr[0] : optExpr)((__env.ast ? __env.ast[0] : ast).property)
+            };
+          } else {
+            return __env.ast ? __env.ast[0] : ast;
+          }
+        default:
+          return __env.ast ? __env.ast[0] : ast;
+        }
       case 'optLhs1':
         __env.ast = [__args[0]];
         switch ((__env.ast ? __env.ast[0] : ast).type) {
@@ -1846,6 +1723,10 @@ function __call(__label, __this, __env, __args) {
         (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body[0].declarations[0].init.properties.push(__env.prop1 ? __env.prop1[0] : prop1);
       case 'appendVar':
         __env.ident = [__args[0]];
+        if ((__env.VARS ? __env.VARS[0] : VARS)[(__env.ident ? __env.ident[0] : ident).name]) {
+          return;
+        }
+        __env.VARS ? __env.VARS[0][(__env.ident ? __env.ident[0] : ident).name] = true : VARS[(__env.ident ? __env.ident[0] : ident).name] = true;
         __env.stmt = [{
             type: 'ExpressionStatement',
             expression: {
@@ -1934,6 +1815,9 @@ function appendProp(a_prop) {
 appendProp.__label = 'appendProp';
 appendProp.__env = new __ENV(__global);
 __global.appendProp = [appendProp];
+var VARS;
+VARS = {};
+__global.VARS = [VARS];
 function appendVar(ident) {
   return __call('appendVar', this, new __ENV(__global), [ident]);
 }

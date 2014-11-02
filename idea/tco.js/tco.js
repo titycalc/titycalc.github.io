@@ -18,7 +18,10 @@ function appendProp(a_prop) {
   //COPYENV.properties.push(a_prop);
   return;
 }
+var VARS = {};
 function appendVar(ident) {
+  if(VARS[ident.name]) {return;}
+  VARS[ident.name] = true;
   var stmt = {type:'ExpressionStatement',expression:{type: 'AssignmentExpression',
    operator: '=',
    left: {type:'MemberExpression',object:{type:'ThisExpression'},property:
@@ -144,7 +147,15 @@ default:
 }
 }
 function optLhs2(ast) {
+  switch (ast.type) {
+  case 'MemberExpression':
+    if(ast.computed) {
+      return { type: 'MemberExpression',
+object: ast.object, computed: ast.computed, property: optExpr(ast.property) }
+    } else { return ast; }
+  default:
   return ast;
+  }
 }
 function optExpr(ast) {
   switch (ast.type) {
