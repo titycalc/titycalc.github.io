@@ -55,7 +55,7 @@ function __call(__label, __this, __env, __args) {
         __env.abcdeabcde = [__env.x ? __env.x[0] : x];
         return function (__env) {
           return __mk('__lambda_3', new __ENV(__env), function __lambda_3(z) {
-            return __call1('__lambda_3', __this, new __ENV(__env), [z]);
+            return __call('__lambda_3', __this, new __ENV(__env), [z]);
           });
         }(__env);
       case '__lambda_3':
@@ -65,7 +65,7 @@ function __call(__label, __this, __env, __args) {
         __env.x = [__args[0]];
         __env.discard = [function (__env) {
             return __mk('discard', new __ENV(__env), function discard(y) {
-              return __call1('discard', __this, new __ENV(__env), [y]);
+              return __call('discard', __this, new __ENV(__env), [y]);
             });
           }(__env)];
         return __env.discard ? __env.discard[0] : discard;
@@ -123,60 +123,60 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function infLoop() {
-  return __call1('infLoop', this, new __ENV(__global), []);
+  return __call('infLoop', this, new __ENV(__global), []);
 }
 infLoop.__label = 'infLoop';
 infLoop.__env = new __ENV(__global);
 __global.infLoop = [infLoop];
 var infLoop1;
 infLoop1 = __mk('__lambda_1', new __ENV(__global), function __lambda_1() {
-  return __call1('__lambda_1', this, new __ENV(__global), []);
+  return __call('__lambda_1', this, new __ENV(__global), []);
 });
 __global.infLoop1 = [infLoop1];
 var obj;
 obj = {};
 __global.obj = [obj];
 obj.infLoop2 = __mk('__lambda_2', new __ENV(__global), function __lambda_2() {
-  return __call1('__lambda_2', this, new __ENV(__global), []);
+  return __call('__lambda_2', this, new __ENV(__global), []);
 });
 function mutualLoop1() {
-  return __call1('mutualLoop1', this, new __ENV(__global), []);
+  return __call('mutualLoop1', this, new __ENV(__global), []);
 }
 mutualLoop1.__label = 'mutualLoop1';
 mutualLoop1.__env = new __ENV(__global);
 __global.mutualLoop1 = [mutualLoop1];
 function mutualLoop2() {
-  return __call1('mutualLoop2', this, new __ENV(__global), []);
+  return __call('mutualLoop2', this, new __ENV(__global), []);
 }
 mutualLoop2.__label = 'mutualLoop2';
 mutualLoop2.__env = new __ENV(__global);
 __global.mutualLoop2 = [mutualLoop2];
 function identity(x) {
-  return __call1('identity', this, new __ENV(__global), [x]);
+  return __call('identity', this, new __ENV(__global), [x]);
 }
 identity.__label = 'identity';
 identity.__env = new __ENV(__global);
 __global.identity = [identity];
 function constantly(x) {
-  return __call1('constantly', this, new __ENV(__global), [x]);
+  return __call('constantly', this, new __ENV(__global), [x]);
 }
 constantly.__label = 'constantly';
 constantly.__env = new __ENV(__global);
 __global.constantly = [constantly];
 function constantly1(x) {
-  return __call1('constantly1', this, new __ENV(__global), [x]);
+  return __call('constantly1', this, new __ENV(__global), [x]);
 }
 constantly1.__label = 'constantly1';
 constantly1.__env = new __ENV(__global);
 __global.constantly1 = [constantly1];
 function incr() {
-  return __call1('incr', this, new __ENV(__global), []);
+  return __call('incr', this, new __ENV(__global), []);
 }
 incr.__label = 'incr';
 incr.__env = new __ENV(__global);
 __global.incr = [incr];
 function try_catch_finally(try_clause, catch_clause, finally_clause) {
-  return __call1('try_catch_finally', this, new __ENV(__global), [
+  return __call('try_catch_finally', this, new __ENV(__global), [
     try_clause,
     catch_clause,
     finally_clause
@@ -186,7 +186,7 @@ try_catch_finally.__label = 'try_catch_finally';
 try_catch_finally.__env = new __ENV(__global);
 __global.try_catch_finally = [try_catch_finally];
 function sum(xs) {
-  return __call1('sum', this, new __ENV(__global), [xs]);
+  return __call('sum', this, new __ENV(__global), [xs]);
 }
 sum.__label = 'sum';
 sum.__env = new __ENV(__global);

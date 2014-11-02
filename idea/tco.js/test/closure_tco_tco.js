@@ -33,7 +33,7 @@ function __call(__label, __this, __env, __args) {
         __env.aaabbb = [0];
         __env.f = [function (__env) {
             return __mk('__lambda_5', new __ENV(__env), function __lambda_5() {
-              return __call1('__lambda_5', __this, new __ENV(__env), []);
+              return __call('__lambda_5', __this, new __ENV(__env), []);
             });
           }(__env)];
         __args = [__env.f ? __env.f[0] : f];
@@ -49,12 +49,12 @@ function __call(__label, __this, __env, __args) {
         return [
           function (__env) {
             return __mk('__lambda_2', new __ENV(__env), function __lambda_2() {
-              return __call1('__lambda_2', __this, new __ENV(__env), []);
+              return __call('__lambda_2', __this, new __ENV(__env), []);
             });
           }(__env),
           function (__env) {
             return __mk('__lambda_3', new __ENV(__env), function __lambda_3() {
-              return __call1('__lambda_3', __this, new __ENV(__env), []);
+              return __call('__lambda_3', __this, new __ENV(__env), []);
             });
           }(__env)
         ];
@@ -68,7 +68,7 @@ function __call(__label, __this, __env, __args) {
         __env.i = [__args[0]];
         return function (__env) {
           return __mk('__lambda_1', new __ENV(__env), function __lambda_1() {
-            return __call1('__lambda_1', __this, new __ENV(__env), []);
+            return __call('__lambda_1', __this, new __ENV(__env), []);
           });
         }(__env);
       case '__lambda_1':
@@ -77,7 +77,7 @@ function __call(__label, __this, __env, __args) {
         __env.i = [__args[0]];
         __env.add = [function (__env) {
             return __mk('add', new __ENV(__env), function add() {
-              return __call1('add', __this, new __ENV(__env), []);
+              return __call('add', __this, new __ENV(__env), []);
             });
           }(__env)];
         return __env.add ? __env.add[0] : add;
@@ -105,13 +105,13 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function mkCounter(i) {
-  return __call1('mkCounter', this, new __ENV(__global), [i]);
+  return __call('mkCounter', this, new __ENV(__global), [i]);
 }
 mkCounter.__label = 'mkCounter';
 mkCounter.__env = new __ENV(__global);
 __global.mkCounter = [mkCounter];
 function mkCounter1(i) {
-  return __call1('mkCounter1', this, new __ENV(__global), [i]);
+  return __call('mkCounter1', this, new __ENV(__global), [i]);
 }
 mkCounter1.__label = 'mkCounter1';
 mkCounter1.__env = new __ENV(__global);
@@ -123,7 +123,7 @@ for (var i = 0; i < 3; ++i) {
   console.log(c());
 }
 function mkClosure() {
-  return __call1('mkClosure', this, new __ENV(__global), []);
+  return __call('mkClosure', this, new __ENV(__global), []);
 }
 mkClosure.__label = 'mkClosure';
 mkClosure.__env = new __ENV(__global);
@@ -141,19 +141,19 @@ k2();
 k1();
 k2();
 function id(x) {
-  return __call1('id', this, new __ENV(__global), [x]);
+  return __call('id', this, new __ENV(__global), [x]);
 }
 id.__label = 'id';
 id.__env = new __ENV(__global);
 __global.id = [id];
 var bar;
 bar = __mk('__lambda_4', new __ENV(__global), function __lambda_4() {
-  return __call1('__lambda_4', this, new __ENV(__global), []);
+  return __call('__lambda_4', this, new __ENV(__global), []);
 });
 __global.bar = [bar];
 var foo;
 foo = __mk('__lambda_6', new __ENV(__global), function __lambda_6() {
-  return __call1('__lambda_6', this, new __ENV(__global), []);
+  return __call('__lambda_6', this, new __ENV(__global), []);
 });
 __global.foo = [foo];
 foo();

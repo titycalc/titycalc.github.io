@@ -34,7 +34,7 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function yes() {
-  return __call1('yes', this, new __ENV(__global), []);
+  return __call('yes', this, new __ENV(__global), []);
 }
 yes.__label = 'yes';
 yes.__env = new __ENV(__global);

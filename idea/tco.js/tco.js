@@ -331,7 +331,7 @@ alternate: alternate, consequent: consequent };
                 type: 'CallExpression',
                 callee: {
                   type: 'Identifier',
-                  name: '__call1'
+                  name: '__call'
                 },
                 arguments: [
                   {
@@ -871,7 +871,7 @@ body: body }
                 type: 'CallExpression',
                 callee: {
                   type: 'Identifier',
-                  name: '__call1'
+                  name: '__call'
                 },
                 arguments: [
                   {
@@ -1060,7 +1060,7 @@ alternate: alternate, consequent: consequent };
                 type: 'CallExpression',
                 callee: {
                   type: 'Identifier',
-                  name: '__call1'
+                  name: '__call'
                 },
                 arguments: [
                   {
@@ -1471,7 +1471,7 @@ body: body }
                 type: 'CallExpression',
                 callee: {
                   type: 'Identifier',
-                  name: '__call1'
+                  name: '__call'
                 },
                 arguments: [
                   {

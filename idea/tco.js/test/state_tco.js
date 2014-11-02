@@ -66,7 +66,7 @@ function __call(__label, __this, __env, __args) {
           (__env.put ? __env.put[0] : put)((__env.i ? __env.i[0] : i) + 1),
           function (__env) {
             return __mk('__lambda_9', new __ENV(__env), function __lambda_9(_) {
-              return __call1('__lambda_9', __this, new __ENV(__env), [_]);
+              return __call('__lambda_9', __this, new __ENV(__env), [_]);
             });
           }(__env)
         ];
@@ -83,7 +83,7 @@ function __call(__label, __this, __env, __args) {
           __env.s ? __env.s[0] : s,
           function (__env) {
             return __mk('__lambda_7', new __ENV(__env), function __lambda_7(x, s1) {
-              return __call1('__lambda_7', __this, new __ENV(__env), [
+              return __call('__lambda_7', __this, new __ENV(__env), [
                 x,
                 s1
               ]);
@@ -104,7 +104,7 @@ function __call(__label, __this, __env, __args) {
           __env.s ? __env.s[0] : s,
           function (__env) {
             return __mk('__lambda_6', new __ENV(__env), function __lambda_6(x, s1) {
-              return __call1('__lambda_6', __this, new __ENV(__env), [
+              return __call('__lambda_6', __this, new __ENV(__env), [
                 x,
                 s1
               ]);
@@ -125,7 +125,7 @@ function __call(__label, __this, __env, __args) {
           __env.s ? __env.s[0] : s,
           function (__env) {
             return __mk('__lambda_5', new __ENV(__env), function __lambda_5(x, s1) {
-              return __call1('__lambda_5', __this, new __ENV(__env), [
+              return __call('__lambda_5', __this, new __ENV(__env), [
                 x,
                 s1
               ]);
@@ -146,7 +146,7 @@ function __call(__label, __this, __env, __args) {
         __env.s = [__args[0]];
         return function (__env) {
           return __mk('__lambda_4', new __ENV(__env), function __lambda_4(_, cont) {
-            return __call1('__lambda_4', __this, new __ENV(__env), [
+            return __call('__lambda_4', __this, new __ENV(__env), [
               _,
               cont
             ]);
@@ -177,7 +177,7 @@ function __call(__label, __this, __env, __args) {
         __env.k = [__args[1]];
         return function (__env) {
           return __mk('__lambda_2', new __ENV(__env), function __lambda_2(s, cont) {
-            return __call1('__lambda_2', __this, new __ENV(__env), [
+            return __call('__lambda_2', __this, new __ENV(__env), [
               s,
               cont
             ]);
@@ -190,7 +190,7 @@ function __call(__label, __this, __env, __args) {
           __env.s ? __env.s[0] : s,
           function (__env) {
             return __mk('__lambda_3', new __ENV(__env), function __lambda_3(x, s1) {
-              return __call1('__lambda_3', __this, new __ENV(__env), [
+              return __call('__lambda_3', __this, new __ENV(__env), [
                 x,
                 s1
               ]);
@@ -214,7 +214,7 @@ function __call(__label, __this, __env, __args) {
         __env.x = [__args[0]];
         return function (__env) {
           return __mk('__lambda_1', new __ENV(__env), function __lambda_1(s, cont) {
-            return __call1('__lambda_1', __this, new __ENV(__env), [
+            return __call('__lambda_1', __this, new __ENV(__env), [
               s,
               cont
             ]);
@@ -252,13 +252,13 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function ret(x) {
-  return __call1('ret', this, new __ENV(__global), [x]);
+  return __call('ret', this, new __ENV(__global), [x]);
 }
 ret.__label = 'ret';
 ret.__env = new __ENV(__global);
 __global.ret = [ret];
 function bind(m, k) {
-  return __call1('bind', this, new __ENV(__global), [
+  return __call('bind', this, new __ENV(__global), [
     m,
     k
   ]);
@@ -267,7 +267,7 @@ bind.__label = 'bind';
 bind.__env = new __ENV(__global);
 __global.bind = [bind];
 function get(s, cont) {
-  return __call1('get', this, new __ENV(__global), [
+  return __call('get', this, new __ENV(__global), [
     s,
     cont
   ]);
@@ -276,13 +276,13 @@ get.__label = 'get';
 get.__env = new __ENV(__global);
 __global.get = [get];
 function put(s) {
-  return __call1('put', this, new __ENV(__global), [s]);
+  return __call('put', this, new __ENV(__global), [s]);
 }
 put.__label = 'put';
 put.__env = new __ENV(__global);
 __global.put = [put];
 function runState(m, s) {
-  return __call1('runState', this, new __ENV(__global), [
+  return __call('runState', this, new __ENV(__global), [
     m,
     s
   ]);
@@ -291,7 +291,7 @@ runState.__label = 'runState';
 runState.__env = new __ENV(__global);
 __global.runState = [runState];
 function evalState(m, s) {
-  return __call1('evalState', this, new __ENV(__global), [
+  return __call('evalState', this, new __ENV(__global), [
     m,
     s
   ]);
@@ -300,7 +300,7 @@ evalState.__label = 'evalState';
 evalState.__env = new __ENV(__global);
 __global.evalState = [evalState];
 function execState(m, s) {
-  return __call1('execState', this, new __ENV(__global), [
+  return __call('execState', this, new __ENV(__global), [
     m,
     s
   ]);
@@ -310,12 +310,12 @@ execState.__env = new __ENV(__global);
 __global.execState = [execState];
 var tick;
 tick = bind(get, __mk('__lambda_8', new __ENV(__global), function __lambda_8(i) {
-  return __call1('__lambda_8', this, new __ENV(__global), [i]);
+  return __call('__lambda_8', this, new __ENV(__global), [i]);
 }));
 __global.tick = [tick];
 var plusOne;
 plusOne = __mk('__lambda_10', new __ENV(__global), function __lambda_10(i) {
-  return __call1('__lambda_10', this, new __ENV(__global), [i]);
+  return __call('__lambda_10', this, new __ENV(__global), [i]);
 });
 __global.plusOne = [plusOne];
 module.exports = {

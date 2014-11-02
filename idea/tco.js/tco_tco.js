@@ -505,7 +505,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'CallExpression',
                       callee: {
                         type: 'Identifier',
-                        name: '__call1'
+                        name: '__call'
                       },
                       arguments: [
                         {
@@ -762,7 +762,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'CallExpression',
                       callee: {
                         type: 'Identifier',
-                        name: '__call1'
+                        name: '__call'
                       },
                       arguments: [
                         {
@@ -1260,7 +1260,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'CallExpression',
                       callee: {
                         type: 'Identifier',
-                        name: '__call1'
+                        name: '__call'
                       },
                       arguments: [
                         {
@@ -1584,7 +1584,7 @@ function __call(__label, __this, __env, __args) {
                       type: 'CallExpression',
                       callee: {
                         type: 'Identifier',
-                        name: '__call1'
+                        name: '__call'
                       },
                       arguments: [
                         {
@@ -1923,25 +1923,25 @@ var COPYGLOBAL;
 COPYGLOBAL = esprima.parse('new __ENV(__global)').body[0].expression;
 __global.COPYGLOBAL = [COPYGLOBAL];
 function appendCase(a_case) {
-  return __call1('appendCase', this, new __ENV(__global), [a_case]);
+  return __call('appendCase', this, new __ENV(__global), [a_case]);
 }
 appendCase.__label = 'appendCase';
 appendCase.__env = new __ENV(__global);
 __global.appendCase = [appendCase];
 function appendProp(a_prop) {
-  return __call1('appendProp', this, new __ENV(__global), [a_prop]);
+  return __call('appendProp', this, new __ENV(__global), [a_prop]);
 }
 appendProp.__label = 'appendProp';
 appendProp.__env = new __ENV(__global);
 __global.appendProp = [appendProp];
 function appendVar(ident) {
-  return __call1('appendVar', this, new __ENV(__global), [ident]);
+  return __call('appendVar', this, new __ENV(__global), [ident]);
 }
 appendVar.__label = 'appendVar';
 appendVar.__env = new __ENV(__global);
 __global.appendVar = [appendVar];
 function appendGlobalVar(ident) {
-  return __call1('appendGlobalVar', this, new __ENV(__global), [ident]);
+  return __call('appendGlobalVar', this, new __ENV(__global), [ident]);
 }
 appendGlobalVar.__label = 'appendGlobalVar';
 appendGlobalVar.__env = new __ENV(__global);
@@ -1950,97 +1950,97 @@ var i;
 i = 0;
 __global.i = [i];
 function gensym() {
-  return __call1('gensym', this, new __ENV(__global), []);
+  return __call('gensym', this, new __ENV(__global), []);
 }
 gensym.__label = 'gensym';
 gensym.__env = new __ENV(__global);
 __global.gensym = [gensym];
 function isTailCallExpr(ast) {
-  return __call1('isTailCallExpr', this, new __ENV(__global), [ast]);
+  return __call('isTailCallExpr', this, new __ENV(__global), [ast]);
 }
 isTailCallExpr.__label = 'isTailCallExpr';
 isTailCallExpr.__env = new __ENV(__global);
 __global.isTailCallExpr = [isTailCallExpr];
 function isTailCallStmt(ast) {
-  return __call1('isTailCallStmt', this, new __ENV(__global), [ast]);
+  return __call('isTailCallStmt', this, new __ENV(__global), [ast]);
 }
 isTailCallStmt.__label = 'isTailCallStmt';
 isTailCallStmt.__env = new __ENV(__global);
 __global.isTailCallStmt = [isTailCallStmt];
 function existsLhs1(ast) {
-  return __call1('existsLhs1', this, new __ENV(__global), [ast]);
+  return __call('existsLhs1', this, new __ENV(__global), [ast]);
 }
 existsLhs1.__label = 'existsLhs1';
 existsLhs1.__env = new __ENV(__global);
 __global.existsLhs1 = [existsLhs1];
 function optLhs1(ast) {
-  return __call1('optLhs1', this, new __ENV(__global), [ast]);
+  return __call('optLhs1', this, new __ENV(__global), [ast]);
 }
 optLhs1.__label = 'optLhs1';
 optLhs1.__env = new __ENV(__global);
 __global.optLhs1 = [optLhs1];
 function optLhs2(ast) {
-  return __call1('optLhs2', this, new __ENV(__global), [ast]);
+  return __call('optLhs2', this, new __ENV(__global), [ast]);
 }
 optLhs2.__label = 'optLhs2';
 optLhs2.__env = new __ENV(__global);
 __global.optLhs2 = [optLhs2];
 function optExpr(ast) {
-  return __call1('optExpr', this, new __ENV(__global), [ast]);
+  return __call('optExpr', this, new __ENV(__global), [ast]);
 }
 optExpr.__label = 'optExpr';
 optExpr.__env = new __ENV(__global);
 __global.optExpr = [optExpr];
 function optCatchClause(ast) {
-  return __call1('optCatchClause', this, new __ENV(__global), [ast]);
+  return __call('optCatchClause', this, new __ENV(__global), [ast]);
 }
 optCatchClause.__label = 'optCatchClause';
 optCatchClause.__env = new __ENV(__global);
 __global.optCatchClause = [optCatchClause];
 function optVariableDeclaration(ast) {
-  return __call1('optVariableDeclaration', this, new __ENV(__global), [ast]);
+  return __call('optVariableDeclaration', this, new __ENV(__global), [ast]);
 }
 optVariableDeclaration.__label = 'optVariableDeclaration';
 optVariableDeclaration.__env = new __ENV(__global);
 __global.optVariableDeclaration = [optVariableDeclaration];
 function optStmt(ast) {
-  return __call1('optStmt', this, new __ENV(__global), [ast]);
+  return __call('optStmt', this, new __ENV(__global), [ast]);
 }
 optStmt.__label = 'optStmt';
 optStmt.__env = new __ENV(__global);
 __global.optStmt = [optStmt];
 function optToplevelExpr(ast) {
-  return __call1('optToplevelExpr', this, new __ENV(__global), [ast]);
+  return __call('optToplevelExpr', this, new __ENV(__global), [ast]);
 }
 optToplevelExpr.__label = 'optToplevelExpr';
 optToplevelExpr.__env = new __ENV(__global);
 __global.optToplevelExpr = [optToplevelExpr];
 function optToplevelCatchClause(ast) {
-  return __call1('optToplevelCatchClause', this, new __ENV(__global), [ast]);
+  return __call('optToplevelCatchClause', this, new __ENV(__global), [ast]);
 }
 optToplevelCatchClause.__label = 'optToplevelCatchClause';
 optToplevelCatchClause.__env = new __ENV(__global);
 __global.optToplevelCatchClause = [optToplevelCatchClause];
 function optToplevelVariableDeclaration(ast) {
-  return __call1('optToplevelVariableDeclaration', this, new __ENV(__global), [ast]);
+  return __call('optToplevelVariableDeclaration', this, new __ENV(__global), [ast]);
 }
 optToplevelVariableDeclaration.__label = 'optToplevelVariableDeclaration';
 optToplevelVariableDeclaration.__env = new __ENV(__global);
 __global.optToplevelVariableDeclaration = [optToplevelVariableDeclaration];
 function optToplevelStmt(ast) {
-  return __call1('optToplevelStmt', this, new __ENV(__global), [ast]);
+  return __call('optToplevelStmt', this, new __ENV(__global), [ast]);
 }
 optToplevelStmt.__label = 'optToplevelStmt';
 optToplevelStmt.__env = new __ENV(__global);
 __global.optToplevelStmt = [optToplevelStmt];
 function optProgram(ast) {
-  return __call1('optProgram', this, new __ENV(__global), [ast]);
+  return __call('optProgram', this, new __ENV(__global), [ast]);
 }
 optProgram.__label = 'optProgram';
 optProgram.__env = new __ENV(__global);
 __global.optProgram = [optProgram];
 fs.readFile(process.argv[2], 'utf-8', __mk('__lambda_1', new __ENV(__global), function __lambda_1(err, code) {
-  return __call1('__lambda_1', this, new __ENV(__global), [
+  return __call('__lambda_1', this, new __ENV(__global), [
     err,
     code
   ]);
