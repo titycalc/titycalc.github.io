@@ -1,7 +1,4 @@
-var __global = {};
 function __ENV(__env) {
-  if (__env.yes)
-    this.yes = __env.yes;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -35,9 +32,8 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function yes() {
-  return __call('yes', this, new __ENV(__global), []);
+  return __call('yes', this, {}, []);
 }
 yes.__label = 'yes';
-yes.__env = new __ENV(__global);
-__global.yes = [yes];
+yes.__env = {};
 yes();

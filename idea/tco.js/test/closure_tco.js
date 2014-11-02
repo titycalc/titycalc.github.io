@@ -1,35 +1,14 @@
-var __global = {};
 function __ENV(__env) {
   if (__env.add)
     this.add = __env.add;
-  if (__env.mkCounter)
-    this.mkCounter = __env.mkCounter;
   if (__env.i)
     this.i = __env.i;
-  if (__env.__lambda_1)
-    this.__lambda_1 = __env.__lambda_1;
-  if (__env.mkCounter1)
-    this.mkCounter1 = __env.mkCounter1;
   if (__env.x)
     this.x = __env.x;
-  if (__env.__lambda_2)
-    this.__lambda_2 = __env.__lambda_2;
-  if (__env.__lambda_3)
-    this.__lambda_3 = __env.__lambda_3;
-  if (__env.mkClosure)
-    this.mkClosure = __env.mkClosure;
-  if (__env.id)
-    this.id = __env.id;
   if (__env.aaabbb)
     this.aaabbb = __env.aaabbb;
   if (__env.f)
     this.f = __env.f;
-  if (__env.__lambda_5)
-    this.__lambda_5 = __env.__lambda_5;
-  if (__env.__lambda_4)
-    this.__lambda_4 = __env.__lambda_4;
-  if (__env.__lambda_6)
-    this.__lambda_6 = __env.__lambda_6;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -116,55 +95,45 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function mkCounter(i) {
-  return __call('mkCounter', this, new __ENV(__global), [i]);
+  return __call('mkCounter', this, {}, [i]);
 }
 mkCounter.__label = 'mkCounter';
-mkCounter.__env = new __ENV(__global);
-__global.mkCounter = [mkCounter];
+mkCounter.__env = {};
 function mkCounter1(i) {
-  return __call('mkCounter1', this, new __ENV(__global), [i]);
+  return __call('mkCounter1', this, {}, [i]);
 }
 mkCounter1.__label = 'mkCounter1';
-mkCounter1.__env = new __ENV(__global);
-__global.mkCounter1 = [mkCounter1];
+mkCounter1.__env = {};
 var c;
 c = mkCounter1(0);
-__global.c = [c];
 for (var i = 0; i < 3; ++i) {
   console.log(c());
 }
 function mkClosure() {
-  return __call('mkClosure', this, new __ENV(__global), []);
+  return __call('mkClosure', this, {}, []);
 }
 mkClosure.__label = 'mkClosure';
-mkClosure.__env = new __ENV(__global);
-__global.mkClosure = [mkClosure];
+mkClosure.__env = {};
 var k;
 k = mkClosure();
-__global.k = [k];
 var k1;
 k1 = k[0];
-__global.k1 = [k1];
 var k2;
 k2 = k[1];
-__global.k2 = [k2];
 k2();
 k1();
 k2();
 function id(x) {
-  return __call('id', this, new __ENV(__global), [x]);
+  return __call('id', this, {}, [x]);
 }
 id.__label = 'id';
-id.__env = new __ENV(__global);
-__global.id = [id];
+id.__env = {};
 var bar;
-bar = __mk('__lambda_4', new __ENV(__global), function __lambda_4() {
-  return __call('__lambda_4', this, new __ENV(__global), []);
+bar = __mk('__lambda_4', {}, function __lambda_4() {
+  return __call('__lambda_4', this, {}, []);
 });
-__global.bar = [bar];
 var foo;
-foo = __mk('__lambda_6', new __ENV(__global), function __lambda_6() {
-  return __call('__lambda_6', this, new __ENV(__global), []);
+foo = __mk('__lambda_6', {}, function __lambda_6() {
+  return __call('__lambda_6', this, {}, []);
 });
-__global.foo = [foo];
 foo();

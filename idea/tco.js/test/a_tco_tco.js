@@ -1,37 +1,14 @@
-var __global = {};
 function __ENV(__env) {
-  if (__env.infLoop)
-    this.infLoop = __env.infLoop;
-  if (__env.__lambda_1)
-    this.__lambda_1 = __env.__lambda_1;
-  if (__env.__lambda_2)
-    this.__lambda_2 = __env.__lambda_2;
-  if (__env.mutualLoop1)
-    this.mutualLoop1 = __env.mutualLoop1;
-  if (__env.mutualLoop2)
-    this.mutualLoop2 = __env.mutualLoop2;
-  if (__env.identity)
-    this.identity = __env.identity;
   if (__env.x)
     this.x = __env.x;
   if (__env.discard)
     this.discard = __env.discard;
   if (__env.y)
     this.y = __env.y;
-  if (__env.constantly)
-    this.constantly = __env.constantly;
   if (__env.abcdeabcde)
     this.abcdeabcde = __env.abcdeabcde;
-  if (__env.__lambda_3)
-    this.__lambda_3 = __env.__lambda_3;
   if (__env.z)
     this.z = __env.z;
-  if (__env.constantly1)
-    this.constantly1 = __env.constantly1;
-  if (__env.incr)
-    this.incr = __env.incr;
-  if (__env.try_catch_finally)
-    this.try_catch_finally = __env.try_catch_finally;
   if (__env.try_clause)
     this.try_clause = __env.try_clause;
   if (__env.catch_clause)
@@ -40,8 +17,6 @@ function __ENV(__env) {
     this.finally_clause = __env.finally_clause;
   if (__env.i)
     this.i = __env.i;
-  if (__env.sum)
-    this.sum = __env.sum;
   if (__env.xs)
     this.xs = __env.xs;
 }
@@ -142,74 +117,63 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function infLoop() {
-  return __call('infLoop', this, new __ENV(__global), []);
+  return __call('infLoop', this, {}, []);
 }
 infLoop.__label = 'infLoop';
-infLoop.__env = new __ENV(__global);
-__global.infLoop = [infLoop];
+infLoop.__env = {};
 var infLoop1;
-infLoop1 = __mk('__lambda_1', new __ENV(__global), function __lambda_1() {
-  return __call('__lambda_1', this, new __ENV(__global), []);
+infLoop1 = __mk('__lambda_1', {}, function __lambda_1() {
+  return __call('__lambda_1', this, {}, []);
 });
-__global.infLoop1 = [infLoop1];
 var obj;
 obj = {};
-__global.obj = [obj];
-obj.infLoop2 = __mk('__lambda_2', new __ENV(__global), function __lambda_2() {
-  return __call('__lambda_2', this, new __ENV(__global), []);
+obj.infLoop2 = __mk('__lambda_2', {}, function __lambda_2() {
+  return __call('__lambda_2', this, {}, []);
 });
 function mutualLoop1() {
-  return __call('mutualLoop1', this, new __ENV(__global), []);
+  return __call('mutualLoop1', this, {}, []);
 }
 mutualLoop1.__label = 'mutualLoop1';
-mutualLoop1.__env = new __ENV(__global);
-__global.mutualLoop1 = [mutualLoop1];
+mutualLoop1.__env = {};
 function mutualLoop2() {
-  return __call('mutualLoop2', this, new __ENV(__global), []);
+  return __call('mutualLoop2', this, {}, []);
 }
 mutualLoop2.__label = 'mutualLoop2';
-mutualLoop2.__env = new __ENV(__global);
-__global.mutualLoop2 = [mutualLoop2];
+mutualLoop2.__env = {};
 function identity(x) {
-  return __call('identity', this, new __ENV(__global), [x]);
+  return __call('identity', this, {}, [x]);
 }
 identity.__label = 'identity';
-identity.__env = new __ENV(__global);
-__global.identity = [identity];
+identity.__env = {};
 function constantly(x) {
-  return __call('constantly', this, new __ENV(__global), [x]);
+  return __call('constantly', this, {}, [x]);
 }
 constantly.__label = 'constantly';
-constantly.__env = new __ENV(__global);
-__global.constantly = [constantly];
+constantly.__env = {};
 function constantly1(x) {
-  return __call('constantly1', this, new __ENV(__global), [x]);
+  return __call('constantly1', this, {}, [x]);
 }
 constantly1.__label = 'constantly1';
-constantly1.__env = new __ENV(__global);
-__global.constantly1 = [constantly1];
+constantly1.__env = {};
 function incr() {
-  return __call('incr', this, new __ENV(__global), []);
+  return __call('incr', this, {}, []);
 }
 incr.__label = 'incr';
-incr.__env = new __ENV(__global);
-__global.incr = [incr];
+incr.__env = {};
 function try_catch_finally(try_clause, catch_clause, finally_clause) {
-  return __call('try_catch_finally', this, new __ENV(__global), [
+  return __call('try_catch_finally', this, {}, [
     try_clause,
     catch_clause,
     finally_clause
   ]);
 }
 try_catch_finally.__label = 'try_catch_finally';
-try_catch_finally.__env = new __ENV(__global);
-__global.try_catch_finally = [try_catch_finally];
+try_catch_finally.__env = {};
 function sum(xs) {
-  return __call('sum', this, new __ENV(__global), [xs]);
+  return __call('sum', this, {}, [xs]);
 }
 sum.__label = 'sum';
-sum.__env = new __ENV(__global);
-__global.sum = [sum];
+sum.__env = {};
 module.exports = {
   infLoop: infLoop,
   infLoop1: infLoop1,

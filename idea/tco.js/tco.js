@@ -1,17 +1,17 @@
 var fs = require('fs');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
-var LOOP = 'var __global = {}; function __ENV(__env){}' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
+var LOOP = 'function __ENV(__env){}' + 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
 var GLOBAL = {
   type: 'ObjectExpression',
   properties: []
 };
 var COPYENV = esprima.parse("__env").body[0].expression
-var COPYGLOBAL = esprima.parse("new __ENV(__global)").body[0].expression
+var COPYGLOBAL = esprima.parse("({})").body[0].expression
 
 function appendCase(a_case) {
-  OUTPUT.body[2].body.body[0].body.body.body[0].cases.unshift(a_case);
+  OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(a_case);
   return;
 }
 function appendProp(a_prop) {
@@ -32,7 +32,7 @@ ident},
   stmt = { type: 'IfStatement', test:{type: 'MemberExpression',
 object: {type:'Identifier',name:'__env'},property:
 ident}, consequent: stmt };
-  OUTPUT.body[1].body.body.push(stmt);
+  OUTPUT.body[0].body.body.push(stmt);
   /*var prop = {
     type: 'Property',
     key: ident,
@@ -393,7 +393,7 @@ alternate: alternate, consequent: consequent };
 
     var body = optStmt(ast.body);
     var body1 = [];
-    appendVar(id);
+    //appendVar(id);
     if (ast.id != null) {
       appendVar(ast.id);
       body1.push({
@@ -1119,7 +1119,7 @@ alternate: alternate, consequent: consequent };
       };
     var body = optStmt(ast.body);
     var body1 = [];
-    appendVar(id);
+    //appendVar(id);
     if (ast.id != null) {
       appendVar(ast.id);
       body1.push({
@@ -1217,7 +1217,7 @@ function optToplevelVariableDeclaration(ast){
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
-      appendVar(declaration.id);
+      //appendVar(declaration.id);
       if (declaration.init) {
         declarations.push({
           type: 'VariableDeclarator',
@@ -1392,7 +1392,7 @@ body: body }
           right: optToplevelExpr(ast.declarations[i].init)
         }
       });
-      body.push({
+      /*body.push({
         type: 'ExpressionStatement',
         expression: {
           type: 'AssignmentExpression',
@@ -1410,7 +1410,7 @@ body: body }
             elements: [ast.declarations[i].id]
           }
         }
-      });
+      });*/
     }
     return {
       type: 'BlockStatement',
@@ -1422,7 +1422,7 @@ body: body }
   case 'FunctionDeclaration':
     var body = optStmt(ast.body);
     var body1 = [];
-    appendVar(ast.id);
+    //appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       appendVar(param);
@@ -1557,7 +1557,7 @@ body: body }
             }*/
           }
         },
-        {
+        /*{
           type: 'ExpressionStatement',
           expression: {
             type: 'AssignmentExpression',
@@ -1575,7 +1575,7 @@ body: body }
               elements: [decl.id]
             }
           }
-        }
+        }*/
       ]
     };
     ;

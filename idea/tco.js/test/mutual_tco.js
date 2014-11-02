@@ -1,11 +1,6 @@
-var __global = {};
 function __ENV(__env) {
-  if (__env.isEven)
-    this.isEven = __env.isEven;
   if (__env.x)
     this.x = __env.x;
-  if (__env.isOdd)
-    this.isOdd = __env.isOdd;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -53,17 +48,15 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function isEven(x) {
-  return __call('isEven', this, new __ENV(__global), [x]);
+  return __call('isEven', this, {}, [x]);
 }
 isEven.__label = 'isEven';
-isEven.__env = new __ENV(__global);
-__global.isEven = [isEven];
+isEven.__env = {};
 function isOdd(x) {
-  return __call('isOdd', this, new __ENV(__global), [x]);
+  return __call('isOdd', this, {}, [x]);
 }
 isOdd.__label = 'isOdd';
-isOdd.__env = new __ENV(__global);
-__global.isOdd = [isOdd];
+isOdd.__env = {};
 exports.isEven = isEven;
 exports.isOdd = isOdd;
 console.log(isEven(1234567));
