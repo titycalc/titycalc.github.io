@@ -7,7 +7,7 @@ var GLOBAL = {
   type: 'ObjectExpression',
   properties: []
 };
-var COPYENV = esprima.parse("new __ENV(__env)").body[0].expression
+var COPYENV = esprima.parse("__env").body[0].expression
 var COPYGLOBAL = esprima.parse("new __ENV(__global)").body[0].expression
 
 function appendCase(a_case) {
@@ -388,7 +388,7 @@ alternate: alternate, consequent: consequent };
           fn
         ]
       };
-    var bind = esprima.parse('(function (__env) { return; })(__env)').body[0].expression;
+    var bind = esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression;
     bind.callee.body.body[0].argument = mk;
 
     var body = optStmt(ast.body);
@@ -928,7 +928,7 @@ body: body }
         ]
       };
 
-    var bind = esprima.parse('(function (__env) { return; })(__env)').body[0].expression;
+    var bind = esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression;
     bind.callee.body.body[0].argument = mk;
 
     return {

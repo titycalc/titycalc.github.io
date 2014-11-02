@@ -1235,7 +1235,7 @@ function __call(__label, __this, __env, __args) {
                 __env.fn ? __env.fn[0] : fn
               ]
             }];
-          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(__env)').body[0].expression];
+          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
           return {
             type: 'ExpressionStatement',
@@ -1559,7 +1559,7 @@ function __call(__label, __this, __env, __args) {
                 __env.fn ? __env.fn[0] : fn
               ]
             }];
-          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(__env)').body[0].expression];
+          __env.bind = [(__env.esprima ? __env.esprima[0] : esprima).parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
           __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)((__env.ast ? __env.ast[0] : ast).body)];
           __env.body1 = [[]];
@@ -1892,7 +1892,7 @@ GLOBAL = {
 };
 __global.GLOBAL = [GLOBAL];
 var COPYENV;
-COPYENV = esprima.parse('new __ENV(__env)').body[0].expression;
+COPYENV = esprima.parse('__env').body[0].expression;
 __global.COPYENV = [COPYENV];
 var COPYGLOBAL;
 COPYGLOBAL = esprima.parse('new __ENV(__global)').body[0].expression;
