@@ -10,7 +10,7 @@ function __call(__label, __this, __env, __args) {
           return;
         }
         __env.program = [optProgram(esprima.parse(__env.code[0]))];
-        __env.OUTPUT ? __env.OUTPUT[0].body = OUTPUT.body.concat(__env.program[0].body) : OUTPUT.body = OUTPUT.body.concat(__env.program[0].body);
+        OUTPUT.body = OUTPUT.body.concat(__env.program[0].body);
         console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
         return;
       case 18:
@@ -18,12 +18,12 @@ function __call(__label, __this, __env, __args) {
         switch (__env.ast[0].type) {
         case 'Program':
           __env.body = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; ++__env.i[0]) {
             __env.stmt = [__env.ast[0].body[__env.i[0]]];
-            __env.stmt ? __env.stmt[0] = optToplevelStmt(__env.stmt[0]) : stmt = optToplevelStmt(__env.stmt[0]);
+            __env.stmt[0] = optToplevelStmt(__env.stmt[0]);
             switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
+              __env.body[0] = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
               __env.body[0].push(__env.stmt[0]);
@@ -43,12 +43,12 @@ function __call(__label, __this, __env, __args) {
           return __env.ast[0];
         case 'BlockStatement':
           __env.body = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; ++__env.i[0]) {
             __env.stmt = [__env.ast[0].body[__env.i[0]]];
-            __env.stmt ? __env.stmt[0] = optToplevelStmt(__env.stmt[0]) : stmt = optToplevelStmt(__env.stmt[0]);
+            __env.stmt[0] = optToplevelStmt(__env.stmt[0]);
             switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
+              __env.body[0] = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
               __env.body[0].push(__env.stmt[0]);
@@ -96,10 +96,10 @@ function __call(__label, __this, __env, __args) {
         case 'SwitchStatement':
           __env.discriminant = [optToplevelExpr(__env.ast[0].discriminant)];
           __env.cases = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; ++__env.i[0]) {
             __env.test = [__env.ast[0].cases[__env.i[0]].test ? opTopleveltExpr(__env.ast[0].cases[__env.i[0]].test) : null];
             __env.body = [[]];
-            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; __env.j ? ++__env.j[0] : ++j) {
+            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; ++__env.j[0]) {
               __env.body[0].push(optToplevelStmt(__env.ast[0].cases[__env.i[0]].consequent[__env.j[0]]));
             }
             __env.cases[0].push({
@@ -124,11 +124,11 @@ function __call(__label, __this, __env, __args) {
         case 'TryStatement':
           __env.block = [optToplevelStmt(__env.ast[0].block)];
           __env.handlers = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; ++__env.i[0]) {
             __env.handlers[0].push(optToplevelCatchClause(__env.ast[0].handlers[__env.i[0]]));
           }
           __env.guardedHandlers = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; ++__env.i[0]) {
             __env.guardedHandlers[0].push(optToplevelCatchClause(__env.ast[0].guardedHandlers[__env.i[0]]));
           }
           __env.finalizer = [__env.ast[0].finalizer ? optToplevelStmt(__env.ast[0].finalizer) : null];
@@ -182,7 +182,7 @@ function __call(__label, __this, __env, __args) {
         case 'VariableDeclaration':
           __env.decls = [[]];
           __env.body = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; ++__env.i[0]) {
             __env.decls[0].push({
               type: 'VariableDeclaration',
               kind: __env.ast[0].kind,
@@ -192,7 +192,7 @@ function __call(__label, __this, __env, __args) {
                 }]
             });
           }
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; ++__env.i[0]) {
             __env.body[0].push({
               type: 'ExpressionStatement',
               expression: {
@@ -214,9 +214,9 @@ function __call(__label, __this, __env, __args) {
           __env.j = [gensym()];
           __env.env = [{}];
           __env.body1 = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; ++__env.i[0]) {
             __env.param = [__env.ast[0].params[__env.i[0]]];
-            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
+            __env.env[0][__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -255,7 +255,7 @@ function __call(__label, __this, __env, __args) {
             })];
           switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
+            __env.body1[0] = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
             __env.body1[0].push(__env.body[0]);
@@ -350,7 +350,7 @@ function __call(__label, __this, __env, __args) {
       case 16:
         __env.ast = [__args[0]];
         __env.declarations = [[]];
-        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; ++__env.i[0]) {
           __env.declaration = [__env.ast[0].declarations[__env.i[0]]];
           if (__env.declaration[0].init) {
             __env.declarations[0].push({
@@ -398,7 +398,7 @@ function __call(__label, __this, __env, __args) {
           };
         case 'SequenceExpression':
           __env.exprs = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; ++__env.i[0]) {
             __env.exprs[0].push(optToplevelExpr(__env.ast[0].expressions[__env.i[0]]));
           }
           return {
@@ -422,7 +422,7 @@ function __call(__label, __this, __env, __args) {
         case 'NewExpression':
           __env.callee = [optToplevelExpr(__env.ast[0].callee)];
           __env.args = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; ++__env.i[0]) {
             __env.args[0].push(optToplevelExpr(__env.ast[0].arguments[__env.i[0]]));
           }
           return {
@@ -486,7 +486,7 @@ function __call(__label, __this, __env, __args) {
           }
         case 'ObjectExpression':
           __env.props = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; ++__env.i[0]) {
             __env.prop = [__env.ast[0].properties[__env.i[0]]];
             __env.props[0].push({
               type: 'Property',
@@ -501,7 +501,7 @@ function __call(__label, __this, __env, __args) {
           };
         case 'ArrayExpression':
           __env.elts = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; ++__env.i[0]) {
             __env.elt = [__env.ast[0].elements[__env.i[0]]];
             __env.elts[0].push(optToplevelExpr(__env.elt[0]));
           }
@@ -567,7 +567,7 @@ function __call(__label, __this, __env, __args) {
           __env.env = [{}];
           __env.body1 = [[]];
           if (__env.ast[0].id != null) {
-            __env.env ? __env.env[0][__env.ast[0].id.name] = true : env[__env.ast[0].id.name] = true;
+            __env.env[0][__env.ast[0].id.name] = true;
             __env.body1[0].push({
               type: 'ExpressionStatement',
               expression: {
@@ -585,9 +585,9 @@ function __call(__label, __this, __env, __args) {
               }
             });
           }
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; ++__env.i[0]) {
             __env.param = [__env.ast[0].params[__env.i[0]]];
-            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
+            __env.env[0][__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -626,7 +626,7 @@ function __call(__label, __this, __env, __args) {
             })];
           switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
+            __env.body1[0] = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
             __env.body1[0].push(__env.body[0]);
@@ -644,7 +644,7 @@ function __call(__label, __this, __env, __args) {
         case 'CallExpression':
           __env.callee = [optToplevelExpr(__env.ast[0].callee)];
           __env.args = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; ++__env.i[0]) {
             __env.args[0].push(optToplevelExpr(__env.ast[0].arguments[__env.i[0]]));
           }
           return {
@@ -664,18 +664,15 @@ function __call(__label, __this, __env, __args) {
           return __env.ast[0];
         case 'BlockStatement':
           __env.body = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].body.length; ++__env.i[0]) {
             __env.stmt = [__env.ast[0].body[__env.i[0]]];
-            __env.stmt ? __env.stmt[0] = optStmt({
-              ast: __env.stmt[0],
-              env: __env.env[0]
-            }) : stmt = optStmt({
+            __env.stmt[0] = optStmt({
               ast: __env.stmt[0],
               env: __env.env[0]
             });
             switch (__env.stmt[0].type) {
             case 'BlockStatement':
-              __env.body ? __env.body[0] = __env.body[0].concat(__env.stmt[0].body) : body = __env.body[0].concat(__env.stmt[0].body);
+              __env.body[0] = __env.body[0].concat(__env.stmt[0].body);
               break;
             default:
               __env.body[0].push(__env.stmt[0]);
@@ -747,13 +744,13 @@ function __call(__label, __this, __env, __args) {
               env: __env.env[0]
             })];
           __env.cases = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].cases.length; ++__env.i[0]) {
             __env.test = [__env.ast[0].cases[__env.i[0]].test ? optExpr({
                 ast: __env.ast[0].cases[__env.i[0]].test,
                 env: __env.env[0]
               }) : null];
             __env.body = [[]];
-            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; __env.j ? ++__env.j[0] : ++j) {
+            for (__env.j = [0]; __env.j[0] < __env.ast[0].cases[__env.i[0]].consequent.length; ++__env.j[0]) {
               __env.body[0].push(optStmt({
                 ast: __env.ast[0].cases[__env.i[0]].consequent[__env.j[0]],
                 env: __env.env[0]
@@ -787,14 +784,14 @@ function __call(__label, __this, __env, __args) {
               env: __env.env[0]
             })];
           __env.handlers = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].handlers.length; ++__env.i[0]) {
             __env.handlers[0].push(optCatchClause({
               ast: __env.ast[0].handlers[__env.i[0]],
               env: __env.env[0]
             }));
           }
           __env.guardedHandlers = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].guardedHandlers.length; ++__env.i[0]) {
             __env.guardedHandlers[0].push(optCatchClause({
               ast: __env.ast[0].guardedHandlers[__env.i[0]],
               env: __env.env[0]
@@ -1108,11 +1105,11 @@ function __call(__label, __this, __env, __args) {
           }
         case 'FunctionDeclaration':
           __env.j = [gensym()];
-          __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
+          __env.env[0] = shallowCopy(__env.env[0]);
           __env.body1 = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; ++__env.i[0]) {
             __env.param = [__env.ast[0].params[__env.i[0]]];
-            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
+            __env.env[0][__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -1151,7 +1148,7 @@ function __call(__label, __this, __env, __args) {
             })];
           switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
+            __env.body1[0] = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
             __env.body1[0].push(__env.body[0]);
@@ -1223,8 +1220,8 @@ function __call(__label, __this, __env, __args) {
               ]
             }];
           __env.bind = [esprima.parse('(function (__env) { return; })()').body[0].expression];
-          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
-          __env.bind ? __env.bind[0].arguments[0] = copyenv(__env.env[0]) : bind.arguments[0] = copyenv(__env.env[0]);
+          __env.bind[0].callee.body.body[0].argument = __env.mk[0];
+          __env.bind[0].arguments[0] = copyenv(__env.env[0]);
           return {
             type: 'ExpressionStatement',
             expression: {
@@ -1252,9 +1249,9 @@ function __call(__label, __this, __env, __args) {
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
         __env.declarations = [[]];
-        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
+        for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; ++__env.i[0]) {
           __env.declaration = [__env.ast[0].declarations[__env.i[0]]];
-          __env.env ? __env.env[0][__env.declaration[0].id.name] = true : env[__env.declaration[0].id.name] = true;
+          __env.env[0][__env.declaration[0].id.name] = true;
           __env.declarations[0].push({
             type: 'AssignmentExpression',
             operator: '=',
@@ -1333,7 +1330,7 @@ function __call(__label, __this, __env, __args) {
           }
         case 'SequenceExpression':
           __env.exprs = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; ++__env.i[0]) {
             __env.exprs[0].push(optExpr({
               ast: __env.ast[0].expressions[__env.i[0]],
               env: __env.env[0]
@@ -1344,64 +1341,22 @@ function __call(__label, __this, __env, __args) {
             expressions: __env.exprs[0]
           };
         case 'UnaryExpression':
-          switch (__env.ast[0].operator) {
-          case 'typeof':
-            switch (__env.ast[0].argument.type) {
-            case 'Identifier':
-              return {
-                type: 'ConditionalExpression',
-                test: existsLhs1({
-                  ast: __env.ast[0].argument,
-                  env: __env.env[0]
-                }),
-                consequent: {
-                  type: 'UnaryExpression',
-                  prefix: __env.ast[0].prefix,
-                  argument: optLhs1({
-                    ast: __env.ast[0].argument,
-                    env: __env.env[0]
-                  }),
-                  operator: __env.ast[0].operator
-                },
-                alternate: {
-                  type: 'UnaryExpression',
-                  prefix: __env.ast[0].prefix,
-                  argument: optLhs2({
-                    ast: __env.ast[0].argument,
-                    env: __env.env[0]
-                  }),
-                  operator: __env.ast[0].operator
-                }
-              };
-            default:
-              return {
-                type: 'UnaryExpression',
-                prefix: __env.ast[0].prefix,
-                argument: optExpr({
-                  ast: __env.ast[0].argument,
-                  env: __env.env[0]
-                }),
-                operator: __env.ast[0].operator
-              };
-            }
-          default:
-            return {
-              type: 'UnaryExpression',
-              prefix: __env.ast[0].prefix,
-              argument: optExpr({
-                ast: __env.ast[0].argument,
-                env: __env.env[0]
-              }),
-              operator: __env.ast[0].operator
-            };
-          }
+          return {
+            type: 'UnaryExpression',
+            prefix: __env.ast[0].prefix,
+            argument: optExpr({
+              ast: __env.ast[0].argument,
+              env: __env.env[0]
+            }),
+            operator: __env.ast[0].operator
+          };
         case 'NewExpression':
           __env.callee = [optExpr({
               ast: __env.ast[0].callee,
               env: __env.env[0]
             })];
           __env.args = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; ++__env.i[0]) {
             __env.args[0].push(optExpr({
               ast: __env.ast[0].arguments[__env.i[0]],
               env: __env.env[0]
@@ -1413,39 +1368,18 @@ function __call(__label, __this, __env, __args) {
             arguments: __env.args[0]
           };
         case 'UpdateExpression':
-          __env.arg1 = [optLhs1({
-              ast: __env.ast[0].argument,
-              env: __env.env[0]
-            })];
-          __env.arg2 = [optLhs2({
+          __env.arg = [optExpr({
               ast: __env.ast[0].argument,
               env: __env.env[0]
             })];
           return {
-            type: 'ConditionalExpression',
-            test: existsLhs1({
-              ast: __env.ast[0].argument,
-              env: __env.env[0]
-            }),
-            consequent: {
-              type: 'UpdateExpression',
-              operator: __env.ast[0].operator,
-              argument: __env.arg1[0],
-              prefix: __env.ast[0].prefix
-            },
-            alternate: {
-              type: 'UpdateExpression',
-              operator: __env.ast[0].operator,
-              argument: __env.arg2[0],
-              prefix: __env.ast[0].prefix
-            }
+            type: 'UpdateExpression',
+            operator: __env.ast[0].operator,
+            argument: __env.arg[0],
+            prefix: __env.ast[0].prefix
           };
         case 'AssignmentExpression':
-          __env.lhs1 = [optLhs1({
-              ast: __env.ast[0].left,
-              env: __env.env[0]
-            })];
-          __env.lhs2 = [optLhs2({
+          __env.lhs = [optExpr({
               ast: __env.ast[0].left,
               env: __env.env[0]
             })];
@@ -1454,23 +1388,10 @@ function __call(__label, __this, __env, __args) {
               env: __env.env[0]
             })];
           return {
-            type: 'ConditionalExpression',
-            test: existsLhs1({
-              ast: __env.ast[0].left,
-              env: __env.env[0]
-            }),
-            consequent: {
-              type: 'AssignmentExpression',
-              operator: __env.ast[0].operator,
-              left: __env.lhs1[0],
-              right: __env.rhs[0]
-            },
-            alternate: {
-              type: 'AssignmentExpression',
-              operator: __env.ast[0].operator,
-              left: __env.lhs2[0],
-              right: __env.rhs[0]
-            }
+            type: 'AssignmentExpression',
+            operator: __env.ast[0].operator,
+            left: __env.lhs[0],
+            right: __env.rhs[0]
           };
         case 'ConditionalExpression':
           __env.test = [optExpr({
@@ -1546,7 +1467,7 @@ function __call(__label, __this, __env, __args) {
           }
         case 'ObjectExpression':
           __env.props = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].properties.length; ++__env.i[0]) {
             __env.prop = [__env.ast[0].properties[__env.i[0]]];
             __env.props[0].push({
               type: 'Property',
@@ -1564,7 +1485,7 @@ function __call(__label, __this, __env, __args) {
           };
         case 'ArrayExpression':
           __env.elts = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].elements.length; ++__env.i[0]) {
             __env.elt = [__env.ast[0].elements[__env.i[0]]];
             __env.elts[0].push(optExpr({
               ast: __env.elt[0],
@@ -1581,7 +1502,7 @@ function __call(__label, __this, __env, __args) {
               type: 'Identifier',
               name: '__lambda_' + __env.j[0]
             }];
-          __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
+          __env.env[0] = shallowCopy(__env.env[0]);
           __env.fn = [{
               type: 'FunctionExpression',
               params: __env.ast[0].params,
@@ -1641,11 +1562,11 @@ function __call(__label, __this, __env, __args) {
               ]
             }];
           __env.bind = [esprima.parse('(function (__env) { return; })()').body[0].expression];
-          __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
-          __env.bind ? __env.bind[0].arguments[0] = copyenv(__env.env[0]) : bind.arguments[0] = copyenv(__env.env[0]);
+          __env.bind[0].callee.body.body[0].argument = __env.mk[0];
+          __env.bind[0].arguments[0] = copyenv(__env.env[0]);
           __env.body1 = [[]];
           if (__env.ast[0].id != null) {
-            __env.env ? __env.env[0][__env.ast[0].id.name] = true : env[__env.ast[0].id.name] = true;
+            __env.env[0][__env.ast[0].id.name] = true;
             __env.body1[0].push({
               type: 'ExpressionStatement',
               expression: {
@@ -1663,9 +1584,9 @@ function __call(__label, __this, __env, __args) {
               }
             });
           }
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; ++__env.i[0]) {
             __env.param = [__env.ast[0].params[__env.i[0]]];
-            __env.env ? __env.env[0][__env.param[0].name] = true : env[__env.param[0].name] = true;
+            __env.env[0][__env.param[0].name] = true;
             __env.setParam = [{
                 type: 'ExpressionStatement',
                 expression: {
@@ -1704,7 +1625,7 @@ function __call(__label, __this, __env, __args) {
             })];
           switch (__env.body[0].type) {
           case 'BlockStatement':
-            __env.body1 ? __env.body1[0] = __env.body1[0].concat(__env.body[0].body) : body1 = __env.body1[0].concat(__env.body[0].body);
+            __env.body1[0] = __env.body1[0].concat(__env.body[0].body);
             break;
           default:
             __env.body1[0].push(__env.body[0]);
@@ -1724,7 +1645,7 @@ function __call(__label, __this, __env, __args) {
               env: __env.env[0]
             })];
           __env.args = [[]];
-          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; __env.i ? ++__env.i[0] : ++i) {
+          for (__env.i = [0]; __env.i[0] < __env.ast[0].arguments.length; ++__env.i[0]) {
             __env.args[0].push(optExpr({
               ast: __env.ast[0].arguments[__env.i[0]],
               env: __env.env[0]
@@ -1874,7 +1795,7 @@ function __call(__label, __this, __env, __args) {
           return false;
         }
       case 4:
-        __env.i ? __env.i[0] += 1 : i += 1;
+        i += 1;
         return i;
       case 3:
         __env.a_case = [__args[0]];
@@ -1885,7 +1806,7 @@ function __call(__label, __this, __env, __args) {
         __env.cp = [{}];
         __env.k = [];
         for (__env.k[0] in __env.obj[0]) {
-          __env.cp ? __env.cp[0][__env.k[0]] = __env.obj[0][__env.k[0]] : cp[__env.k[0]] = __env.obj[0][__env.k[0]];
+          __env.cp[0][__env.k[0]] = __env.obj[0][__env.k[0]];
         }
         return __env.cp[0];
       case 1:

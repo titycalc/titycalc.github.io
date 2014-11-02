@@ -219,47 +219,6 @@ function optExpr(info) {
       expressions: exprs
     };
   case 'UnaryExpression':
-    switch (ast.operator) {
-    case 'typeof':
-      switch (ast.argument.type) {
-      case 'Identifier':
-        return {
-          type: 'ConditionalExpression',
-          test: existsLhs1({
-            ast: ast.argument,
-            env: env
-          }),
-          consequent: {
-            type: 'UnaryExpression',
-            prefix: ast.prefix,
-            argument: optLhs1({
-              ast: ast.argument,
-              env: env
-            }),
-            operator: ast.operator
-          },
-          alternate: {
-            type: 'UnaryExpression',
-            prefix: ast.prefix,
-            argument: optLhs2({
-              ast: ast.argument,
-              env: env
-            }),
-            operator: ast.operator
-          }
-        };
-      default:
-        return {
-          type: 'UnaryExpression',
-          prefix: ast.prefix,
-          argument: optExpr({
-            ast: ast.argument,
-            env: env
-          }),
-          operator: ast.operator
-        };
-      }
-    default:
       return {
         type: 'UnaryExpression',
         prefix: ast.prefix,
@@ -269,7 +228,6 @@ function optExpr(info) {
         }),
         operator: ast.operator
       };
-    }
   case 'NewExpression':
     var callee = optExpr({
       ast: ast.callee,
@@ -288,65 +246,25 @@ function optExpr(info) {
       arguments: args
     };
   case 'UpdateExpression':
-    var arg1 = optLhs1({
-      ast: ast.argument,
-      env: env
-    });
-    var arg2 = optLhs2({
-      ast: ast.argument,
-      env: env
-    });
+    var arg = optExpr({ast: ast.argument, env: env});
     return {
-      type: 'ConditionalExpression',
-      test: existsLhs1({
-        ast: ast.argument,
-        env: env
-      }),
-      consequent: {
         type: 'UpdateExpression',
         operator: ast.operator,
-        argument: arg1,
+        argument: arg,
         prefix: ast.prefix
-      },
-      alternate: {
-        type: 'UpdateExpression',
-        operator: ast.operator,
-        argument: arg2,
-        prefix: ast.prefix
-      }
-    };
+      };
   case 'AssignmentExpression':
-    var lhs1 = optLhs1({
-      ast: ast.left,
-      env: env
-    });
-    var lhs2 = optLhs2({
-      ast: ast.left,
-      env: env
-    });
+    var lhs = optExpr({ast:ast.left, env: env});
     var rhs = optExpr({
       ast: ast.right,
       env: env
     });
     return {
-      type: 'ConditionalExpression',
-      test: existsLhs1({
-        ast: ast.left,
-        env: env
-      }),
-      consequent: {
         type: 'AssignmentExpression',
         operator: ast.operator,
-        left: lhs1,
+        left: lhs,
         right: rhs
-      },
-      alternate: {
-        type: 'AssignmentExpression',
-        operator: ast.operator,
-        left: lhs2,
-        right: rhs
-      }
-    };
+      };
   case 'ConditionalExpression':
     var test = optExpr({
       ast: ast.test,

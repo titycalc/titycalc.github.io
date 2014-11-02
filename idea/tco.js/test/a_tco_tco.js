@@ -5,8 +5,8 @@ function __call(__label, __this, __env, __args) {
       case 13:
         __env.xs = [__args[0]];
         __env.x = [0];
-        for (__env.i = [0]; __env.i[0] < __env.xs[0].length; __env.x ? ++__env.x[0] : ++x) {
-          __env.x ? __env.x[0] += __env.xs[0][__env.i[0]] : x += __env.xs[0][__env.i[0]];
+        for (__env.i = [0]; __env.i[0] < __env.xs[0].length; ++__env.x[0]) {
+          __env.x[0] += __env.xs[0][__env.i[0]];
         }
         return __env.x[0];
       case 12:

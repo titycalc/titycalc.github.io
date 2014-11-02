@@ -40,7 +40,7 @@ function __call(__label, __this, __env, __args) {
           }({})
         ];
       case 7:
-        if ((__env.x ? typeof __env.x[0] : typeof x) !== 'undefined') {
+        if (typeof x !== 'undefined') {
           console.log('Oops: ' + x);
         }
       case 6:
@@ -53,7 +53,7 @@ function __call(__label, __this, __env, __args) {
           });
         }({ i: __env.i });
       case 4:
-        return __env.i ? __env.i[0] += 1 : i += 1;
+        return __env.i[0] += 1;
       case 1:
         __env.i = [__args[0]];
         __env.add = [function (__env) {
@@ -63,7 +63,7 @@ function __call(__label, __this, __env, __args) {
           }({ i: __env.i })];
         return add;
       case 2:
-        return __env.i ? __env.i[0] += 1 : i += 1;
+        return __env.i[0] += 1;
       default:
         console.error('unrecognized label: ' + __label);
         break __jmp;
