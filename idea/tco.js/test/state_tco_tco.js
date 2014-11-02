@@ -1,30 +1,55 @@
 var __global = {};
 function __ENV(__env) {
-  this.__lambda_1 = __env.__lambda_1;
-  this.s = __env.s;
-  this.cont = __env.cont;
-  this.ret = __env.ret;
-  this.x = __env.x;
-  this.__lambda_3 = __env.__lambda_3;
-  this.s1 = __env.s1;
-  this.__lambda_2 = __env.__lambda_2;
-  this.bind = __env.bind;
-  this.m = __env.m;
-  this.k = __env.k;
-  this.get = __env.get;
-  this.__lambda_4 = __env.__lambda_4;
-  this._ = __env._;
-  this.put = __env.put;
-  this.__lambda_5 = __env.__lambda_5;
-  this.runState = __env.runState;
-  this.__lambda_6 = __env.__lambda_6;
-  this.evalState = __env.evalState;
-  this.__lambda_7 = __env.__lambda_7;
-  this.execState = __env.execState;
-  this.__lambda_9 = __env.__lambda_9;
-  this.__lambda_8 = __env.__lambda_8;
-  this.i = __env.i;
-  this.__lambda_10 = __env.__lambda_10;
+  if (__env.__lambda_1)
+    this.__lambda_1 = __env.__lambda_1;
+  if (__env.s)
+    this.s = __env.s;
+  if (__env.cont)
+    this.cont = __env.cont;
+  if (__env.ret)
+    this.ret = __env.ret;
+  if (__env.x)
+    this.x = __env.x;
+  if (__env.__lambda_3)
+    this.__lambda_3 = __env.__lambda_3;
+  if (__env.s1)
+    this.s1 = __env.s1;
+  if (__env.__lambda_2)
+    this.__lambda_2 = __env.__lambda_2;
+  if (__env.bind)
+    this.bind = __env.bind;
+  if (__env.m)
+    this.m = __env.m;
+  if (__env.k)
+    this.k = __env.k;
+  if (__env.get)
+    this.get = __env.get;
+  if (__env.__lambda_4)
+    this.__lambda_4 = __env.__lambda_4;
+  if (__env._)
+    this._ = __env._;
+  if (__env.put)
+    this.put = __env.put;
+  if (__env.__lambda_5)
+    this.__lambda_5 = __env.__lambda_5;
+  if (__env.runState)
+    this.runState = __env.runState;
+  if (__env.__lambda_6)
+    this.__lambda_6 = __env.__lambda_6;
+  if (__env.evalState)
+    this.evalState = __env.evalState;
+  if (__env.__lambda_7)
+    this.__lambda_7 = __env.__lambda_7;
+  if (__env.execState)
+    this.execState = __env.execState;
+  if (__env.__lambda_9)
+    this.__lambda_9 = __env.__lambda_9;
+  if (__env.__lambda_8)
+    this.__lambda_8 = __env.__lambda_8;
+  if (__env.i)
+    this.i = __env.i;
+  if (__env.__lambda_10)
+    this.__lambda_10 = __env.__lambda_10;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

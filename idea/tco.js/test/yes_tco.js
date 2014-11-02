@@ -1,6 +1,7 @@
 var __global = {};
 function __ENV(__env) {
-  this.yes = __env.yes;
+  if (__env.yes)
+    this.yes = __env.yes;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

@@ -1,8 +1,11 @@
 var __global = {};
 function __ENV(__env) {
-  this.isEven = __env.isEven;
-  this.x = __env.x;
-  this.isOdd = __env.isOdd;
+  if (__env.isEven)
+    this.isEven = __env.isEven;
+  if (__env.x)
+    this.x = __env.x;
+  if (__env.isOdd)
+    this.isOdd = __env.isOdd;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

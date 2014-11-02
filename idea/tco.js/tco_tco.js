@@ -1,76 +1,147 @@
 var __global = {};
 function __ENV(__env) {
-  this.appendCase = __env.appendCase;
-  this.a_case = __env.a_case;
-  this.appendProp = __env.appendProp;
-  this.a_prop = __env.a_prop;
-  this.stmt = __env.stmt;
-  this.appendVar = __env.appendVar;
-  this.ident = __env.ident;
-  this.prop1 = __env.prop1;
-  this.appendGlobalVar = __env.appendGlobalVar;
-  this.gensym = __env.gensym;
-  this.isTailCallExpr = __env.isTailCallExpr;
-  this.ast = __env.ast;
-  this.isTailCallStmt = __env.isTailCallStmt;
-  this.existsLhs1 = __env.existsLhs1;
-  this.obj = __env.obj;
-  this.prop = __env.prop;
-  this.optLhs1 = __env.optLhs1;
-  this.optLhs2 = __env.optLhs2;
-  this.exprs = __env.exprs;
-  this.i = __env.i;
-  this.callee = __env.callee;
-  this.args = __env.args;
-  this.arg1 = __env.arg1;
-  this.arg2 = __env.arg2;
-  this.lhs1 = __env.lhs1;
-  this.lhs2 = __env.lhs2;
-  this.rhs = __env.rhs;
-  this.test = __env.test;
-  this.alternate = __env.alternate;
-  this.consequent = __env.consequent;
-  this.lhs = __env.lhs;
-  this.props = __env.props;
-  this.elts = __env.elts;
-  this.elt = __env.elt;
-  this.id = __env.id;
-  this.fn = __env.fn;
-  this.mk = __env.mk;
-  this.bind = __env.bind;
-  this.body = __env.body;
-  this.body1 = __env.body1;
-  this.param = __env.param;
-  this.setParam = __env.setParam;
-  this.optExpr = __env.optExpr;
-  this.optCatchClause = __env.optCatchClause;
-  this.declarations = __env.declarations;
-  this.declaration = __env.declaration;
-  this.optVariableDeclaration = __env.optVariableDeclaration;
-  this.expr = __env.expr;
-  this.discriminant = __env.discriminant;
-  this.cases = __env.cases;
-  this.j = __env.j;
-  this.arg = __env.arg;
-  this.block = __env.block;
-  this.handlers = __env.handlers;
-  this.guardedHandlers = __env.guardedHandlers;
-  this.finalizer = __env.finalizer;
-  this.init = __env.init;
-  this.update = __env.update;
-  this.argument = __env.argument;
-  this.optStmt = __env.optStmt;
-  this.optToplevelExpr = __env.optToplevelExpr;
-  this.optToplevelCatchClause = __env.optToplevelCatchClause;
-  this.optToplevelVariableDeclaration = __env.optToplevelVariableDeclaration;
-  this.decls = __env.decls;
-  this.decl = __env.decl;
-  this.optToplevelStmt = __env.optToplevelStmt;
-  this.optProgram = __env.optProgram;
-  this.program = __env.program;
-  this.__lambda_1 = __env.__lambda_1;
-  this.err = __env.err;
-  this.code = __env.code;
+  if (__env.appendCase)
+    this.appendCase = __env.appendCase;
+  if (__env.a_case)
+    this.a_case = __env.a_case;
+  if (__env.appendProp)
+    this.appendProp = __env.appendProp;
+  if (__env.a_prop)
+    this.a_prop = __env.a_prop;
+  if (__env.stmt)
+    this.stmt = __env.stmt;
+  if (__env.appendVar)
+    this.appendVar = __env.appendVar;
+  if (__env.ident)
+    this.ident = __env.ident;
+  if (__env.prop1)
+    this.prop1 = __env.prop1;
+  if (__env.appendGlobalVar)
+    this.appendGlobalVar = __env.appendGlobalVar;
+  if (__env.gensym)
+    this.gensym = __env.gensym;
+  if (__env.isTailCallExpr)
+    this.isTailCallExpr = __env.isTailCallExpr;
+  if (__env.ast)
+    this.ast = __env.ast;
+  if (__env.isTailCallStmt)
+    this.isTailCallStmt = __env.isTailCallStmt;
+  if (__env.existsLhs1)
+    this.existsLhs1 = __env.existsLhs1;
+  if (__env.obj)
+    this.obj = __env.obj;
+  if (__env.prop)
+    this.prop = __env.prop;
+  if (__env.optLhs1)
+    this.optLhs1 = __env.optLhs1;
+  if (__env.optLhs2)
+    this.optLhs2 = __env.optLhs2;
+  if (__env.exprs)
+    this.exprs = __env.exprs;
+  if (__env.i)
+    this.i = __env.i;
+  if (__env.callee)
+    this.callee = __env.callee;
+  if (__env.args)
+    this.args = __env.args;
+  if (__env.arg1)
+    this.arg1 = __env.arg1;
+  if (__env.arg2)
+    this.arg2 = __env.arg2;
+  if (__env.lhs1)
+    this.lhs1 = __env.lhs1;
+  if (__env.lhs2)
+    this.lhs2 = __env.lhs2;
+  if (__env.rhs)
+    this.rhs = __env.rhs;
+  if (__env.test)
+    this.test = __env.test;
+  if (__env.alternate)
+    this.alternate = __env.alternate;
+  if (__env.consequent)
+    this.consequent = __env.consequent;
+  if (__env.lhs)
+    this.lhs = __env.lhs;
+  if (__env.props)
+    this.props = __env.props;
+  if (__env.elts)
+    this.elts = __env.elts;
+  if (__env.elt)
+    this.elt = __env.elt;
+  if (__env.id)
+    this.id = __env.id;
+  if (__env.fn)
+    this.fn = __env.fn;
+  if (__env.mk)
+    this.mk = __env.mk;
+  if (__env.bind)
+    this.bind = __env.bind;
+  if (__env.body)
+    this.body = __env.body;
+  if (__env.body1)
+    this.body1 = __env.body1;
+  if (__env.param)
+    this.param = __env.param;
+  if (__env.setParam)
+    this.setParam = __env.setParam;
+  if (__env.optExpr)
+    this.optExpr = __env.optExpr;
+  if (__env.optCatchClause)
+    this.optCatchClause = __env.optCatchClause;
+  if (__env.declarations)
+    this.declarations = __env.declarations;
+  if (__env.declaration)
+    this.declaration = __env.declaration;
+  if (__env.optVariableDeclaration)
+    this.optVariableDeclaration = __env.optVariableDeclaration;
+  if (__env.expr)
+    this.expr = __env.expr;
+  if (__env.discriminant)
+    this.discriminant = __env.discriminant;
+  if (__env.cases)
+    this.cases = __env.cases;
+  if (__env.j)
+    this.j = __env.j;
+  if (__env.arg)
+    this.arg = __env.arg;
+  if (__env.block)
+    this.block = __env.block;
+  if (__env.handlers)
+    this.handlers = __env.handlers;
+  if (__env.guardedHandlers)
+    this.guardedHandlers = __env.guardedHandlers;
+  if (__env.finalizer)
+    this.finalizer = __env.finalizer;
+  if (__env.init)
+    this.init = __env.init;
+  if (__env.update)
+    this.update = __env.update;
+  if (__env.argument)
+    this.argument = __env.argument;
+  if (__env.optStmt)
+    this.optStmt = __env.optStmt;
+  if (__env.optToplevelExpr)
+    this.optToplevelExpr = __env.optToplevelExpr;
+  if (__env.optToplevelCatchClause)
+    this.optToplevelCatchClause = __env.optToplevelCatchClause;
+  if (__env.optToplevelVariableDeclaration)
+    this.optToplevelVariableDeclaration = __env.optToplevelVariableDeclaration;
+  if (__env.decls)
+    this.decls = __env.decls;
+  if (__env.decl)
+    this.decl = __env.decl;
+  if (__env.optToplevelStmt)
+    this.optToplevelStmt = __env.optToplevelStmt;
+  if (__env.optProgram)
+    this.optProgram = __env.optProgram;
+  if (__env.program)
+    this.program = __env.program;
+  if (__env.__lambda_1)
+    this.__lambda_1 = __env.__lambda_1;
+  if (__env.err)
+    this.err = __env.err;
+  if (__env.code)
+    this.code = __env.code;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
@@ -1747,6 +1818,29 @@ function __call(__label, __this, __env, __args) {
               }
             }
           }];
+        __env.stmt ? __env.stmt[0] = {
+          type: 'IfStatement',
+          test: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: __env.ident ? __env.ident[0] : ident
+          },
+          consequent: __env.stmt ? __env.stmt[0] : stmt
+        } : stmt = {
+          type: 'IfStatement',
+          test: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: __env.ident ? __env.ident[0] : ident
+          },
+          consequent: __env.stmt ? __env.stmt[0] : stmt
+        };
         (__env.OUTPUT ? __env.OUTPUT[0] : OUTPUT).body[1].body.body.push(__env.stmt ? __env.stmt[0] : stmt);
       case 'appendProp':
         __env.a_prop = [__args[0]];

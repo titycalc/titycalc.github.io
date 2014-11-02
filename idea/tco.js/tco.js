@@ -28,7 +28,10 @@ function appendVar(ident) {
 ident},
    right: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:
 ident},
-}}
+}};
+  stmt = { type: 'IfStatement', test:{type: 'MemberExpression',
+object: {type:'Identifier',name:'__env'},property:
+ident}, consequent: stmt };
   OUTPUT.body[1].body.body.push(stmt);
   /*var prop = {
     type: 'Property',

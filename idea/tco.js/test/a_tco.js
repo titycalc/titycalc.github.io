@@ -1,27 +1,49 @@
 var __global = {};
 function __ENV(__env) {
-  this.infLoop = __env.infLoop;
-  this.__lambda_1 = __env.__lambda_1;
-  this.__lambda_2 = __env.__lambda_2;
-  this.mutualLoop1 = __env.mutualLoop1;
-  this.mutualLoop2 = __env.mutualLoop2;
-  this.identity = __env.identity;
-  this.x = __env.x;
-  this.discard = __env.discard;
-  this.y = __env.y;
-  this.constantly = __env.constantly;
-  this.abcdeabcde = __env.abcdeabcde;
-  this.__lambda_3 = __env.__lambda_3;
-  this.z = __env.z;
-  this.constantly1 = __env.constantly1;
-  this.incr = __env.incr;
-  this.try_catch_finally = __env.try_catch_finally;
-  this.try_clause = __env.try_clause;
-  this.catch_clause = __env.catch_clause;
-  this.finally_clause = __env.finally_clause;
-  this.i = __env.i;
-  this.sum = __env.sum;
-  this.xs = __env.xs;
+  if (__env.infLoop)
+    this.infLoop = __env.infLoop;
+  if (__env.__lambda_1)
+    this.__lambda_1 = __env.__lambda_1;
+  if (__env.__lambda_2)
+    this.__lambda_2 = __env.__lambda_2;
+  if (__env.mutualLoop1)
+    this.mutualLoop1 = __env.mutualLoop1;
+  if (__env.mutualLoop2)
+    this.mutualLoop2 = __env.mutualLoop2;
+  if (__env.identity)
+    this.identity = __env.identity;
+  if (__env.x)
+    this.x = __env.x;
+  if (__env.discard)
+    this.discard = __env.discard;
+  if (__env.y)
+    this.y = __env.y;
+  if (__env.constantly)
+    this.constantly = __env.constantly;
+  if (__env.abcdeabcde)
+    this.abcdeabcde = __env.abcdeabcde;
+  if (__env.__lambda_3)
+    this.__lambda_3 = __env.__lambda_3;
+  if (__env.z)
+    this.z = __env.z;
+  if (__env.constantly1)
+    this.constantly1 = __env.constantly1;
+  if (__env.incr)
+    this.incr = __env.incr;
+  if (__env.try_catch_finally)
+    this.try_catch_finally = __env.try_catch_finally;
+  if (__env.try_clause)
+    this.try_clause = __env.try_clause;
+  if (__env.catch_clause)
+    this.catch_clause = __env.catch_clause;
+  if (__env.finally_clause)
+    this.finally_clause = __env.finally_clause;
+  if (__env.i)
+    this.i = __env.i;
+  if (__env.sum)
+    this.sum = __env.sum;
+  if (__env.xs)
+    this.xs = __env.xs;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:
