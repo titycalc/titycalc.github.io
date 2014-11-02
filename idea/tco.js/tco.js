@@ -3,12 +3,7 @@ var escodegen = require('escodegen');
 var esprima = require('esprima');
 var LOOP = 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT = esprima.parse(LOOP);
-var GLOBAL = {
-  type: 'ObjectExpression',
-  properties: []
-};
-var COPYENV = esprima.parse('__env').body[0].expression;
-var COPYGLOBAL = esprima.parse('({})').body[0].expression;
+var EMPTY_OBJECT = {type:'ObjectExpression',properties:[]};
 function copyenv(env) {
   var cp = {
     type: 'ObjectExpression',
@@ -48,76 +43,6 @@ function shallowCopy(obj) {
 function appendCase(a_case) {
   OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
   return;
-}
-function appendProp(a_prop) {
-  return;
-}
-var VARS = {};
-function appendVar(ident) {
-  if (VARS[ident.name]) {
-    return;
-  }
-  VARS[ident.name] = true;
-  var stmt = {
-    type: 'ExpressionStatement',
-    expression: {
-      type: 'AssignmentExpression',
-      operator: '=',
-      left: {
-        type: 'MemberExpression',
-        object: { type: 'ThisExpression' },
-        property: ident
-      },
-      right: {
-        type: 'MemberExpression',
-        object: {
-          type: 'Identifier',
-          name: '__env'
-        },
-        property: ident
-      }
-    }
-  };
-  stmt = {
-    type: 'IfStatement',
-    test: {
-      type: 'MemberExpression',
-      object: {
-        type: 'Identifier',
-        name: '__env'
-      },
-      property: ident
-    },
-    consequent: stmt
-  };
-  OUTPUT.body[0].body.body.push(stmt);
-}
-function appendGlobalVar(ident) {
-  return;
-  var prop1 = {
-    type: 'Property',
-    key: ident,
-    value: {
-      type: 'ArrayExpression',
-      elements: [{
-          type: 'ObjectExpression',
-          properties: [{
-              type: 'Property',
-              key: {
-                type: 'Identifier',
-                name: '__label'
-              },
-              value: {
-                type: 'Literal',
-                value: ident.name
-              },
-              kind: 'init'
-            }]
-        }]
-    },
-    kind: 'init'
-  };
-  OUTPUT.body[0].declarations[0].init.properties.push(prop1);
 }
 var i = 0;
 function gensym() {
@@ -1506,7 +1431,7 @@ function optToplevelExpr(ast) {
                   value: id.name
                 },
                 { type: 'ThisExpression' },
-                COPYGLOBAL,
+                EMPTY_OBJECT,
                 {
                   type: 'ArrayExpression',
                   elements: ast.params
@@ -1532,7 +1457,7 @@ function optToplevelExpr(ast) {
           type: 'Literal',
           value: id.name
         },
-        COPYGLOBAL,
+        EMPTY_OBJECT,
         fn
       ]
     };
@@ -1905,7 +1830,7 @@ function optToplevelStmt(ast) {
                   value: ast.id.name
                 },
                 { type: 'ThisExpression' },
-                COPYGLOBAL,
+                EMPTY_OBJECT,
                 {
                   type: 'ArrayExpression',
                   elements: ast.params
@@ -1956,7 +1881,7 @@ function optToplevelStmt(ast) {
                 name: '__env'
               }
             },
-            right: COPYGLOBAL
+            right: EMPTY_OBJECT
           }
         }
       ]

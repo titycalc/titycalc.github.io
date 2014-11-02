@@ -286,7 +286,7 @@ function __call(__label, __this, __env, __args) {
                           value: __env.ast[0].id.name
                         },
                         { type: 'ThisExpression' },
-                        COPYGLOBAL,
+                        EMPTY_OBJECT,
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -337,7 +337,7 @@ function __call(__label, __this, __env, __args) {
                       name: '__env'
                     }
                   },
-                  right: COPYGLOBAL
+                  right: EMPTY_OBJECT
                 }
               }
             ]
@@ -532,7 +532,7 @@ function __call(__label, __this, __env, __args) {
                           value: __env.id[0].name
                         },
                         { type: 'ThisExpression' },
-                        COPYGLOBAL,
+                        EMPTY_OBJECT,
                         {
                           type: 'ArrayExpression',
                           elements: __env.ast[0].params
@@ -558,7 +558,7 @@ function __call(__label, __this, __env, __args) {
                   type: 'Literal',
                   value: __env.id[0].name
                 },
-                COPYGLOBAL,
+                EMPTY_OBJECT,
                 __env.fn[0]
               ]
             }];
@@ -1900,86 +1900,6 @@ function __call(__label, __this, __env, __args) {
       case 'gensym':
         __env.i ? __env.i[0] += 1 : i += 1;
         return '__lambda_' + i;
-      case 'appendGlobalVar':
-        __env.ident = [__args[0]];
-        return;
-        __env.prop1 = [{
-            type: 'Property',
-            key: __env.ident[0],
-            value: {
-              type: 'ArrayExpression',
-              elements: [{
-                  type: 'ObjectExpression',
-                  properties: [{
-                      type: 'Property',
-                      key: {
-                        type: 'Identifier',
-                        name: '__label'
-                      },
-                      value: {
-                        type: 'Literal',
-                        value: __env.ident[0].name
-                      },
-                      kind: 'init'
-                    }]
-                }]
-            },
-            kind: 'init'
-          }];
-        OUTPUT.body[0].declarations[0].init.properties.push(__env.prop1[0]);
-      case 'appendVar':
-        __env.ident = [__args[0]];
-        if (VARS[__env.ident[0].name]) {
-          return;
-        }
-        __env.VARS ? __env.VARS[0][__env.ident[0].name] = true : VARS[__env.ident[0].name] = true;
-        __env.stmt = [{
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'MemberExpression',
-                object: { type: 'ThisExpression' },
-                property: __env.ident[0]
-              },
-              right: {
-                type: 'MemberExpression',
-                object: {
-                  type: 'Identifier',
-                  name: '__env'
-                },
-                property: __env.ident[0]
-              }
-            }
-          }];
-        __env.stmt ? __env.stmt[0] = {
-          type: 'IfStatement',
-          test: {
-            type: 'MemberExpression',
-            object: {
-              type: 'Identifier',
-              name: '__env'
-            },
-            property: __env.ident[0]
-          },
-          consequent: __env.stmt[0]
-        } : stmt = {
-          type: 'IfStatement',
-          test: {
-            type: 'MemberExpression',
-            object: {
-              type: 'Identifier',
-              name: '__env'
-            },
-            property: __env.ident[0]
-          },
-          consequent: __env.stmt[0]
-        };
-        OUTPUT.body[0].body.body.push(__env.stmt[0]);
-      case 'appendProp':
-        __env.a_prop = [__args[0]];
-        return;
       case 'appendCase':
         __env.a_case = [__args[0]];
         OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(__env.a_case[0]);
@@ -2053,15 +1973,11 @@ var LOOP;
 LOOP = 'function __call(__label, __this, __env, __args) { ' + '  __jmp:' + '  while(true) {' + '    switch(__label) {' + '    default:' + '      console.error(\'unrecognized label: \' + __label);' + '      break __jmp;' + '    }' + '  }' + '}' + 'function __call1(__label, __this, __env, __args) { var ret = __call(__label, __this, __env, __args); if (typeof ret === "object" && ret.__label && ret.__env){ return function () { return __call1(ret.__label,this,ret.__env,[].slice.call(arguments)) } } else { return ret; } }' + 'function __mk(__label,__env,fn){ fn.__label = __label;fn.__env = __env;return fn; }';
 var OUTPUT;
 OUTPUT = esprima.parse(LOOP);
-var GLOBAL;
-GLOBAL = {
+var EMPTY_OBJECT;
+EMPTY_OBJECT = {
   type: 'ObjectExpression',
   properties: []
 };
-var COPYENV;
-COPYENV = esprima.parse('__env').body[0].expression;
-var COPYGLOBAL;
-COPYGLOBAL = esprima.parse('({})').body[0].expression;
 function copyenv(env) {
   return __call('copyenv', this, {}, [env]);
 }
@@ -2077,23 +1993,6 @@ function appendCase(a_case) {
 }
 appendCase.__label = 'appendCase';
 appendCase.__env = {};
-function appendProp(a_prop) {
-  return __call('appendProp', this, {}, [a_prop]);
-}
-appendProp.__label = 'appendProp';
-appendProp.__env = {};
-var VARS;
-VARS = {};
-function appendVar(ident) {
-  return __call('appendVar', this, {}, [ident]);
-}
-appendVar.__label = 'appendVar';
-appendVar.__env = {};
-function appendGlobalVar(ident) {
-  return __call('appendGlobalVar', this, {}, [ident]);
-}
-appendGlobalVar.__label = 'appendGlobalVar';
-appendGlobalVar.__env = {};
 var i;
 i = 0;
 function gensym() {
