@@ -6,16 +6,10 @@ function __ENV(__env) {
     this.mkCounter = __env.mkCounter;
   if (__env.i)
     this.i = __env.i;
-  if (__env.__lambda_1)
-    this.__lambda_1 = __env.__lambda_1;
   if (__env.mkCounter1)
     this.mkCounter1 = __env.mkCounter1;
   if (__env.x)
     this.x = __env.x;
-  if (__env.__lambda_2)
-    this.__lambda_2 = __env.__lambda_2;
-  if (__env.__lambda_3)
-    this.__lambda_3 = __env.__lambda_3;
   if (__env.mkClosure)
     this.mkClosure = __env.mkClosure;
   if (__env.id)
@@ -24,12 +18,6 @@ function __ENV(__env) {
     this.aaabbb = __env.aaabbb;
   if (__env.f)
     this.f = __env.f;
-  if (__env.__lambda_5)
-    this.__lambda_5 = __env.__lambda_5;
-  if (__env.__lambda_4)
-    this.__lambda_4 = __env.__lambda_4;
-  if (__env.__lambda_6)
-    this.__lambda_6 = __env.__lambda_6;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

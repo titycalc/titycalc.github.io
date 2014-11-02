@@ -1,7 +1,5 @@
 var __global = {};
 function __ENV(__env) {
-  if (__env.__lambda_1)
-    this.__lambda_1 = __env.__lambda_1;
   if (__env.s)
     this.s = __env.s;
   if (__env.cont)
@@ -10,12 +8,8 @@ function __ENV(__env) {
     this.ret = __env.ret;
   if (__env.x)
     this.x = __env.x;
-  if (__env.__lambda_3)
-    this.__lambda_3 = __env.__lambda_3;
   if (__env.s1)
     this.s1 = __env.s1;
-  if (__env.__lambda_2)
-    this.__lambda_2 = __env.__lambda_2;
   if (__env.bind)
     this.bind = __env.bind;
   if (__env.m)
@@ -24,32 +18,18 @@ function __ENV(__env) {
     this.k = __env.k;
   if (__env.get)
     this.get = __env.get;
-  if (__env.__lambda_4)
-    this.__lambda_4 = __env.__lambda_4;
   if (__env._)
     this._ = __env._;
   if (__env.put)
     this.put = __env.put;
-  if (__env.__lambda_5)
-    this.__lambda_5 = __env.__lambda_5;
   if (__env.runState)
     this.runState = __env.runState;
-  if (__env.__lambda_6)
-    this.__lambda_6 = __env.__lambda_6;
   if (__env.evalState)
     this.evalState = __env.evalState;
-  if (__env.__lambda_7)
-    this.__lambda_7 = __env.__lambda_7;
   if (__env.execState)
     this.execState = __env.execState;
-  if (__env.__lambda_9)
-    this.__lambda_9 = __env.__lambda_9;
-  if (__env.__lambda_8)
-    this.__lambda_8 = __env.__lambda_8;
   if (__env.i)
     this.i = __env.i;
-  if (__env.__lambda_10)
-    this.__lambda_10 = __env.__lambda_10;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

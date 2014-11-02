@@ -393,7 +393,7 @@ alternate: alternate, consequent: consequent };
 
     var body = optStmt(ast.body);
     var body1 = [];
-    appendVar(id);
+    //appendVar(id);
     if (ast.id != null) {
       appendVar(ast.id);
       body1.push({
@@ -1119,7 +1119,7 @@ alternate: alternate, consequent: consequent };
       };
     var body = optStmt(ast.body);
     var body1 = [];
-    appendVar(id);
+    //appendVar(id);
     if (ast.id != null) {
       appendVar(ast.id);
       body1.push({

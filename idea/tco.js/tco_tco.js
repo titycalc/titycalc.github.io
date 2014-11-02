@@ -136,8 +136,6 @@ function __ENV(__env) {
     this.optProgram = __env.optProgram;
   if (__env.program)
     this.program = __env.program;
-  if (__env.__lambda_1)
-    this.__lambda_1 = __env.__lambda_1;
   if (__env.err)
     this.err = __env.err;
   if (__env.code)
@@ -736,7 +734,6 @@ function __call(__label, __this, __env, __args) {
             }];
           __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)((__env.ast ? __env.ast[0] : ast).body)];
           __env.body1 = [[]];
-          (__env.appendVar ? __env.appendVar[0] : appendVar)(__env.id ? __env.id[0] : id);
           if ((__env.ast ? __env.ast[0] : ast).id != null) {
             (__env.appendVar ? __env.appendVar[0] : appendVar)((__env.ast ? __env.ast[0] : ast).id);
             (__env.body1 ? __env.body1[0] : body1).push({
@@ -1563,7 +1560,6 @@ function __call(__label, __this, __env, __args) {
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk : bind.callee.body.body[0].argument = __env.mk ? __env.mk[0] : mk;
           __env.body = [(__env.optStmt ? __env.optStmt[0] : optStmt)((__env.ast ? __env.ast[0] : ast).body)];
           __env.body1 = [[]];
-          (__env.appendVar ? __env.appendVar[0] : appendVar)(__env.id ? __env.id[0] : id);
           if ((__env.ast ? __env.ast[0] : ast).id != null) {
             (__env.appendVar ? __env.appendVar[0] : appendVar)((__env.ast ? __env.ast[0] : ast).id);
             (__env.body1 ? __env.body1[0] : body1).push({
