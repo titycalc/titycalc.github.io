@@ -2,6 +2,10 @@ var __global = {};
 function __ENV(__env) {
   if (__env.infLoop)
     this.infLoop = __env.infLoop;
+  if (__env.__lambda_1)
+    this.__lambda_1 = __env.__lambda_1;
+  if (__env.__lambda_2)
+    this.__lambda_2 = __env.__lambda_2;
   if (__env.mutualLoop1)
     this.mutualLoop1 = __env.mutualLoop1;
   if (__env.mutualLoop2)
@@ -18,6 +22,8 @@ function __ENV(__env) {
     this.constantly = __env.constantly;
   if (__env.abcdeabcde)
     this.abcdeabcde = __env.abcdeabcde;
+  if (__env.__lambda_3)
+    this.__lambda_3 = __env.__lambda_3;
   if (__env.z)
     this.z = __env.z;
   if (__env.constantly1)
