@@ -1331,34 +1331,6 @@ function __call(__label, __this, __env, __args) {
           } else {
             return __env.ast[0];
           }
-          return {
-            type: 'ConditionalExpression',
-            test: {
-              type: 'MemberExpression',
-              object: {
-                type: 'Identifier',
-                name: '__env'
-              },
-              property: __env.ast[0]
-            },
-            consequent: {
-              type: 'MemberExpression',
-              object: {
-                type: 'MemberExpression',
-                object: {
-                  type: 'Identifier',
-                  name: '__env'
-                },
-                property: __env.ast[0]
-              },
-              property: {
-                type: 'Literal',
-                value: 0
-              },
-              computed: true
-            },
-            alternate: __env.ast[0]
-          };
         case 'SequenceExpression':
           __env.exprs = [[]];
           for (__env.i = [0]; __env.i[0] < __env.ast[0].expressions.length; __env.i ? ++__env.i[0] : ++i) {

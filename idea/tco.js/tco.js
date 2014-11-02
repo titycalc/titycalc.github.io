@@ -206,34 +206,6 @@ function optExpr(info) {
     } else {
       return ast;
     }
-    return {
-      type: 'ConditionalExpression',
-      test: {
-        type: 'MemberExpression',
-        object: {
-          type: 'Identifier',
-          name: '__env'
-        },
-        property: ast
-      },
-      consequent: {
-        type: 'MemberExpression',
-        object: {
-          type: 'MemberExpression',
-          object: {
-            type: 'Identifier',
-            name: '__env'
-          },
-          property: ast
-        },
-        property: {
-          type: 'Literal',
-          value: 0
-        },
-        computed: true
-      },
-      alternate: ast
-    };
   case 'SequenceExpression':
     var exprs = [];
     for (var i = 0; i < ast.expressions.length; ++i) {
