@@ -2,7 +2,7 @@ function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
-      case 'yes':
+      case 1:
         console.log('y');
         __args = [];
         __label = yes.__label;
@@ -30,8 +30,8 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function yes() {
-  return __call('yes', this, {}, []);
+  return __call(1, this, {}, []);
 }
-yes.__label = 'yes';
+yes.__label = 1;
 yes.__env = {};
 yes();

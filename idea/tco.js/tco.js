@@ -50,7 +50,7 @@ function appendCase(a_case) {
 var i = 0;
 function gensym() {
   i += 1;
-  return '__lambda_' + i;
+  return i;
 }
 function isTailCallExpr(ast) {
   switch (ast.type) {
@@ -479,9 +479,10 @@ function optExpr(info) {
       elements: elts
     };
   case 'FunctionExpression':
+    var j = gensym();
     var id = {
       type: 'Identifier',
-      name: gensym()
+      name: '__lambda_' + j
     };
     env = shallowCopy(env);
     var fn = {
@@ -500,7 +501,7 @@ function optExpr(info) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: id.name
+                  value: j
                 },
                 {
                   type: 'Identifier',
@@ -533,7 +534,7 @@ function optExpr(info) {
       arguments: [
         {
           type: 'Literal',
-          value: id.name
+          value: j
         },
         {
           type: 'Identifier',
@@ -615,7 +616,7 @@ function optExpr(info) {
       type: 'SwitchCase',
       test: {
         type: 'Literal',
-        value: id.name
+        value: j
       },
       consequent: body1
     });
@@ -1137,6 +1138,7 @@ function optStmt(info) {
       };
     }
   case 'FunctionDeclaration':
+    var j = gensym();
     env = shallowCopy(env);
     var body1 = [];
     for (var i = 0; i < ast.params.length; ++i) {
@@ -1189,7 +1191,7 @@ function optStmt(info) {
       type: 'SwitchCase',
       test: {
         type: 'Literal',
-        value: ast.id.name
+        value: j
       },
       consequent: body1
     });
@@ -1209,7 +1211,7 @@ function optStmt(info) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: ast.id.name
+                  value: j
                 },
                 {
                   type: 'Identifier',
@@ -1242,7 +1244,7 @@ function optStmt(info) {
       arguments: [
         {
           type: 'Literal',
-          value: ast.id.name
+          value: j
         },
         {
           type: 'Identifier',
@@ -1411,9 +1413,10 @@ function optToplevelExpr(ast) {
       elements: elts
     };
   case 'FunctionExpression':
+    var j = gensym();
     var id = {
       type: 'Identifier',
-      name: gensym()
+      name: '__lambda__' + j
     };
     var fn = {
       type: 'FunctionExpression',
@@ -1431,7 +1434,7 @@ function optToplevelExpr(ast) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: id.name
+                  value: j
                 },
                 { type: 'ThisExpression' },
                 EMPTY_OBJECT,
@@ -1458,7 +1461,7 @@ function optToplevelExpr(ast) {
       arguments: [
         {
           type: 'Literal',
-          value: id.name
+          value: j
         },
         EMPTY_OBJECT,
         fn
@@ -1535,7 +1538,7 @@ function optToplevelExpr(ast) {
       type: 'SwitchCase',
       test: {
         type: 'Literal',
-        value: id.name
+        value: j
       },
       consequent: body1
     });
@@ -1758,6 +1761,7 @@ function optToplevelStmt(ast) {
     console.error('unexpected ast: ReturnStatement');
     break;
   case 'FunctionDeclaration':
+    var j = gensym();
     var env = {};
     var body1 = [];
     for (var i = 0; i < ast.params.length; ++i) {
@@ -1810,7 +1814,7 @@ function optToplevelStmt(ast) {
       type: 'SwitchCase',
       test: {
         type: 'Literal',
-        value: ast.id.name
+        value: j
       },
       consequent: body1
     });
@@ -1830,7 +1834,7 @@ function optToplevelStmt(ast) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: ast.id.name
+                  value: j
                 },
                 { type: 'ThisExpression' },
                 EMPTY_OBJECT,
@@ -1867,7 +1871,7 @@ function optToplevelStmt(ast) {
             },
             right: {
               type: 'Literal',
-              value: decl.id.name
+              value: j
             }
           }
         },

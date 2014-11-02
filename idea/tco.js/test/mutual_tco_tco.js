@@ -2,7 +2,7 @@ function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
-      case 'isOdd':
+      case 2:
         __env.x = [__args[0]];
         if (__env.x[0] === 0) {
           return false;
@@ -12,7 +12,7 @@ function __call(__label, __this, __env, __args) {
           __env = isEven.__env;
           continue __jmp;
         }
-      case 'isEven':
+      case 1:
         __env.x = [__args[0]];
         if (__env.x[0] === 0) {
           return true;
@@ -44,14 +44,14 @@ function __mk(__label, __env, fn) {
   return fn;
 }
 function isEven(x) {
-  return __call('isEven', this, {}, [x]);
+  return __call(1, this, {}, [x]);
 }
-isEven.__label = 'isEven';
+isEven.__label = 1;
 isEven.__env = {};
 function isOdd(x) {
-  return __call('isOdd', this, {}, [x]);
+  return __call(2, this, {}, [x]);
 }
-isOdd.__label = 'isOdd';
+isOdd.__label = 2;
 isOdd.__env = {};
 exports.isEven = isEven;
 exports.isOdd = isOdd;

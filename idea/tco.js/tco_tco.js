@@ -2,7 +2,7 @@ function __call(__label, __this, __env, __args) {
   __jmp:
     while (true) {
       switch (__label) {
-      case '__lambda_1':
+      case 19:
         __env.err = [__args[0]];
         __env.code = [__args[1]];
         if (__env.err[0]) {
@@ -13,7 +13,7 @@ function __call(__label, __this, __env, __args) {
         __env.OUTPUT ? __env.OUTPUT[0].body = OUTPUT.body.concat(__env.program[0].body) : OUTPUT.body = OUTPUT.body.concat(__env.program[0].body);
         console.log(escodegen.generate(OUTPUT, { indent: '  ' }));
         return;
-      case 'optProgram':
+      case 18:
         __env.ast = [__args[0]];
         switch (__env.ast[0].type) {
         case 'Program':
@@ -36,7 +36,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'optToplevelStmt':
+      case 17:
         __env.ast = [__args[0]];
         switch (__env.ast[0].type) {
         case 'EmptyStatement':
@@ -211,6 +211,7 @@ function __call(__label, __this, __env, __args) {
           console.error('unexpected ast: ReturnStatement');
           break;
         case 'FunctionDeclaration':
+          __env.j = [gensym()];
           __env.env = [{}];
           __env.body1 = [[]];
           for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
@@ -263,7 +264,7 @@ function __call(__label, __this, __env, __args) {
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: __env.ast[0].id.name
+              value: __env.j[0]
             },
             consequent: __env.body1[0]
           });
@@ -283,7 +284,7 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: __env.ast[0].id.name
+                          value: __env.j[0]
                         },
                         { type: 'ThisExpression' },
                         EMPTY_OBJECT,
@@ -320,7 +321,7 @@ function __call(__label, __this, __env, __args) {
                   },
                   right: {
                     type: 'Literal',
-                    value: __env.decl[0].id.name
+                    value: __env.j[0]
                   }
                 }
               },
@@ -346,7 +347,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'optToplevelVariableDeclaration':
+      case 16:
         __env.ast = [__args[0]];
         __env.declarations = [[]];
         for (__env.i = [0]; __env.i[0] < __env.ast[0].declarations.length; __env.i ? ++__env.i[0] : ++i) {
@@ -366,7 +367,7 @@ function __call(__label, __this, __env, __args) {
           declarations: __env.declarations[0],
           kind: __env.ast[0].kind
         };
-      case 'optToplevelCatchClause':
+      case 15:
         __env.ast = [__args[0]];
         return {
           type: 'CatchClause',
@@ -374,7 +375,7 @@ function __call(__label, __this, __env, __args) {
           guard: __env.ast[0].guard ? optToplevelExpr(__env.ast[0].guard) : null,
           body: optToplevelStmt(__env.ast[0].body)
         };
-      case 'optToplevelExpr':
+      case 14:
         __env.ast = [__args[0]];
         switch (__env.ast[0].type) {
         case 'Literal':
@@ -509,9 +510,10 @@ function __call(__label, __this, __env, __args) {
             elements: __env.elts[0]
           };
         case 'FunctionExpression':
+          __env.j = [gensym()];
           __env.id = [{
               type: 'Identifier',
-              name: gensym()
+              name: '__lambda__' + __env.j[0]
             }];
           __env.fn = [{
               type: 'FunctionExpression',
@@ -529,7 +531,7 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: __env.id[0].name
+                          value: __env.j[0]
                         },
                         { type: 'ThisExpression' },
                         EMPTY_OBJECT,
@@ -556,7 +558,7 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: __env.id[0].name
+                  value: __env.j[0]
                 },
                 EMPTY_OBJECT,
                 __env.fn[0]
@@ -633,7 +635,7 @@ function __call(__label, __this, __env, __args) {
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: __env.id[0].name
+              value: __env.j[0]
             },
             consequent: __env.body1[0]
           });
@@ -653,7 +655,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'optStmt':
+      case 13:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1105,6 +1107,7 @@ function __call(__label, __this, __env, __args) {
             };
           }
         case 'FunctionDeclaration':
+          __env.j = [gensym()];
           __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
           __env.body1 = [[]];
           for (__env.i = [0]; __env.i[0] < __env.ast[0].params.length; __env.i ? ++__env.i[0] : ++i) {
@@ -1157,7 +1160,7 @@ function __call(__label, __this, __env, __args) {
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: __env.ast[0].id.name
+              value: __env.j[0]
             },
             consequent: __env.body1[0]
           });
@@ -1177,7 +1180,7 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: __env.ast[0].id.name
+                          value: __env.j[0]
                         },
                         {
                           type: 'Identifier',
@@ -1210,7 +1213,7 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: __env.ast[0].id.name
+                  value: __env.j[0]
                 },
                 {
                   type: 'Identifier',
@@ -1244,7 +1247,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'optVariableDeclaration':
+      case 12:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1276,7 +1279,7 @@ function __call(__label, __this, __env, __args) {
           type: 'SequenceExpression',
           expressions: __env.declarations[0]
         };
-      case 'optCatchClause':
+      case 11:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1292,7 +1295,7 @@ function __call(__label, __this, __env, __args) {
             env: __env.env[0]
           })
         };
-      case 'optExpr':
+      case 10:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1601,9 +1604,10 @@ function __call(__label, __this, __env, __args) {
             elements: __env.elts[0]
           };
         case 'FunctionExpression':
+          __env.j = [gensym()];
           __env.id = [{
               type: 'Identifier',
-              name: gensym()
+              name: '__lambda_' + __env.j[0]
             }];
           __env.env ? __env.env[0] = shallowCopy(__env.env[0]) : env = shallowCopy(__env.env[0]);
           __env.fn = [{
@@ -1622,7 +1626,7 @@ function __call(__label, __this, __env, __args) {
                       arguments: [
                         {
                           type: 'Literal',
-                          value: __env.id[0].name
+                          value: __env.j[0]
                         },
                         {
                           type: 'Identifier',
@@ -1655,7 +1659,7 @@ function __call(__label, __this, __env, __args) {
               arguments: [
                 {
                   type: 'Literal',
-                  value: __env.id[0].name
+                  value: __env.j[0]
                 },
                 {
                   type: 'Identifier',
@@ -1737,7 +1741,7 @@ function __call(__label, __this, __env, __args) {
             type: 'SwitchCase',
             test: {
               type: 'Literal',
-              value: __env.id[0].name
+              value: __env.j[0]
             },
             consequent: __env.body1[0]
           });
@@ -1762,7 +1766,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'optLhs2':
+      case 9:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1784,7 +1788,7 @@ function __call(__label, __this, __env, __args) {
         default:
           return __env.ast[0];
         }
-      case 'optLhs1':
+      case 8:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1837,7 +1841,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'existsLhs1':
+      case 7:
         __env.info = [__args[0]];
         __env.ast = [__env.info[0].ast];
         __env.env = [__env.info[0].env];
@@ -1863,7 +1867,7 @@ function __call(__label, __this, __env, __args) {
         default:
           console.error('unrecognized ast: ' + __env.ast[0].type);
         }
-      case 'isTailCallStmt':
+      case 6:
         __env.ast = [__args[0]];
         switch (__env.ast[0].type) {
         case 'ExpressionStatement': {
@@ -1889,7 +1893,7 @@ function __call(__label, __this, __env, __args) {
         default:
           return false;
         }
-      case 'isTailCallExpr':
+      case 5:
         __env.ast = [__args[0]];
         switch (__env.ast[0].type) {
         case 'CallExpression':
@@ -1897,14 +1901,14 @@ function __call(__label, __this, __env, __args) {
         default:
           return false;
         }
-      case 'gensym':
+      case 4:
         __env.i ? __env.i[0] += 1 : i += 1;
-        return '__lambda_' + i;
-      case 'appendCase':
+        return i;
+      case 3:
         __env.a_case = [__args[0]];
         OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(__env.a_case[0]);
         return;
-      case 'shallowCopy':
+      case 2:
         __env.obj = [__args[0]];
         __env.cp = [{}];
         __env.k = [];
@@ -1912,7 +1916,7 @@ function __call(__label, __this, __env, __args) {
           __env.cp ? __env.cp[0][__env.k[0]] = __env.obj[0][__env.k[0]] : cp[__env.k[0]] = __env.obj[0][__env.k[0]];
         }
         return __env.cp[0];
-      case 'copyenv':
+      case 1:
         __env.env = [__args[0]];
         __env.cp = [{
             type: 'ObjectExpression',
@@ -1979,99 +1983,99 @@ EMPTY_OBJECT = {
   properties: []
 };
 function copyenv(env) {
-  return __call('copyenv', this, {}, [env]);
+  return __call(1, this, {}, [env]);
 }
-copyenv.__label = 'copyenv';
+copyenv.__label = 1;
 copyenv.__env = {};
 function shallowCopy(obj) {
-  return __call('shallowCopy', this, {}, [obj]);
+  return __call(2, this, {}, [obj]);
 }
-shallowCopy.__label = 'shallowCopy';
+shallowCopy.__label = 2;
 shallowCopy.__env = {};
 function appendCase(a_case) {
-  return __call('appendCase', this, {}, [a_case]);
+  return __call(3, this, {}, [a_case]);
 }
-appendCase.__label = 'appendCase';
+appendCase.__label = 3;
 appendCase.__env = {};
 var i;
 i = 0;
 function gensym() {
-  return __call('gensym', this, {}, []);
+  return __call(4, this, {}, []);
 }
-gensym.__label = 'gensym';
+gensym.__label = 4;
 gensym.__env = {};
 function isTailCallExpr(ast) {
-  return __call('isTailCallExpr', this, {}, [ast]);
+  return __call(5, this, {}, [ast]);
 }
-isTailCallExpr.__label = 'isTailCallExpr';
+isTailCallExpr.__label = 5;
 isTailCallExpr.__env = {};
 function isTailCallStmt(ast) {
-  return __call('isTailCallStmt', this, {}, [ast]);
+  return __call(6, this, {}, [ast]);
 }
-isTailCallStmt.__label = 'isTailCallStmt';
+isTailCallStmt.__label = 6;
 isTailCallStmt.__env = {};
 function existsLhs1(info) {
-  return __call('existsLhs1', this, {}, [info]);
+  return __call(7, this, {}, [info]);
 }
-existsLhs1.__label = 'existsLhs1';
+existsLhs1.__label = 7;
 existsLhs1.__env = {};
 function optLhs1(info) {
-  return __call('optLhs1', this, {}, [info]);
+  return __call(8, this, {}, [info]);
 }
-optLhs1.__label = 'optLhs1';
+optLhs1.__label = 8;
 optLhs1.__env = {};
 function optLhs2(info) {
-  return __call('optLhs2', this, {}, [info]);
+  return __call(9, this, {}, [info]);
 }
-optLhs2.__label = 'optLhs2';
+optLhs2.__label = 9;
 optLhs2.__env = {};
 function optExpr(info) {
-  return __call('optExpr', this, {}, [info]);
+  return __call(10, this, {}, [info]);
 }
-optExpr.__label = 'optExpr';
+optExpr.__label = 10;
 optExpr.__env = {};
 function optCatchClause(info) {
-  return __call('optCatchClause', this, {}, [info]);
+  return __call(11, this, {}, [info]);
 }
-optCatchClause.__label = 'optCatchClause';
+optCatchClause.__label = 11;
 optCatchClause.__env = {};
 function optVariableDeclaration(info) {
-  return __call('optVariableDeclaration', this, {}, [info]);
+  return __call(12, this, {}, [info]);
 }
-optVariableDeclaration.__label = 'optVariableDeclaration';
+optVariableDeclaration.__label = 12;
 optVariableDeclaration.__env = {};
 function optStmt(info) {
-  return __call('optStmt', this, {}, [info]);
+  return __call(13, this, {}, [info]);
 }
-optStmt.__label = 'optStmt';
+optStmt.__label = 13;
 optStmt.__env = {};
 function optToplevelExpr(ast) {
-  return __call('optToplevelExpr', this, {}, [ast]);
+  return __call(14, this, {}, [ast]);
 }
-optToplevelExpr.__label = 'optToplevelExpr';
+optToplevelExpr.__label = 14;
 optToplevelExpr.__env = {};
 function optToplevelCatchClause(ast) {
-  return __call('optToplevelCatchClause', this, {}, [ast]);
+  return __call(15, this, {}, [ast]);
 }
-optToplevelCatchClause.__label = 'optToplevelCatchClause';
+optToplevelCatchClause.__label = 15;
 optToplevelCatchClause.__env = {};
 function optToplevelVariableDeclaration(ast) {
-  return __call('optToplevelVariableDeclaration', this, {}, [ast]);
+  return __call(16, this, {}, [ast]);
 }
-optToplevelVariableDeclaration.__label = 'optToplevelVariableDeclaration';
+optToplevelVariableDeclaration.__label = 16;
 optToplevelVariableDeclaration.__env = {};
 function optToplevelStmt(ast) {
-  return __call('optToplevelStmt', this, {}, [ast]);
+  return __call(17, this, {}, [ast]);
 }
-optToplevelStmt.__label = 'optToplevelStmt';
+optToplevelStmt.__label = 17;
 optToplevelStmt.__env = {};
 function optProgram(ast) {
-  return __call('optProgram', this, {}, [ast]);
+  return __call(18, this, {}, [ast]);
 }
-optProgram.__label = 'optProgram';
+optProgram.__label = 18;
 optProgram.__env = {};
-fs.readFile(process.argv[2], 'utf-8', __mk('__lambda_1', {}, function __lambda_1(err, code) {
-  return __call('__lambda_1', this, {}, [
+fs.readFile(process.argv[2], 'utf-8', __mk(19, {}, function __lambda__19(err, code) {
+  return __call(19, this, {}, [
     err,
     code
   ]);
