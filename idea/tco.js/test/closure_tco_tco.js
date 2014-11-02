@@ -19,7 +19,10 @@ function __call(__label, __this, __env, __args) {
                 f: __env.f
               }, []);
             });
-          }(new __ENV(__env))];
+          }({
+            aaabbb: __env.aaabbb,
+            f: __env.f
+          })];
         __args = [__env.f[0]];
         __label = id.__label;
         __env = id.__env;
@@ -35,12 +38,12 @@ function __call(__label, __this, __env, __args) {
             return __mk('__lambda_2', {}, function __lambda_2() {
               return __call('__lambda_2', __this, {}, []);
             });
-          }(new __ENV(__env)),
+          }({}),
           function (__env) {
             return __mk('__lambda_3', {}, function __lambda_3() {
               return __call('__lambda_3', __this, {}, []);
             });
-          }(new __ENV(__env))
+          }({})
         ];
       case '__lambda_3':
         if ((__env.x ? typeof __env.x[0] : typeof x) !== 'undefined') {
@@ -54,7 +57,7 @@ function __call(__label, __this, __env, __args) {
           return __mk('__lambda_1', { i: __env.i }, function __lambda_1() {
             return __call('__lambda_1', __this, { i: __env.i }, []);
           });
-        }(new __ENV(__env));
+        }({ i: __env.i });
       case '__lambda_1':
         return __env.i ? __env.i[0] += 1 : i += 1;
       case 'mkCounter':
@@ -63,7 +66,7 @@ function __call(__label, __this, __env, __args) {
             return __mk('add', { i: __env.i }, function add() {
               return __call('add', __this, { i: __env.i }, []);
             });
-          }(new __ENV(__env))];
+          }({ i: __env.i })];
         return add;
       case 'add':
         return __env.i ? __env.i[0] += 1 : i += 1;

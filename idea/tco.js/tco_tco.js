@@ -1213,8 +1213,9 @@ function __call(__label, __this, __env, __args) {
                 __env.fn[0]
               ]
             }];
-          __env.bind = [esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
+          __env.bind = [esprima.parse('(function (__env) { return; })()').body[0].expression];
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
+          __env.bind ? __env.bind[0].arguments[0] = copyenv(__env.env[0]) : bind.arguments[0] = copyenv(__env.env[0]);
           return {
             type: 'ExpressionStatement',
             expression: {
@@ -1651,8 +1652,9 @@ function __call(__label, __this, __env, __args) {
                 __env.fn[0]
               ]
             }];
-          __env.bind = [esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression];
+          __env.bind = [esprima.parse('(function (__env) { return; })()').body[0].expression];
           __env.bind ? __env.bind[0].callee.body.body[0].argument = __env.mk[0] : bind.callee.body.body[0].argument = __env.mk[0];
+          __env.bind ? __env.bind[0].arguments[0] = copyenv(__env.env[0]) : bind.arguments[0] = copyenv(__env.env[0]);
           __env.body = [optStmt({
               ast: __env.ast[0].body,
               env: __env.env[0]

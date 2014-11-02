@@ -431,8 +431,9 @@ alternate: alternate, consequent: consequent };
           fn
         ]
       };
-    var bind = esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression;
+    var bind = esprima.parse('(function (__env) { return; })()').body[0].expression;
     bind.callee.body.body[0].argument = mk;
+    bind.arguments[0] = copyenv(env);
 
     var body = optStmt({ast:ast.body, env:env});
     var body1 = [];
@@ -1002,8 +1003,9 @@ body: body, each: ast.each }]}
         ]
       };
 
-    var bind = esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression;
+    var bind = esprima.parse('(function (__env) { return; })()').body[0].expression;
     bind.callee.body.body[0].argument = mk;
+    bind.arguments[0] = copyenv(env);
 
     return {
       type: 'ExpressionStatement',

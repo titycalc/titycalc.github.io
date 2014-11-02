@@ -35,7 +35,10 @@ function __call(__label, __this, __env, __args) {
               abcdeabcde: __env.abcdeabcde
             }, [z]);
           });
-        }(new __ENV(__env));
+        }({
+          x: __env.x,
+          abcdeabcde: __env.abcdeabcde
+        });
       case '__lambda_3':
         __env.z = [__args[0]];
         return __env.abcdeabcde[0];
@@ -51,7 +54,10 @@ function __call(__label, __this, __env, __args) {
                 y: __env.y
               }, [y]);
             });
-          }(new __ENV(__env))];
+          }({
+            x: __env.x,
+            y: __env.y
+          })];
         return discard;
       case 'discard':
         __env.y = [__args[0]];

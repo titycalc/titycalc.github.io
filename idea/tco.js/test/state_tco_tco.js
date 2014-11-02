@@ -19,7 +19,7 @@ function __call(__label, __this, __env, __args) {
             return __mk('__lambda_9', { i: __env.i }, function __lambda_9(_) {
               return __call('__lambda_9', __this, { i: __env.i }, [_]);
             });
-          }(new __ENV(__env))
+          }({ i: __env.i })
         ];
         __label = bind.__label;
         __env = bind.__env;
@@ -45,7 +45,10 @@ function __call(__label, __this, __env, __args) {
                 s1
               ]);
             });
-          }(new __ENV(__env))
+          }({
+            m: __env.m,
+            s: __env.s
+          })
         ];
         __label = __env.m[0].__label;
         __env = __env.m[0].__env;
@@ -72,7 +75,10 @@ function __call(__label, __this, __env, __args) {
                 s1
               ]);
             });
-          }(new __ENV(__env))
+          }({
+            m: __env.m,
+            s: __env.s
+          })
         ];
         __label = __env.m[0].__label;
         __env = __env.m[0].__env;
@@ -99,7 +105,10 @@ function __call(__label, __this, __env, __args) {
                 s1
               ]);
             });
-          }(new __ENV(__env))
+          }({
+            m: __env.m,
+            s: __env.s
+          })
         ];
         __label = __env.m[0].__label;
         __env = __env.m[0].__env;
@@ -120,7 +129,7 @@ function __call(__label, __this, __env, __args) {
               cont
             ]);
           });
-        }(new __ENV(__env));
+        }({ s: __env.s });
       case '__lambda_4':
         __env._ = [__args[0]];
         __env.cont = [__args[1]];
@@ -157,7 +166,10 @@ function __call(__label, __this, __env, __args) {
               cont
             ]);
           });
-        }(new __ENV(__env));
+        }({
+          m: __env.m,
+          k: __env.k
+        });
       case '__lambda_2':
         __env.s = [__args[0]];
         __env.cont = [__args[1]];
@@ -176,7 +188,10 @@ function __call(__label, __this, __env, __args) {
                 s1
               ]);
             });
-          }(new __ENV(__env))
+          }({
+            m: __env.m,
+            k: __env.k
+          })
         ];
         __label = __env.m[0].__label;
         __env = __env.m[0].__env;
@@ -200,7 +215,7 @@ function __call(__label, __this, __env, __args) {
               cont
             ]);
           });
-        }(new __ENV(__env));
+        }({ x: __env.x });
       case '__lambda_1':
         __env.s = [__args[0]];
         __env.cont = [__args[1]];
