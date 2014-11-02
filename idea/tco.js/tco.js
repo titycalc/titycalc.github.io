@@ -9,6 +9,13 @@ var GLOBAL = {
 };
 var COPYENV = esprima.parse("__env").body[0].expression
 var COPYGLOBAL = esprima.parse("({})").body[0].expression
+function shallowCopy(obj) {
+  var cp = {};
+  for (var k in obj) {
+    cp[k] = obj[k];
+  }
+  return cp;
+}
 
 function appendCase(a_case) {
   OUTPUT.body[1].body.body[0].body.body.body[0].cases.unshift(a_case);
@@ -102,10 +109,12 @@ function isTailCallStmt(ast) {
     return false;
   }
 }
-function existsLhs1(ast) {
+function existsLhs1(info) {
+  var ast = info.ast;
+  var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
-    return existsLhs1(ast.object);
+    return existsLhs1({ast:ast.object,env:env});
   case 'Identifier':
     return {
         type: 'MemberExpression',
@@ -118,18 +127,20 @@ function existsLhs1(ast) {
 default:
     console.error('unrecognized ast: ' + ast.type);
 }}
-function optLhs1(ast) {
+function optLhs1(info) {
+  var ast = info.ast;
+  var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
-    if (ast.computed) {    var obj = optLhs1(ast.object);
-var prop = optExpr(ast.property);
+    if (ast.computed) {    var obj = optLhs1({ast:ast.object, env:env});
+var prop = optExpr({ast:ast.property, env:env});
     return {
       type: 'MemberExpression',
       object: obj,
       property: prop,
       computed: ast.computed
     };} else {
-    var obj = optLhs1(ast.object);
+    var obj = optLhs1({ast:ast.object,env:env});
     return {
       type: 'MemberExpression',
       object: obj,
@@ -149,18 +160,22 @@ default:
     console.error('unrecognized ast: ' + ast.type);
 }
 }
-function optLhs2(ast) {
+function optLhs2(info) {
+  var ast = info.ast;
+  var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
     if(ast.computed) {
       return { type: 'MemberExpression',
-object: ast.object, computed: ast.computed, property: optExpr(ast.property) }
+object: ast.object, computed: ast.computed, property: optExpr({ast:ast.property, env:env}) }
     } else { return ast; }
   default:
   return ast;
   }
 }
-function optExpr(ast) {
+function optExpr(info) {
+  var ast = info.ast;
+  var env = info.env;
   switch (ast.type) {
   case 'Literal':
     return ast;
@@ -204,7 +219,7 @@ property: */ast/* }*/
   case 'SequenceExpression':
     var exprs = [];
     for (var i = 0; i < ast.expressions.length; ++i) {
-      exprs.push(optExpr(ast.expressions[i]));
+      exprs.push(optExpr({ast: ast.expressions[i], env: env}));
     }
     return { type: 'SequenceExpression', expressions: exprs };
   case 'UnaryExpression':
@@ -214,44 +229,44 @@ property: */ast/* }*/
       switch (ast.argument.type) {
       case 'Identifier':
          return { type: 'ConditionalExpression',
-           test: existsLhs1(ast.argument),
+           test: existsLhs1({ast:ast.argument,env:env}),
            consequent: { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optLhs1(ast.argument), operator: ast.operator },
+argument: optLhs1({ast:ast.argument,env:env}), operator: ast.operator },
            alternate: { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optLhs2(ast.argument), operator: ast.operator },
+argument: optLhs2({ast:ast.argument,env:env}), operator: ast.operator },
             }
       default:
     return { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optExpr(ast.argument), operator: ast.operator };
+argument: optExpr({ast:ast.argument, env:env}), operator: ast.operator };
 	  
       }
      
     default:
     return { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optExpr(ast.argument), operator: ast.operator };
+argument: optExpr({ast:ast.argument, env:env}), operator: ast.operator };
     }
   case 'NewExpression':
-    var callee = optExpr(ast.callee);
+    var callee = optExpr({ast:ast.callee, env:env});
     var args = [];
     for (var i = 0; i < ast.arguments.length; ++i)  {
-      args.push(optExpr(ast.arguments[i]));
+      args.push(optExpr({ast:ast.arguments[i], env:env}));
     }
     return { type: 'NewExpression', callee: callee,
 arguments: args };
   case 'UpdateExpression':
-    var arg1 = optLhs1(ast.argument);
-    var arg2 = optLhs2(ast.argument);
-    return { type: 'ConditionalExpression', test: existsLhs1(ast.argument),
+    var arg1 = optLhs1({ast:ast.argument,env:env});
+    var arg2 = optLhs2({ast:ast.argument,env:env});
+    return { type: 'ConditionalExpression', test: existsLhs1({ast:ast.argument,env:env}),
 consequent: { type: 'UpdateExpression', operator: ast.operator,
 argument: arg1, prefix: ast.prefix },
 alternate:  { type: 'UpdateExpression', operator: ast.operator,
 argument: arg2, prefix: ast.prefix } }
   case 'AssignmentExpression':
-    var lhs1 = optLhs1(ast.left);
-    var lhs2 = optLhs2(ast.left);
-    var rhs = optExpr(ast.right);
+    var lhs1 = optLhs1({ast:ast.left,env:env});
+    var lhs2 = optLhs2({ast:ast.left,env:env});
+    var rhs = optExpr({ast:ast.right, env:env});
     return { type: 'ConditionalExpression',
-test: existsLhs1(ast.left),
+test: existsLhs1({ast:ast.left,env:env}),
 consequent: {
       type: 'AssignmentExpression',
       operator: ast.operator,
@@ -265,14 +280,14 @@ alternate: {
       right: rhs
     }};
   case 'ConditionalExpression':
-    var test = optExpr(ast.test);
-    var alternate = optExpr(ast.alternate);
-    var consequent = optExpr(ast.consequent);
+    var test = optExpr({ast:ast.test, env:env});
+    var alternate = optExpr({ast:ast.alternate, env:env});
+    var consequent = optExpr({ast:ast.consequent, env:env});
     return { type: 'ConditionalExpression', test: test,
 alternate: alternate, consequent: consequent };
   case 'BinaryExpression':
-    var lhs = optExpr(ast.left);
-    var rhs = optExpr(ast.right);
+    var lhs = optExpr({ast:ast.left, env:env});
+    var rhs = optExpr({ast:ast.right, env:env});
     return {
       type: 'LogicalExpression',
       operator: ast.operator,
@@ -280,8 +295,8 @@ alternate: alternate, consequent: consequent };
       right: rhs
     };
   case 'LogicalExpression':
-    var lhs = optExpr(ast.left);
-    var rhs = optExpr(ast.right);
+    var lhs = optExpr({ast:ast.left, env:env});
+    var rhs = optExpr({ast:ast.right, env:env});
     return {
       type: 'BinaryExpression',
       operator: ast.operator,
@@ -289,12 +304,12 @@ alternate: alternate, consequent: consequent };
       right: rhs
     };
   case 'MemberExpression':
-    var obj = optExpr(ast.object);
+    var obj = optExpr({ast:ast.object, env:env});
     if (ast.computed) {
     return {
       type: 'MemberExpression',
       object: obj,
-      property: optExpr(ast.property),
+      property: optExpr({ast:ast.property, env:env}),
       computed: ast.computed
     };
     } else {
@@ -311,7 +326,7 @@ alternate: alternate, consequent: consequent };
       props.push({
         type: 'Property',
         key: prop.key,
-        value: optExpr(prop.value),
+        value: optExpr({ast:prop.value, env:env}),
         kind: prop.kind
       });
     }
@@ -323,7 +338,7 @@ alternate: alternate, consequent: consequent };
     var elts = [];
     for (var i = 0; i < ast.elements.length; ++i) {
       var elt = ast.elements[i];
-      elts.push(optExpr(elt));
+      elts.push(optExpr({ast:elt, env:env}));
     }
     return {
       type: 'ArrayExpression',
@@ -391,7 +406,7 @@ alternate: alternate, consequent: consequent };
     var bind = esprima.parse('(function (__env) { return; })(new __ENV(__env))').body[0].expression;
     bind.callee.body.body[0].argument = mk;
 
-    var body = optStmt(ast.body);
+    var body = optStmt({ast:ast.body, env:env});
     var body1 = [];
     //appendVar(id);
     if (ast.id != null) {
@@ -488,10 +503,10 @@ alternate: alternate, consequent: consequent };
       ]
     };*/
   case 'CallExpression':
-    var callee = optExpr(ast.callee);
+    var callee = optExpr({ast:ast.callee,env:env});
     var args = [];
     for (var i = 0; i < ast.arguments.length; ++i) {
-      args.push(optExpr(ast.arguments[i]));
+      args.push(optExpr({ast:ast.arguments[i],env:env}));
     }
     return {
       type: 'CallExpression',
@@ -502,12 +517,16 @@ alternate: alternate, consequent: consequent };
     console.error('unrecognized ast: ' + ast.type);
   }
 }
-function optCatchClause(ast) {
+function optCatchClause(info) {
+  var ast = info.ast;
+  var env = info.env;
   return { type: 'CatchClause', param: ast.param,
-guard: ast.guard ? optExpr(ast.guard) : null,
-body: optStmt(ast.body) }
+guard: ast.guard ? optExpr({ast:ast.guard, env:env}) : null,
+body: optStmt({ast:ast.body, env:env}) }
 }
-function optVariableDeclaration(ast){
+function optVariableDeclaration(info){
+    var ast = info.ast;
+    var env = info.env;
     var declarations = [];
     for (var i = 0; i < ast.declarations.length; ++i) {
       var declaration = ast.declarations[i];
@@ -516,7 +535,7 @@ function optVariableDeclaration(ast){
           type: 'AssignmentExpression',
           operator: '=',
           left: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:declaration.id},
-          right: {type:'ArrayExpression',elements:declaration.init ? [optExpr(declaration.init)] : []}
+          right: {type:'ArrayExpression',elements:declaration.init ? [optExpr({ast:declaration.init,env:env})] : []}
         });
 
     }
@@ -525,7 +544,9 @@ function optVariableDeclaration(ast){
       expressions: declarations
     };
 }
-function optStmt(ast) {
+function optStmt(info) {
+  var ast = info.ast;
+  var env = info.env;
   switch (ast.type) {
   case 'EmptyStatement':
     return ast;
@@ -533,7 +554,7 @@ function optStmt(ast) {
     var body = [];
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
-      stmt = optStmt(stmt);
+      stmt = optStmt({ast:stmt, env:env});
       switch (stmt.type) {
       case 'BlockStatement':
         body = body.concat(stmt.body);
@@ -547,15 +568,15 @@ function optStmt(ast) {
       body: body
     };
   case 'ExpressionStatement':
-    var expr = optExpr(ast.expression);
+    var expr = optExpr({ast:ast.expression,env:env});
     return {
       type: 'ExpressionStatement',
       expression: expr
     };
   case 'IfStatement':
-    var test = optExpr(ast.test);
-    var consequent = optStmt(ast.consequent);
-    var alternate = ast.alternate ? optStmt(ast.alternate) : null;
+    var test = optExpr({ast:ast.test,env:env});
+    var consequent = optStmt({ast:ast.consequent, env:env});
+    var alternate = ast.alternate ? optStmt({ast:ast.alternate, env:env}) : null;
     return {
       type: 'IfStatement',
       test: test,
@@ -563,7 +584,7 @@ function optStmt(ast) {
       alternate: alternate
     };
   case 'LabeledStatement':
-    var body = optStmt(ast.body);
+    var body = optStmt({ast:ast.body, env:env});
     return {
       type: 'LabeledStatement',
       label: ast.label,
@@ -574,21 +595,21 @@ function optStmt(ast) {
   case 'ContinueStatement':
     return ast;
   case 'WithStatement':
-    var obj = optExpr(ast.object);
-    var body = optStmt(ast.body);
+    var obj = optExpr({ast:ast.object,env:env});
+    var body = optStmt({ast:ast.body, env:env});
     return {
       type: 'WithStatement',
       object: obj,
       body: body
     };
   case 'SwitchStatement':
-    var discriminant = optExpr(ast.discriminant);
+    var discriminant = optExpr({ast:ast.discriminant,env:env});
     var cases = [];
     for (var i = 0; i < ast.cases.length; ++i) {
-      var test = ast.cases[i].test ? optExpr(ast.cases[i].test) : null;
+      var test = ast.cases[i].test ? optExpr({ast:ast.cases[i].test,env:env}) : null;
       var body = [];
       for (var j = 0; j < ast.cases[i].consequent.length; ++j) {
-        body.push(optStmt(ast.cases[i].consequent[j]));
+        body.push(optStmt({ast:ast.cases[i].consequent[j], env:env}));
       }
       cases.push({
         type: 'SwitchCase',
@@ -603,36 +624,36 @@ function optStmt(ast) {
       lexical: ast.lexical
     };
   case 'ThrowStatement':
-    var arg = optExpr(ast.argument);
+    var arg = optExpr({ast:ast.argument,env:env});
     return {
       type: 'ThrowStatement',
       argument: arg
     };
   case 'TryStatement':
-    var block = optStmt(ast.block);
+    var block = optStmt({ast:ast.block, env:env});
     var handlers = [];
     for (var i = 0; i < ast.handlers.length; ++i) {
-      handlers.push(optCatchClause(ast.handlers[i]));
+      handlers.push(optCatchClause({ast:ast.handlers[i],env:env}));
     }
     var guardedHandlers = [];
     for (var i = 0; i < ast.guardedHandlers.length; ++i) {
-      guardedHandlers.push(optCatchClause(ast.guardedHandlers[i]));
+      guardedHandlers.push(optCatchClause({ast:ast.guardedHandlers[i],env:env}));
     }
-    var finalizer = ast.finalizer ? optStmt(ast.finalizer) : null;
+    var finalizer = ast.finalizer ? optStmt({ast:ast.finalizer, env:env}) : null;
     return { type: 'TryStatement',
 block: block, handlers: handlers, guardedHandlers: guardedHandlers,
 finalizer: finalizer };
   case 'WhileStatement':
-    var test = optExpr(ast.test);
-    var body = optStmt(ast.body);
+    var test = optExpr({ast:ast.test,env:env});
+    var body = optStmt({ast:ast.body, env:env});
     return {
       type: 'WhileStatement',
       test: test,
       body: body
     };
   case 'DoWhileStatement':
-    var test = optExpr(ast.test);
-    var body = optStmt(ast.body);
+    var test = optExpr({ast:ast.test,env:env});
+    var body = optStmt({ast:ast.body, env:env});
     return {
       type: 'DoWhileStatement',
       test: test,
@@ -644,27 +665,42 @@ finalizer: finalizer };
     } else {
       switch (ast.init.type) {
       case 'VariableDeclaration':
-        var init = optVariableDeclaration(ast.init);
+        var init = optVariableDeclaration({ast:ast.init,env:env});
         break;
       default:
-        var init = optExpr(ast.init);
+        var init = optExpr({ast:ast.init,env:env});
       }
     }
-    var test = ast.test ? optExpr(ast.test) : null;
-    var update = ast.update ? optExpr(ast.update) : null;
-    var body = optStmt(ast.body);
+    var test = ast.test ? optExpr({ast:ast.test,env:env}) : null;
+    var update = ast.update ? optExpr({ast:ast.update,env:env}) : null;
+    var body = optStmt({ast:ast.body, env:env});
     return { type: 'ForStatement', init: init, test: test, update: update,
 body: body }
-  //case 'ForInStatement':
+  case 'ForInStatement':
+    if (ast.left == null) {
+      var left = null;
+    } else {
+      switch (ast.left.type) {
+      case 'VariableDeclaration':
+        var left = optVariableDeclaration({ast:ast.left,env:env});
+        break;
+      default:
+        var left = optExpr({ast:ast.init,env:env});
+      }
+    }
+    var right  = optExpr({ast:ast.right,env:env});
+    var body = optStmt({ast:ast.body, env:env});
+    return { type: 'ForInStatement', left: left, right: right, 
+body: body, each: ast.each }
   //case 'ForOfStatement':
   //case 'LetStatement':
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-    return {type:'ExpressionStatement',expression:optVariableDeclaration(ast)};
+    return {type:'ExpressionStatement',expression:optVariableDeclaration({ast:ast,env:env})};
   case 'ReturnStatement':
     if (ast.argument == null){ return { type: 'ReturnStatement' }}
-    var argument = optExpr(ast.argument);
+    var argument = optExpr({ast:ast.argument,env:env});
     switch (ast.argument.type) {
     case 'CallExpression':
 //console.log(ast.argument.callee.type);
@@ -820,7 +856,7 @@ body: body }
       };
     }
   case 'FunctionDeclaration':
-    var body = optStmt(ast.body);
+    var body = optStmt({ast:ast.body, env:env});
     var body1 = [];
     appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
@@ -995,9 +1031,9 @@ argument: optToplevelExpr(ast.argument), operator: ast.operator };
     return { type: 'NewExpression', callee: callee,
 arguments: args };
   case 'ConditionalExpression':
-    var test = optExpr(ast.test);
-    var alternate = optExpr(ast.alternate);
-    var consequent = optExpr(ast.consequent);
+    var test = optExpr({ast:ast.test,env:env});
+    var alternate = optExpr({ast:ast.alternate,env:env});
+    var consequent = optExpr({ast:ast.consequent,env:env});
     return { type: 'ConditionalExpression', test: test,
 alternate: alternate, consequent: consequent };
   case 'LogicalExpression':
@@ -1117,11 +1153,12 @@ alternate: alternate, consequent: consequent };
           fn
         ]
       };
-    var body = optStmt(ast.body);
+    var env = {};
     var body1 = [];
     //appendVar(id);
     if (ast.id != null) {
-      appendVar(ast.id);
+      //appendVar(ast.id);
+      env[ast.id.name] = true;
       body1.push({
         type: 'ExpressionStatement',
         expression: {
@@ -1139,7 +1176,8 @@ alternate: alternate, consequent: consequent };
     
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      appendVar(param);
+      //appendVar(param);
+      env[param.name] = true;
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -1172,6 +1210,7 @@ alternate: alternate, consequent: consequent };
       };
       body1.push(setParam);
     }
+    var body = optStmt({ast:ast.body, env:env});
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -1420,12 +1459,13 @@ body: body }
     console.error('unexpected ast: ReturnStatement');
     break;
   case 'FunctionDeclaration':
-    var body = optStmt(ast.body);
+    var env = {};
     var body1 = [];
     //appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      appendVar(param);
+      env[param.name] = true;
+      //appendVar(param);
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -1458,6 +1498,7 @@ body: body }
       };
       body1.push(setParam);
     }
+    var body = optStmt({ast:ast.body, env:env});
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);

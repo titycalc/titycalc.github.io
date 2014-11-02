@@ -7,14 +7,8 @@ function __ENV(__env) {
     this.x = __env.x;
   if (__env.s1)
     this.s1 = __env.s1;
-  if (__env.m)
-    this.m = __env.m;
-  if (__env.k)
-    this.k = __env.k;
   if (__env._)
     this._ = __env._;
-  if (__env.i)
-    this.i = __env.i;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

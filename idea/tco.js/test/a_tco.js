@@ -1,6 +1,4 @@
 function __ENV(__env) {
-  if (__env.x)
-    this.x = __env.x;
   if (__env.discard)
     this.discard = __env.discard;
   if (__env.y)
@@ -9,16 +7,10 @@ function __ENV(__env) {
     this.abcdeabcde = __env.abcdeabcde;
   if (__env.z)
     this.z = __env.z;
-  if (__env.try_clause)
-    this.try_clause = __env.try_clause;
-  if (__env.catch_clause)
-    this.catch_clause = __env.catch_clause;
-  if (__env.finally_clause)
-    this.finally_clause = __env.finally_clause;
+  if (__env.x)
+    this.x = __env.x;
   if (__env.i)
     this.i = __env.i;
-  if (__env.xs)
-    this.xs = __env.xs;
 }
 function __call(__label, __this, __env, __args) {
   __jmp:

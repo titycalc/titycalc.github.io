@@ -1,8 +1,6 @@
 function __ENV(__env) {
   if (__env.add)
     this.add = __env.add;
-  if (__env.i)
-    this.i = __env.i;
   if (__env.x)
     this.x = __env.x;
   if (__env.aaabbb)
