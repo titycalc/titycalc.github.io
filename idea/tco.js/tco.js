@@ -7,13 +7,33 @@ var GLOBAL = {
   type: 'ObjectExpression',
   properties: []
 };
-var COPYENV = esprima.parse("__env").body[0].expression
-var COPYGLOBAL = esprima.parse("({})").body[0].expression
-function copyenv(env){
-  var cp = {type:'ObjectExpression',properties:[]};  
+var COPYENV = esprima.parse('__env').body[0].expression;
+var COPYGLOBAL = esprima.parse('({})').body[0].expression;
+function copyenv(env) {
+  var cp = {
+    type: 'ObjectExpression',
+    properties: []
+  };
   for (var k in env) {
-    var prop = {type:'Property',key:{type:'Identifier',name:k},
-value:{type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:{type:'Identifier',name:k}},kind:'init'}
+    var prop = {
+      type: 'Property',
+      key: {
+        type: 'Identifier',
+        name: k
+      },
+      value: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: {
+          type: 'Identifier',
+          name: k
+        }
+      },
+      kind: 'init'
+    };
     cp.properties.push(prop);
   }
   return cp;
@@ -25,34 +45,42 @@ function shallowCopy(obj) {
   }
   return cp;
 }
-
 function appendCase(a_case) {
   OUTPUT.body[0].body.body[0].body.body.body[0].cases.unshift(a_case);
   return;
 }
 function appendProp(a_prop) {
-  //COPYENV.properties.push(a_prop);
   return;
 }
 var VARS = {};
 function appendVar(ident) {
-  if(VARS[ident.name]) {return;}
+  if (VARS[ident.name]) {
+    return;
+  }
   VARS[ident.name] = true;
-  var stmt = {type:'ExpressionStatement',expression:{type: 'AssignmentExpression',
-   operator: '=',
-   left: {type:'MemberExpression',object:{type:'ThisExpression'},property:
-ident},
-   right: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:
-ident},
-}};
-  stmt = { type: 'IfStatement', test:{type: 'MemberExpression',
-object: {type:'Identifier',name:'__env'},property:
-ident}, consequent: stmt };
-  OUTPUT.body[0].body.body.push(stmt);
-  /*var prop = {
-    type: 'Property',
-    key: ident,
-    value: {
+  var stmt = {
+    type: 'ExpressionStatement',
+    expression: {
+      type: 'AssignmentExpression',
+      operator: '=',
+      left: {
+        type: 'MemberExpression',
+        object: { type: 'ThisExpression' },
+        property: ident
+      },
+      right: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: ident
+      }
+    }
+  };
+  stmt = {
+    type: 'IfStatement',
+    test: {
       type: 'MemberExpression',
       object: {
         type: 'Identifier',
@@ -60,9 +88,9 @@ ident}, consequent: stmt };
       },
       property: ident
     },
-    kind: 'init'
+    consequent: stmt
   };
-  appendProp(prop);*/
+  OUTPUT.body[0].body.body.push(stmt);
 }
 function appendGlobalVar(ident) {
   return;
@@ -123,63 +151,96 @@ function existsLhs1(info) {
   var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
-    return existsLhs1({ast:ast.object,env:env});
+    return existsLhs1({
+      ast: ast.object,
+      env: env
+    });
   case 'Identifier':
     return {
-        type: 'MemberExpression',
-        object: {
-          type: 'Identifier',
-          name: '__env'
-        },
-        property: ast
-      };
-default:
+      type: 'MemberExpression',
+      object: {
+        type: 'Identifier',
+        name: '__env'
+      },
+      property: ast
+    };
+  default:
     console.error('unrecognized ast: ' + ast.type);
-}}
+  }
+}
 function optLhs1(info) {
   var ast = info.ast;
   var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
-    if (ast.computed) {    var obj = optLhs1({ast:ast.object, env:env});
-var prop = optExpr({ast:ast.property, env:env});
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: prop,
-      computed: ast.computed
-    };} else {
-    var obj = optLhs1({ast:ast.object,env:env});
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: ast.property,
-      computed: ast.computed
-    };}
+    if (ast.computed) {
+      var obj = optLhs1({
+        ast: ast.object,
+        env: env
+      });
+      var prop = optExpr({
+        ast: ast.property,
+        env: env
+      });
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: prop,
+        computed: ast.computed
+      };
+    } else {
+      var obj = optLhs1({
+        ast: ast.object,
+        env: env
+      });
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: ast.property,
+        computed: ast.computed
+      };
+    }
   case 'Identifier':
-    return { type: 'MemberExpression', object: {
+    return {
+      type: 'MemberExpression',
+      object: {
         type: 'MemberExpression',
         object: {
           type: 'Identifier',
           name: '__env'
         },
         property: ast
-      }, computed: true, property: {type: 'Literal', value: 0}};
-default:
+      },
+      computed: true,
+      property: {
+        type: 'Literal',
+        value: 0
+      }
+    };
+  default:
     console.error('unrecognized ast: ' + ast.type);
-}
+  }
 }
 function optLhs2(info) {
   var ast = info.ast;
   var env = info.env;
   switch (ast.type) {
   case 'MemberExpression':
-    if(ast.computed) {
-      return { type: 'MemberExpression',
-object: ast.object, computed: ast.computed, property: optExpr({ast:ast.property, env:env}) }
-    } else { return ast; }
+    if (ast.computed) {
+      return {
+        type: 'MemberExpression',
+        object: ast.object,
+        computed: ast.computed,
+        property: optExpr({
+          ast: ast.property,
+          env: env
+        })
+      };
+    } else {
+      return ast;
+    }
   default:
-  return ast;
+    return ast;
   }
 }
 function optExpr(info) {
@@ -194,29 +255,32 @@ function optExpr(info) {
       name: '__this'
     };
   case 'Identifier':
-    if (ast.name.lastIndexOf('__',0) === 0) {
-      console.warn('any identifier starting with ``__" is reserved.')
+    if (ast.name.lastIndexOf('__', 0) === 0) {
+      console.warn('any identifier starting with ``__" is reserved.');
     }
     if (env[ast.name]) {
       return {
-      type: 'MemberExpression',
-      object: {
         type: 'MemberExpression',
         object: {
-          type: 'Identifier',
-          name: '__env'
+          type: 'MemberExpression',
+          object: {
+            type: 'Identifier',
+            name: '__env'
+          },
+          property: ast
         },
-        property: ast
-      },
-      property: {
-        type: 'Literal',
-        value: 0
-      },
-      computed: true
+        property: {
+          type: 'Literal',
+          value: 0
+        },
+        computed: true
+      };
+    } else {
+      return ast;
     }
-    } else { return ast; }
-    return { type: 'ConditionalExpression',
-test:{
+    return {
+      type: 'ConditionalExpression',
+      test: {
         type: 'MemberExpression',
         object: {
           type: 'Identifier',
@@ -224,97 +288,193 @@ test:{
         },
         property: ast
       },
-consequent: {
-      type: 'MemberExpression',
-      object: {
+      consequent: {
         type: 'MemberExpression',
         object: {
-          type: 'Identifier',
-          name: '__env'
+          type: 'MemberExpression',
+          object: {
+            type: 'Identifier',
+            name: '__env'
+          },
+          property: ast
         },
-        property: ast
+        property: {
+          type: 'Literal',
+          value: 0
+        },
+        computed: true
       },
-      property: {
-        type: 'Literal',
-        value: 0
-      },
-      computed: true
-    },
-alternate: /*{ type: 'MemberExpression', object: {type:'ThisExpression'},
-property: */ast/* }*/
-};
+      alternate: ast
+    };
   case 'SequenceExpression':
     var exprs = [];
     for (var i = 0; i < ast.expressions.length; ++i) {
-      exprs.push(optExpr({ast: ast.expressions[i], env: env}));
+      exprs.push(optExpr({
+        ast: ast.expressions[i],
+        env: env
+      }));
     }
-    return { type: 'SequenceExpression', expressions: exprs };
+    return {
+      type: 'SequenceExpression',
+      expressions: exprs
+    };
   case 'UnaryExpression':
-    //console.error(ast.operator);
     switch (ast.operator) {
     case 'typeof':
       switch (ast.argument.type) {
       case 'Identifier':
-         return { type: 'ConditionalExpression',
-           test: existsLhs1({ast:ast.argument,env:env}),
-           consequent: { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optLhs1({ast:ast.argument,env:env}), operator: ast.operator },
-           alternate: { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optLhs2({ast:ast.argument,env:env}), operator: ast.operator },
-            }
+        return {
+          type: 'ConditionalExpression',
+          test: existsLhs1({
+            ast: ast.argument,
+            env: env
+          }),
+          consequent: {
+            type: 'UnaryExpression',
+            prefix: ast.prefix,
+            argument: optLhs1({
+              ast: ast.argument,
+              env: env
+            }),
+            operator: ast.operator
+          },
+          alternate: {
+            type: 'UnaryExpression',
+            prefix: ast.prefix,
+            argument: optLhs2({
+              ast: ast.argument,
+              env: env
+            }),
+            operator: ast.operator
+          }
+        };
       default:
-    return { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optExpr({ast:ast.argument, env:env}), operator: ast.operator };
-	  
+        return {
+          type: 'UnaryExpression',
+          prefix: ast.prefix,
+          argument: optExpr({
+            ast: ast.argument,
+            env: env
+          }),
+          operator: ast.operator
+        };
       }
-     
     default:
-    return { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optExpr({ast:ast.argument, env:env}), operator: ast.operator };
+      return {
+        type: 'UnaryExpression',
+        prefix: ast.prefix,
+        argument: optExpr({
+          ast: ast.argument,
+          env: env
+        }),
+        operator: ast.operator
+      };
     }
   case 'NewExpression':
-    var callee = optExpr({ast:ast.callee, env:env});
+    var callee = optExpr({
+      ast: ast.callee,
+      env: env
+    });
     var args = [];
-    for (var i = 0; i < ast.arguments.length; ++i)  {
-      args.push(optExpr({ast:ast.arguments[i], env:env}));
+    for (var i = 0; i < ast.arguments.length; ++i) {
+      args.push(optExpr({
+        ast: ast.arguments[i],
+        env: env
+      }));
     }
-    return { type: 'NewExpression', callee: callee,
-arguments: args };
+    return {
+      type: 'NewExpression',
+      callee: callee,
+      arguments: args
+    };
   case 'UpdateExpression':
-    var arg1 = optLhs1({ast:ast.argument,env:env});
-    var arg2 = optLhs2({ast:ast.argument,env:env});
-    return { type: 'ConditionalExpression', test: existsLhs1({ast:ast.argument,env:env}),
-consequent: { type: 'UpdateExpression', operator: ast.operator,
-argument: arg1, prefix: ast.prefix },
-alternate:  { type: 'UpdateExpression', operator: ast.operator,
-argument: arg2, prefix: ast.prefix } }
+    var arg1 = optLhs1({
+      ast: ast.argument,
+      env: env
+    });
+    var arg2 = optLhs2({
+      ast: ast.argument,
+      env: env
+    });
+    return {
+      type: 'ConditionalExpression',
+      test: existsLhs1({
+        ast: ast.argument,
+        env: env
+      }),
+      consequent: {
+        type: 'UpdateExpression',
+        operator: ast.operator,
+        argument: arg1,
+        prefix: ast.prefix
+      },
+      alternate: {
+        type: 'UpdateExpression',
+        operator: ast.operator,
+        argument: arg2,
+        prefix: ast.prefix
+      }
+    };
   case 'AssignmentExpression':
-    var lhs1 = optLhs1({ast:ast.left,env:env});
-    var lhs2 = optLhs2({ast:ast.left,env:env});
-    var rhs = optExpr({ast:ast.right, env:env});
-    return { type: 'ConditionalExpression',
-test: existsLhs1({ast:ast.left,env:env}),
-consequent: {
-      type: 'AssignmentExpression',
-      operator: ast.operator,
-      left: lhs1,
-      right: rhs
-    },
-alternate: {
-      type: 'AssignmentExpression',
-      operator: ast.operator,
-      left: lhs2,
-      right: rhs
-    }};
+    var lhs1 = optLhs1({
+      ast: ast.left,
+      env: env
+    });
+    var lhs2 = optLhs2({
+      ast: ast.left,
+      env: env
+    });
+    var rhs = optExpr({
+      ast: ast.right,
+      env: env
+    });
+    return {
+      type: 'ConditionalExpression',
+      test: existsLhs1({
+        ast: ast.left,
+        env: env
+      }),
+      consequent: {
+        type: 'AssignmentExpression',
+        operator: ast.operator,
+        left: lhs1,
+        right: rhs
+      },
+      alternate: {
+        type: 'AssignmentExpression',
+        operator: ast.operator,
+        left: lhs2,
+        right: rhs
+      }
+    };
   case 'ConditionalExpression':
-    var test = optExpr({ast:ast.test, env:env});
-    var alternate = optExpr({ast:ast.alternate, env:env});
-    var consequent = optExpr({ast:ast.consequent, env:env});
-    return { type: 'ConditionalExpression', test: test,
-alternate: alternate, consequent: consequent };
+    var test = optExpr({
+      ast: ast.test,
+      env: env
+    });
+    var alternate = optExpr({
+      ast: ast.alternate,
+      env: env
+    });
+    var consequent = optExpr({
+      ast: ast.consequent,
+      env: env
+    });
+    return {
+      type: 'ConditionalExpression',
+      test: test,
+      alternate: alternate,
+      consequent: consequent
+    };
   case 'BinaryExpression':
-    var lhs = optExpr({ast:ast.left, env:env});
-    var rhs = optExpr({ast:ast.right, env:env});
+    var lhs = optExpr({
+      ast: ast.left,
+      env: env
+    });
+    var rhs = optExpr({
+      ast: ast.right,
+      env: env
+    });
     return {
       type: 'LogicalExpression',
       operator: ast.operator,
@@ -322,8 +482,14 @@ alternate: alternate, consequent: consequent };
       right: rhs
     };
   case 'LogicalExpression':
-    var lhs = optExpr({ast:ast.left, env:env});
-    var rhs = optExpr({ast:ast.right, env:env});
+    var lhs = optExpr({
+      ast: ast.left,
+      env: env
+    });
+    var rhs = optExpr({
+      ast: ast.right,
+      env: env
+    });
     return {
       type: 'BinaryExpression',
       operator: ast.operator,
@@ -331,21 +497,28 @@ alternate: alternate, consequent: consequent };
       right: rhs
     };
   case 'MemberExpression':
-    var obj = optExpr({ast:ast.object, env:env});
+    var obj = optExpr({
+      ast: ast.object,
+      env: env
+    });
     if (ast.computed) {
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: optExpr({ast:ast.property, env:env}),
-      computed: ast.computed
-    };
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: optExpr({
+          ast: ast.property,
+          env: env
+        }),
+        computed: ast.computed
+      };
     } else {
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: ast.property,
-      computed: ast.computed
-    };}
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: ast.property,
+        computed: ast.computed
+      };
+    }
   case 'ObjectExpression':
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
@@ -353,7 +526,10 @@ alternate: alternate, consequent: consequent };
       props.push({
         type: 'Property',
         key: prop.key,
-        value: optExpr({ast:prop.value, env:env}),
+        value: optExpr({
+          ast: prop.value,
+          env: env
+        }),
         kind: prop.kind
       });
     }
@@ -365,7 +541,10 @@ alternate: alternate, consequent: consequent };
     var elts = [];
     for (var i = 0; i < ast.elements.length; ++i) {
       var elt = ast.elements[i];
-      elts.push(optExpr({ast:elt, env:env}));
+      elts.push(optExpr({
+        ast: elt,
+        env: env
+      }));
     }
     return {
       type: 'ArrayExpression',
@@ -377,69 +556,69 @@ alternate: alternate, consequent: consequent };
       name: gensym()
     };
     env = shallowCopy(env);
-      var fn = {
-        type: 'FunctionExpression',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call'
+    var fn = {
+      type: 'FunctionExpression',
+      params: ast.params,
+      body: {
+        type: 'BlockStatement',
+        body: [{
+            type: 'ReturnStatement',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: '__call'
+              },
+              arguments: [
+                {
+                  type: 'Literal',
+                  value: id.name
                 },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: id.name
-                  },
-                  { type: 'Identifier', name: '__this' },
-                  /*copyenv(env),*/
-                  {
-                    type: 'Identifier',
-                    name: '__env'
-                  },
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
+                {
+                  type: 'Identifier',
+                  name: '__this'
+                },
+                {
+                  type: 'Identifier',
+                  name: '__env'
+                },
+                {
+                  type: 'ArrayExpression',
+                  elements: ast.params
+                }
+              ]
+            }
+          }]
+      },
+      id: id,
+      defaults: [],
+      rest: null,
+      generator: false,
+      expression: false
+    };
+    var mk = {
+      type: 'CallExpression',
+      callee: {
+        type: 'Identifier',
+        name: '__mk'
+      },
+      arguments: [
+        {
+          type: 'Literal',
+          value: id.name
         },
-        id: id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-      var mk = {
-        type: 'CallExpression',
-        callee: {
+        {
           type: 'Identifier',
-          name: '__mk'
+          name: '__env'
         },
-        arguments: [
-          {
-            type: 'Literal',
-            value: id.name
-          },
-          {type:'Identifier',name:'__env'},
-          /*copyenv(env),*/
-          /*{ type: 'Identifier', name: '__env' },*/
-          fn
-        ]
-      };
+        fn
+      ]
+    };
     var bind = esprima.parse('(function (__env) { return; })()').body[0].expression;
     bind.callee.body.body[0].argument = mk;
     bind.arguments[0] = copyenv(env);
-
     var body1 = [];
-    //appendVar(id);
     if (ast.id != null) {
-      //appendVar(ast.id);
       env[ast.id.name] = true;
       body1.push({
         type: 'ExpressionStatement',
@@ -453,11 +632,13 @@ alternate: alternate, consequent: consequent };
               name: '__env'
             },
             property: ast.id
-          }, right:  bind}});
+          },
+          right: bind
+        }
+      });
     }
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      //appendVar(param);
       env[param.name] = true;
       var setParam = {
         type: 'ExpressionStatement',
@@ -491,7 +672,10 @@ alternate: alternate, consequent: consequent };
       };
       body1.push(setParam);
     }
-    var body = optStmt({ast:ast.body, env:env});
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -508,37 +692,17 @@ alternate: alternate, consequent: consequent };
       consequent: body1
     });
     return bind;
-    /*return {
-      type: 'ObjectExpression',
-      properties: [
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: '__env'
-          },
-          value: COPYENV,
-          kind: 'init'
-        },
-        {
-          type: 'Property',
-          key: {
-            type: 'Identifier',
-            name: '__label'
-          },
-          value: {
-            type: 'Literal',
-            value: id.name
-          },
-          kind: 'init'
-        }
-      ]
-    };*/
   case 'CallExpression':
-    var callee = optExpr({ast:ast.callee,env:env});
+    var callee = optExpr({
+      ast: ast.callee,
+      env: env
+    });
     var args = [];
     for (var i = 0; i < ast.arguments.length; ++i) {
-      args.push(optExpr({ast:ast.arguments[i],env:env}));
+      args.push(optExpr({
+        ast: ast.arguments[i],
+        env: env
+      }));
     }
     return {
       type: 'CallExpression',
@@ -552,30 +716,50 @@ alternate: alternate, consequent: consequent };
 function optCatchClause(info) {
   var ast = info.ast;
   var env = info.env;
-  return { type: 'CatchClause', param: ast.param,
-guard: ast.guard ? optExpr({ast:ast.guard, env:env}) : null,
-body: optStmt({ast:ast.body, env:env}) }
+  return {
+    type: 'CatchClause',
+    param: ast.param,
+    guard: ast.guard ? optExpr({
+      ast: ast.guard,
+      env: env
+    }) : null,
+    body: optStmt({
+      ast: ast.body,
+      env: env
+    })
+  };
 }
-function optVariableDeclaration(info){
-    var ast = info.ast;
-    var env = info.env;
-    var declarations = [];
-    for (var i = 0; i < ast.declarations.length; ++i) {
-      var declaration = ast.declarations[i];
-      //appendVar(declaration.id);
-      env[declaration.id.name] = true;
-        declarations.push({
-          type: 'AssignmentExpression',
-          operator: '=',
-          left: {type:'MemberExpression',object:{type:'Identifier',name:'__env'},property:declaration.id},
-          right: {type:'ArrayExpression',elements:declaration.init ? [optExpr({ast:declaration.init,env:env})] : []}
-        });
-
-    }
-    return {
-      type: 'SequenceExpression',
-      expressions: declarations
-    };
+function optVariableDeclaration(info) {
+  var ast = info.ast;
+  var env = info.env;
+  var declarations = [];
+  for (var i = 0; i < ast.declarations.length; ++i) {
+    var declaration = ast.declarations[i];
+    env[declaration.id.name] = true;
+    declarations.push({
+      type: 'AssignmentExpression',
+      operator: '=',
+      left: {
+        type: 'MemberExpression',
+        object: {
+          type: 'Identifier',
+          name: '__env'
+        },
+        property: declaration.id
+      },
+      right: {
+        type: 'ArrayExpression',
+        elements: declaration.init ? [optExpr({
+            ast: declaration.init,
+            env: env
+          })] : []
+      }
+    });
+  }
+  return {
+    type: 'SequenceExpression',
+    expressions: declarations
+  };
 }
 function optStmt(info) {
   var ast = info.ast;
@@ -587,7 +771,10 @@ function optStmt(info) {
     var body = [];
     for (var i = 0; i < ast.body.length; ++i) {
       var stmt = ast.body[i];
-      stmt = optStmt({ast:stmt, env:env});
+      stmt = optStmt({
+        ast: stmt,
+        env: env
+      });
       switch (stmt.type) {
       case 'BlockStatement':
         body = body.concat(stmt.body);
@@ -601,15 +788,27 @@ function optStmt(info) {
       body: body
     };
   case 'ExpressionStatement':
-    var expr = optExpr({ast:ast.expression,env:env});
+    var expr = optExpr({
+      ast: ast.expression,
+      env: env
+    });
     return {
       type: 'ExpressionStatement',
       expression: expr
     };
   case 'IfStatement':
-    var test = optExpr({ast:ast.test,env:env});
-    var consequent = optStmt({ast:ast.consequent, env:env});
-    var alternate = ast.alternate ? optStmt({ast:ast.alternate, env:env}) : null;
+    var test = optExpr({
+      ast: ast.test,
+      env: env
+    });
+    var consequent = optStmt({
+      ast: ast.consequent,
+      env: env
+    });
+    var alternate = ast.alternate ? optStmt({
+      ast: ast.alternate,
+      env: env
+    }) : null;
     return {
       type: 'IfStatement',
       test: test,
@@ -617,7 +816,10 @@ function optStmt(info) {
       alternate: alternate
     };
   case 'LabeledStatement':
-    var body = optStmt({ast:ast.body, env:env});
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     return {
       type: 'LabeledStatement',
       label: ast.label,
@@ -628,26 +830,42 @@ function optStmt(info) {
   case 'ContinueStatement':
     return ast;
   case 'WithStatement':
-    var obj = optExpr({ast:ast.object,env:env});
-    var body = optStmt({ast:ast.body, env:env});
+    var obj = optExpr({
+      ast: ast.object,
+      env: env
+    });
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     return {
       type: 'WithStatement',
       object: obj,
       body: body
     };
   case 'SwitchStatement':
-    var discriminant = optExpr({ast:ast.discriminant,env:env});
+    var discriminant = optExpr({
+      ast: ast.discriminant,
+      env: env
+    });
     var cases = [];
     for (var i = 0; i < ast.cases.length; ++i) {
-      var test = ast.cases[i].test ? optExpr({ast:ast.cases[i].test,env:env}) : null;
+      var test = ast.cases[i].test ? optExpr({
+        ast: ast.cases[i].test,
+        env: env
+      }) : null;
       var body = [];
       for (var j = 0; j < ast.cases[i].consequent.length; ++j) {
-        body.push(optStmt({ast:ast.cases[i].consequent[j], env:env}));
+        body.push(optStmt({
+          ast: ast.cases[i].consequent[j],
+          env: env
+        }));
       }
       cases.push({
         type: 'SwitchCase',
         test: test,
-        consequent: body, lexical: ast.lexical
+        consequent: body,
+        lexical: ast.lexical
       });
     }
     return {
@@ -657,36 +875,67 @@ function optStmt(info) {
       lexical: ast.lexical
     };
   case 'ThrowStatement':
-    var arg = optExpr({ast:ast.argument,env:env});
+    var arg = optExpr({
+      ast: ast.argument,
+      env: env
+    });
     return {
       type: 'ThrowStatement',
       argument: arg
     };
   case 'TryStatement':
-    var block = optStmt({ast:ast.block, env:env});
+    var block = optStmt({
+      ast: ast.block,
+      env: env
+    });
     var handlers = [];
     for (var i = 0; i < ast.handlers.length; ++i) {
-      handlers.push(optCatchClause({ast:ast.handlers[i],env:env}));
+      handlers.push(optCatchClause({
+        ast: ast.handlers[i],
+        env: env
+      }));
     }
     var guardedHandlers = [];
     for (var i = 0; i < ast.guardedHandlers.length; ++i) {
-      guardedHandlers.push(optCatchClause({ast:ast.guardedHandlers[i],env:env}));
+      guardedHandlers.push(optCatchClause({
+        ast: ast.guardedHandlers[i],
+        env: env
+      }));
     }
-    var finalizer = ast.finalizer ? optStmt({ast:ast.finalizer, env:env}) : null;
-    return { type: 'TryStatement',
-block: block, handlers: handlers, guardedHandlers: guardedHandlers,
-finalizer: finalizer };
+    var finalizer = ast.finalizer ? optStmt({
+      ast: ast.finalizer,
+      env: env
+    }) : null;
+    return {
+      type: 'TryStatement',
+      block: block,
+      handlers: handlers,
+      guardedHandlers: guardedHandlers,
+      finalizer: finalizer
+    };
   case 'WhileStatement':
-    var test = optExpr({ast:ast.test,env:env});
-    var body = optStmt({ast:ast.body, env:env});
+    var test = optExpr({
+      ast: ast.test,
+      env: env
+    });
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     return {
       type: 'WhileStatement',
       test: test,
       body: body
     };
   case 'DoWhileStatement':
-    var test = optExpr({ast:ast.test,env:env});
-    var body = optStmt({ast:ast.body, env:env});
+    var test = optExpr({
+      ast: ast.test,
+      env: env
+    });
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     return {
       type: 'DoWhileStatement',
       test: test,
@@ -698,195 +947,261 @@ finalizer: finalizer };
     } else {
       switch (ast.init.type) {
       case 'VariableDeclaration':
-        var init = optVariableDeclaration({ast:ast.init,env:env});
+        var init = optVariableDeclaration({
+          ast: ast.init,
+          env: env
+        });
         break;
       default:
-        var init = optExpr({ast:ast.init,env:env});
+        var init = optExpr({
+          ast: ast.init,
+          env: env
+        });
       }
     }
-    var test = ast.test ? optExpr({ast:ast.test,env:env}) : null;
-    var update = ast.update ? optExpr({ast:ast.update,env:env}) : null;
-    var body = optStmt({ast:ast.body, env:env});
-    return { type: 'ForStatement', init: init, test: test, update: update,
-body: body }
+    var test = ast.test ? optExpr({
+      ast: ast.test,
+      env: env
+    }) : null;
+    var update = ast.update ? optExpr({
+      ast: ast.update,
+      env: env
+    }) : null;
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
+    return {
+      type: 'ForStatement',
+      init: init,
+      test: test,
+      update: update,
+      body: body
+    };
   case 'ForInStatement':
-    // ***************************************** TODO ***********
     if (ast.left == null) {
       var left = null;
     } else {
       switch (ast.left.type) {
       case 'VariableDeclaration':
-        var left_init = optVariableDeclaration({ast:ast.left,env:env});
-        var left = {type: 'MemberExpression',object:
-{type:'MemberExpression',
-object:{type:'Identifier',name:'__env'},property: ast.left.declarations[0].id },property: {type:'Literal',value:0},computed:true}
+        var left_init = optVariableDeclaration({
+          ast: ast.left,
+          env: env
+        });
+        var left = {
+          type: 'MemberExpression',
+          object: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: '__env'
+            },
+            property: ast.left.declarations[0].id
+          },
+          property: {
+            type: 'Literal',
+            value: 0
+          },
+          computed: true
+        };
         break;
       default:
-        var left = optExpr({ast:ast.init,env:env});
+        var left = optExpr({
+          ast: ast.init,
+          env: env
+        });
       }
     }
-    var right  = optExpr({ast:ast.right,env:env});
-    var body = optStmt({ast:ast.body, env:env});
-    return {type:'BlockStatement',body:[{type: 'ExpressionStatement',expression:left_init},
-{ type: 'ForInStatement', left: left, right: right, 
-body: body, each: ast.each }]}
-  //case 'ForOfStatement':
-  //case 'LetStatement':
+    var right = optExpr({
+      ast: ast.right,
+      env: env
+    });
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
+    return {
+      type: 'BlockStatement',
+      body: [
+        {
+          type: 'ExpressionStatement',
+          expression: left_init
+        },
+        {
+          type: 'ForInStatement',
+          left: left,
+          right: right,
+          body: body,
+          each: ast.each
+        }
+      ]
+    };
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
-    return {type:'ExpressionStatement',expression:optVariableDeclaration({ast:ast,env:env})};
+    return {
+      type: 'ExpressionStatement',
+      expression: optVariableDeclaration({
+        ast: ast,
+        env: env
+      })
+    };
   case 'ReturnStatement':
-    if (ast.argument == null){ return { type: 'ReturnStatement' }}
-    var argument = optExpr({ast:ast.argument,env:env});
+    if (ast.argument == null) {
+      return { type: 'ReturnStatement' };
+    }
+    var argument = optExpr({
+      ast: ast.argument,
+      env: env
+    });
     switch (ast.argument.type) {
     case 'CallExpression':
-//console.log(ast.argument.callee.type);
       switch (ast.argument.callee.type) {
       case 'MemberExpression':
-      return {
-        type: 'BlockStatement',
-        body: [
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__args'
-              },
-              right: {
-                type: 'ArrayExpression',
-                elements: argument.arguments
+        return {
+          type: 'BlockStatement',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
+                  type: 'Identifier',
+                  name: '__args'
+                },
+                right: {
+                  type: 'ArrayExpression',
+                  elements: argument.arguments
+                }
               }
-            }
-          },
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__label'
-              },
-              right: {
-                type: 'MemberExpression',
-                object: argument.callee,
-                property: {
+            },
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
                   type: 'Identifier',
                   name: '__label'
+                },
+                right: {
+                  type: 'MemberExpression',
+                  object: argument.callee,
+                  property: {
+                    type: 'Identifier',
+                    name: '__label'
+                  }
                 }
               }
-            }
-          },
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__env'
-              },
-              right: {
-                type: 'MemberExpression',
-                object: argument.callee,
-                property: {
+            },
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
                   type: 'Identifier',
                   name: '__env'
+                },
+                right: {
+                  type: 'MemberExpression',
+                  object: argument.callee,
+                  property: {
+                    type: 'Identifier',
+                    name: '__env'
+                  }
                 }
               }
-            }
-          },
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
+            },
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
+                  type: 'Identifier',
+                  name: '__this'
+                },
+                right: argument.callee.object
+              }
+            },
+            {
+              type: 'ContinueStatement',
+              label: {
                 type: 'Identifier',
-                name: '__this'
-              },
-              right: argument.callee.object
+                name: '__jmp'
+              }
             }
-          },
-          {
-            type: 'ContinueStatement',
-            label: {
-              type: 'Identifier',
-              name: '__jmp'
-            }
-          }
-        ]
-      };
+          ]
+        };
       default:
-      return {
-        type: 'BlockStatement',
-        body: [
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__args'
-              },
-              right: {
-                type: 'ArrayExpression',
-                elements: argument.arguments
+        return {
+          type: 'BlockStatement',
+          body: [
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
+                  type: 'Identifier',
+                  name: '__args'
+                },
+                right: {
+                  type: 'ArrayExpression',
+                  elements: argument.arguments
+                }
               }
-            }
-          },
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__label'
-              },
-              right: {
-                type: 'MemberExpression',
-                object: argument.callee,
-                property: {
+            },
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
                   type: 'Identifier',
                   name: '__label'
+                },
+                right: {
+                  type: 'MemberExpression',
+                  object: argument.callee,
+                  property: {
+                    type: 'Identifier',
+                    name: '__label'
+                  }
                 }
               }
-            }
-          },
-          {
-            type: 'ExpressionStatement',
-            expression: {
-              type: 'AssignmentExpression',
-              operator: '=',
-              left: {
-                type: 'Identifier',
-                name: '__env'
-              },
-              right: {
-                type: 'MemberExpression',
-                object: argument.callee,
-                property: {
+            },
+            {
+              type: 'ExpressionStatement',
+              expression: {
+                type: 'AssignmentExpression',
+                operator: '=',
+                left: {
                   type: 'Identifier',
                   name: '__env'
+                },
+                right: {
+                  type: 'MemberExpression',
+                  object: argument.callee,
+                  property: {
+                    type: 'Identifier',
+                    name: '__env'
+                  }
                 }
               }
+            },
+            {
+              type: 'ContinueStatement',
+              label: {
+                type: 'Identifier',
+                name: '__jmp'
+              }
             }
-          },
-          {
-            type: 'ContinueStatement',
-            label: {
-              type: 'Identifier',
-              name: '__jmp'
-            }
-          }
-        ]
-      };}
+          ]
+        };
+      }
     default:
       return {
         type: 'ReturnStatement',
@@ -896,11 +1211,9 @@ body: body, each: ast.each }]}
   case 'FunctionDeclaration':
     env = shallowCopy(env);
     var body1 = [];
-    //appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       env[param.name] = true;
-      //appendVar(param);
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -933,7 +1246,10 @@ body: body, each: ast.each }]}
       };
       body1.push(setParam);
     }
-    var body = optStmt({ast:ast.body, env:env});
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -949,65 +1265,67 @@ body: body, each: ast.each }]}
       },
       consequent: body1
     });
-
-      var fn = {
-        type: 'FunctionExpression',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call'
+    var fn = {
+      type: 'FunctionExpression',
+      params: ast.params,
+      body: {
+        type: 'BlockStatement',
+        body: [{
+            type: 'ReturnStatement',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: '__call'
+              },
+              arguments: [
+                {
+                  type: 'Literal',
+                  value: ast.id.name
                 },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: ast.id.name
-                  },
-                  { type: 'Identifier', name: '__this' },
-                  /*copyenv(env),*/
-                  {
-                    type: 'Identifier',
-                    name: '__env'
-                  },
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
+                {
+                  type: 'Identifier',
+                  name: '__this'
+                },
+                {
+                  type: 'Identifier',
+                  name: '__env'
+                },
+                {
+                  type: 'ArrayExpression',
+                  elements: ast.params
+                }
+              ]
+            }
+          }]
+      },
+      id: ast.id,
+      defaults: [],
+      rest: null,
+      generator: false,
+      expression: false
+    };
+    var mk = {
+      type: 'CallExpression',
+      callee: {
+        type: 'Identifier',
+        name: '__mk'
+      },
+      arguments: [
+        {
+          type: 'Literal',
+          value: ast.id.name
         },
-        id: ast.id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-      var mk = {
-        type: 'CallExpression',
-        callee: {
+        {
           type: 'Identifier',
-          name: '__mk'
+          name: '__env'
         },
-        arguments: [
-          {
-            type: 'Literal',
-            value: ast.id.name
-          },
-          {type:'Identifier',name:'__env'},
-          fn
-        ]
-      };
-
+        fn
+      ]
+    };
     var bind = esprima.parse('(function (__env) { return; })()').body[0].expression;
     bind.callee.body.body[0].argument = mk;
     bind.arguments[0] = copyenv(env);
-
     return {
       type: 'ExpressionStatement',
       expression: {
@@ -1038,8 +1356,8 @@ function optToplevelExpr(ast) {
   case 'ThisExpression':
     return ast;
   case 'Identifier':
-    if (ast.name.lastIndexOf('__',0) === 0) {
-      console.warn('any identifier starting with ``__" is reserved.')
+    if (ast.name.lastIndexOf('__', 0) === 0) {
+      console.warn('any identifier starting with ``__" is reserved.');
     }
     return ast;
   case 'AssignmentExpression':
@@ -1056,27 +1374,54 @@ function optToplevelExpr(ast) {
     for (var i = 0; i < ast.expressions.length; ++i) {
       exprs.push(optToplevelExpr(ast.expressions[i]));
     }
-    return { type: 'SequenceExpression', expressions: exprs };
+    return {
+      type: 'SequenceExpression',
+      expressions: exprs
+    };
   case 'UpdateExpression':
-    return { type: 'UpdateExpression', prefix: ast.prefix,
-argument: optToplevelExpr(ast.argument), operator: ast.operator };
+    return {
+      type: 'UpdateExpression',
+      prefix: ast.prefix,
+      argument: optToplevelExpr(ast.argument),
+      operator: ast.operator
+    };
   case 'UnaryExpression':
-    return { type: 'UnaryExpression', prefix: ast.prefix,
-argument: optToplevelExpr(ast.argument), operator: ast.operator };
+    return {
+      type: 'UnaryExpression',
+      prefix: ast.prefix,
+      argument: optToplevelExpr(ast.argument),
+      operator: ast.operator
+    };
   case 'NewExpression':
     var callee = optToplevelExpr(ast.callee);
     var args = [];
-    for (var i = 0; i < ast.arguments.length; ++i)  {
+    for (var i = 0; i < ast.arguments.length; ++i) {
       args.push(optToplevelExpr(ast.arguments[i]));
     }
-    return { type: 'NewExpression', callee: callee,
-arguments: args };
+    return {
+      type: 'NewExpression',
+      callee: callee,
+      arguments: args
+    };
   case 'ConditionalExpression':
-    var test = optExpr({ast:ast.test,env:env});
-    var alternate = optExpr({ast:ast.alternate,env:env});
-    var consequent = optExpr({ast:ast.consequent,env:env});
-    return { type: 'ConditionalExpression', test: test,
-alternate: alternate, consequent: consequent };
+    var test = optExpr({
+      ast: ast.test,
+      env: env
+    });
+    var alternate = optExpr({
+      ast: ast.alternate,
+      env: env
+    });
+    var consequent = optExpr({
+      ast: ast.consequent,
+      env: env
+    });
+    return {
+      type: 'ConditionalExpression',
+      test: test,
+      alternate: alternate,
+      consequent: consequent
+    };
   case 'LogicalExpression':
     var lhs = optToplevelExpr(ast.left);
     var rhs = optToplevelExpr(ast.right);
@@ -1098,18 +1443,20 @@ alternate: alternate, consequent: consequent };
   case 'MemberExpression':
     var obj = optToplevelExpr(ast.object);
     if (ast.computed) {
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: optToplevelExpr(ast.property),
-      computed: ast.computed
-    };    } else {
-    return {
-      type: 'MemberExpression',
-      object: obj,
-      property: ast.property,
-      computed: ast.computed
-    };}
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: optToplevelExpr(ast.property),
+        computed: ast.computed
+      };
+    } else {
+      return {
+        type: 'MemberExpression',
+        object: obj,
+        property: ast.property,
+        computed: ast.computed
+      };
+    }
   case 'ObjectExpression':
     var props = [];
     for (var i = 0; i < ast.properties.length; ++i) {
@@ -1140,65 +1487,58 @@ alternate: alternate, consequent: consequent };
       type: 'Identifier',
       name: gensym()
     };
-      var fn = {
-        type: 'FunctionExpression',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call'
+    var fn = {
+      type: 'FunctionExpression',
+      params: ast.params,
+      body: {
+        type: 'BlockStatement',
+        body: [{
+            type: 'ReturnStatement',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: '__call'
+              },
+              arguments: [
+                {
+                  type: 'Literal',
+                  value: id.name
                 },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: id.name
-                  },
-                  { type: 'ThisExpression' },
-                  COPYGLOBAL,
-                  /*{
-                    type: 'Identifier',
-                    name: '__global'
-                  },*/
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
+                { type: 'ThisExpression' },
+                COPYGLOBAL,
+                {
+                  type: 'ArrayExpression',
+                  elements: ast.params
+                }
+              ]
+            }
+          }]
+      },
+      id: id,
+      defaults: [],
+      rest: null,
+      generator: false,
+      expression: false
+    };
+    var mk = {
+      type: 'CallExpression',
+      callee: {
+        type: 'Identifier',
+        name: '__mk'
+      },
+      arguments: [
+        {
+          type: 'Literal',
+          value: id.name
         },
-        id: id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-      var mk = {
-        type: 'CallExpression',
-        callee: {
-          type: 'Identifier',
-          name: '__mk'
-        },
-        arguments: [
-          {
-            type: 'Literal',
-            value: id.name
-          },
-          COPYGLOBAL,
-          /*{ type: 'Identifier', name: '__global' },*/
-          fn
-        ]
-      };
+        COPYGLOBAL,
+        fn
+      ]
+    };
     var env = {};
     var body1 = [];
-    //appendVar(id);
     if (ast.id != null) {
-      //appendVar(ast.id);
       env[ast.id.name] = true;
       body1.push({
         type: 'ExpressionStatement',
@@ -1212,12 +1552,13 @@ alternate: alternate, consequent: consequent };
               name: '__env'
             },
             property: ast.id
-          }, right:  mk}});
+          },
+          right: mk
+        }
+      });
     }
-    
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
-      //appendVar(param);
       env[param.name] = true;
       var setParam = {
         type: 'ExpressionStatement',
@@ -1251,7 +1592,10 @@ alternate: alternate, consequent: consequent };
       };
       body1.push(setParam);
     }
-    var body = optStmt({ast:ast.body, env:env});
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -1267,11 +1611,7 @@ alternate: alternate, consequent: consequent };
       },
       consequent: body1
     });
-    /*if (isTailCallStmt(ast.body)) {*/
     return mk;
-    /*} else {
-      return ast;
-    }*/
     ;
   case 'CallExpression':
     var callee = optToplevelExpr(ast.callee);
@@ -1289,30 +1629,32 @@ alternate: alternate, consequent: consequent };
   }
 }
 function optToplevelCatchClause(ast) {
-  return { type: 'CatchClause', param: ast.param,
-guard: ast.guard ? optToplevelExpr(ast.guard) : null,
-body: optToplevelStmt(ast.body) }
+  return {
+    type: 'CatchClause',
+    param: ast.param,
+    guard: ast.guard ? optToplevelExpr(ast.guard) : null,
+    body: optToplevelStmt(ast.body)
+  };
 }
-function optToplevelVariableDeclaration(ast){
-    var declarations = [];
-    for (var i = 0; i < ast.declarations.length; ++i) {
-      var declaration = ast.declarations[i];
-      //appendVar(declaration.id);
-      if (declaration.init) {
-        declarations.push({
-          type: 'VariableDeclarator',
-          id: declaration.id,
-          init: optToplevelExpr(declaration.init)
-        });
-      } else {
-        declarations.push(declaration);
-      }
+function optToplevelVariableDeclaration(ast) {
+  var declarations = [];
+  for (var i = 0; i < ast.declarations.length; ++i) {
+    var declaration = ast.declarations[i];
+    if (declaration.init) {
+      declarations.push({
+        type: 'VariableDeclarator',
+        id: declaration.id,
+        init: optToplevelExpr(declaration.init)
+      });
+    } else {
+      declarations.push(declaration);
     }
-    return {
-      type: 'VariableDeclaration',
-      declarations: declarations,
-      kind: ast.kind
-    };
+  }
+  return {
+    type: 'VariableDeclaration',
+    declarations: declarations,
+    kind: ast.kind
+  };
 }
 function optToplevelStmt(ast) {
   switch (ast.type) {
@@ -1382,7 +1724,8 @@ function optToplevelStmt(ast) {
       cases.push({
         type: 'SwitchCase',
         test: test,
-        consequent: body, lexical: ast.lexical
+        consequent: body,
+        lexical: ast.lexical
       });
     }
     return {
@@ -1408,9 +1751,13 @@ function optToplevelStmt(ast) {
       guardedHandlers.push(optToplevelCatchClause(ast.guardedHandlers[i]));
     }
     var finalizer = ast.finalizer ? optToplevelStmt(ast.finalizer) : null;
-    return { type: 'TryStatement',
-block: block, handlers: handlers, guardedHandlers: guardedHandlers,
-finalizer: finalizer };
+    return {
+      type: 'TryStatement',
+      block: block,
+      handlers: handlers,
+      guardedHandlers: guardedHandlers,
+      finalizer: finalizer
+    };
   case 'WhileStatement':
     var test = optToplevelExpr(ast.test);
     var body = optToplevelStmt(ast.body);
@@ -1442,11 +1789,13 @@ finalizer: finalizer };
     var test = ast.test ? optToplevelExpr(ast.test) : null;
     var update = ast.update ? optToplevelExpr(ast.update) : null;
     var body = optToplevelStmt(ast.body);
-    return { type: 'ForStatement', init: init, test: test, update: update,
-body: body }
-  //case 'ForInStatement':
-  //case 'ForOfStatement':
-  //case 'LetStatement':
+    return {
+      type: 'ForStatement',
+      init: init,
+      test: test,
+      update: update,
+      body: body
+    };
   case 'DebuggerStatement':
     return ast;
   case 'VariableDeclaration':
@@ -1472,25 +1821,6 @@ body: body }
           right: optToplevelExpr(ast.declarations[i].init)
         }
       });
-      /*body.push({
-        type: 'ExpressionStatement',
-        expression: {
-          type: 'AssignmentExpression',
-          operator: '=',
-          left: {
-            type: 'MemberExpression',
-            object: {
-              type: 'Identifier',
-              name: '__global'
-            },
-            property: ast.declarations[i].id
-          },
-          right: {
-            type: 'ArrayExpression',
-            elements: [ast.declarations[i].id]
-          }
-        }
-      });*/
     }
     return {
       type: 'BlockStatement',
@@ -1502,11 +1832,9 @@ body: body }
   case 'FunctionDeclaration':
     var env = {};
     var body1 = [];
-    //appendVar(ast.id);
     for (var i = 0; i < ast.params.length; ++i) {
       var param = ast.params[i];
       env[param.name] = true;
-      //appendVar(param);
       var setParam = {
         type: 'ExpressionStatement',
         expression: {
@@ -1539,7 +1867,10 @@ body: body }
       };
       body1.push(setParam);
     }
-    var body = optStmt({ast:ast.body, env:env});
+    var body = optStmt({
+      ast: ast.body,
+      env: env
+    });
     switch (body.type) {
     case 'BlockStatement':
       body1 = body1.concat(body.body);
@@ -1555,48 +1886,40 @@ body: body }
       },
       consequent: body1
     });
-    /*if (isTailCallStmt(ast.body)) {*/
-      var decl = {
-        type: 'FunctionDeclaration',
-        params: ast.params,
-        body: {
-          type: 'BlockStatement',
-          body: [{
-              type: 'ReturnStatement',
-              argument: {
-                type: 'CallExpression',
-                callee: {
-                  type: 'Identifier',
-                  name: '__call'
+    var decl = {
+      type: 'FunctionDeclaration',
+      params: ast.params,
+      body: {
+        type: 'BlockStatement',
+        body: [{
+            type: 'ReturnStatement',
+            argument: {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: '__call'
+              },
+              arguments: [
+                {
+                  type: 'Literal',
+                  value: ast.id.name
                 },
-                arguments: [
-                  {
-                    type: 'Literal',
-                    value: ast.id.name
-                  },
-                  { type: 'ThisExpression' },
-                  COPYGLOBAL,
-                  /*{
-                    type: 'Identifier',
-                    name: '__global'
-                  },*/
-                  {
-                    type: 'ArrayExpression',
-                    elements: ast.params
-                  }
-                ]
-              }
-            }]
-        },
-        id: ast.id,
-        defaults: [],
-        rest: null,
-        generator: false,
-        expression: false
-      };
-    /*} else {
-      var decl = ast;
-    }*/
+                { type: 'ThisExpression' },
+                COPYGLOBAL,
+                {
+                  type: 'ArrayExpression',
+                  elements: ast.params
+                }
+              ]
+            }
+          }]
+      },
+      id: ast.id,
+      defaults: [],
+      rest: null,
+      generator: false,
+      expression: false
+    };
     return {
       type: 'BlockStatement',
       body: [
@@ -1633,31 +1956,9 @@ body: body }
                 name: '__env'
               }
             },
-            right: COPYGLOBAL/*{
-              type: 'Identifier',
-              name: '__global'
-            }*/
+            right: COPYGLOBAL
           }
-        },
-        /*{
-          type: 'ExpressionStatement',
-          expression: {
-            type: 'AssignmentExpression',
-            operator: '=',
-            left: {
-              type: 'MemberExpression',
-              object: {
-                type: 'Identifier',
-                name: '__global'
-              },
-              property: decl.id
-            },
-            right: {
-              type: 'ArrayExpression',
-              elements: [decl.id]
-            }
-          }
-        }*/
+        }
       ]
     };
     ;
@@ -1674,11 +1975,11 @@ function optProgram(ast) {
       stmt = optToplevelStmt(stmt);
       switch (stmt.type) {
       case 'BlockStatement':
-      body = body.concat(stmt.body);
-      break;
+        body = body.concat(stmt.body);
+        break;
       default:
-      body.push(stmt);
-}
+        body.push(stmt);
+      }
     }
     return {
       type: 'Program',
