@@ -1,0 +1,8 @@
+a.out
+calc.lex.c
+calc.lex.h
+calc.lex.o
+calc.y.c
+calc.y.h
+calc.y.o
+main.o
