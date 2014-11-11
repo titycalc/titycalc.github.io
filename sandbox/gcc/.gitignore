@@ -1,0 +1,7 @@
+a.out
+calc.lex
+calc.y
+lex.yy.c
+main.c
+test.c
+y.tab.c
